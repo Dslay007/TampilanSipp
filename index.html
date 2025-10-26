@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPP - Sistem Informasi Perawatan dan Perbaikan</title>
+    
+    <!-- Link ke Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Link ke Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Roboto) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Khusus untuk Sidebar (di luar Tailwind) */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc; /* Tailwind gray-50 */
+            display: flex;
+            overflow-x: hidden; /* Mencegah horizontal scroll di body */
+        }
+
+        /* Kontainer Sidebar Utama */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed; /* Tetap di kiri */
+            top: 0;
+            left: 0;
+            background-color: #0d47a1; /* Biru tua */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; 
+            transition: transform 0.3s ease; /* Transisi untuk slide-in/out */
+            z-index: 50;
+            /* Default tersembunyi di mobile, terlihat di desktop */
+            transform: translateX(-100%); 
+        }
+        
+        /* State sidebar terlihat di desktop (md dan lebih besar) */
+        @media (min-width: 768px) {
+            .sidebar {
+                transform: translateX(0);
+            }
+        }
+        
+        /* State sidebar terlihat (saat di-toggle di mobile) */
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        /* Header Sidebar */
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .sidebar-header p {
+            margin: 0;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        /* Search Bar */
+        .sidebar-search {
+            padding: 20px;
+            position: relative;
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 10px 15px 10px 40px; 
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .sidebar-search input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-search .fa-search {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Menu Navigasi */
+        .sidebar-menu {
+            list-style: none;
+            flex-grow: 1; /* Mendorong footer ke bawah */
+            padding: 10px 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: background-color 0.3s, padding-left 0.3s;
+            position: relative;
+        }
+
+        .sidebar-menu li a .menu-icon {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+            margin-right: 15px;
+            opacity: 0.9;
+        }
+
+        /* Efek Hover */
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active-link { /* Class untuk link yang sedang aktif */
+            background-color: #1565c0; /* Biru sedikit lebih cerah */
+            padding-left: 30px; 
+        }
+        
+        /* Ikon Chevron (panah) */
+        .sidebar-menu .chevron {
+            position: absolute;
+            right: 20px;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        /* State saat dropdown terbuka */
+        .sidebar-menu li a.dropdown-active .chevron {
+            transform: rotate(90deg);
+        }
+        
+        .sidebar-menu li a.dropdown-active {
+             background-color: #1565c0;
+        }
+
+
+        /* Sub-menu */
+        .sub-menu {
+            list-style: none;
+            background-color: #0b3c8a; /* Biru lebih gelap */
+            max-height: 0; /* Sembunyi secara default */
+            overflow: hidden;
+            transition: max-height 0.4s ease-out; /* Animasi expand/collapse */
+        }
+
+        .sub-menu li a {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 35px; /* Lebih menjorok ke dalam */
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        
+        .sub-menu li a .menu-icon {
+            font-size: 14px;
+            margin-right: 12px;
+        }
+
+        .sub-menu li a:hover,
+        .sub-menu li a.active-link {
+            background-color: #1565c0;
+            opacity: 1;
+            padding-left: 40px;
+        }
+
+
+        /* Footer Sidebar */
+        .sidebar-footer {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-footer a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar-footer a .menu-icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        /* --- STYLING KONTEN UTAMA (RESPONSIVE) --- */
+        .main-content {
+            flex-grow: 1; 
+            /* Margin 0 di mobile, 280px di desktop */
+            margin-left: 0px; 
+            transition: margin-left 0.3s ease;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: 100%; /* Mengisi sisa ruang */
+        }
+        
+        @media (min-width: 768px) {
+            .main-content {
+                margin-left: 280px;
+                width: calc(100% - 280px); /* Kalkulasi lebar */
+            }
+        }
+
+
+        /* Header Konten (User Avatar) */
+        .main-header {
+            background-color: #ffffff;
+            padding: 1rem 1.5rem; /* p-4 px-6 */
+            border-bottom: 1px solid #e2e8f0; /* border-b border-gray-200 */
+            /* Di mobile: justify-between. Di desktop: justify-end */
+            display: flex;
+            justify-content: space-between; /* Untuk hamburger & user */
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-shrink: 0; /* Mencegah header menyusut */
+        }
+        
+        @media (min-width: 768px) {
+            .main-header {
+                justify-content: flex-end; /* Kembali ke user di kanan */
+            }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* gap-3 */
+        }
+        .user-profile span {
+            font-weight: 500;
+            color: #374151; /* text-gray-700 */
+        }
+        .user-profile .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px; /* rounded-full */
+            background-color: #dbeafe; /* bg-blue-100 */
+            color: #1d4ed8; /* text-blue-700 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .user-profile .avatar i {
+            font-size: 1.1rem;
+        }
+
+
+        /* Area Konten yang Bisa Scroll */
+        .page-container {
+            flex-grow: 1;
+            overflow-y: auto; /* Hanya area ini yang scroll */
+            padding: 1rem; /* p-4 di mobile */
+        }
+        
+        @media (min-width: 768px) {
+             .page-container {
+                padding: 1.5rem; /* p-6 di desktop */
+             }
+        }
+
+
+        /* Kontainer untuk setiap halaman */
+        .page-content {
+            display: none; /* Sembunyikan semua halaman by default */
+        }
+
+        .page-content.active {
+            display: block; /* Tampilkan halaman yang aktif */
+        }
+
+        /* Helper class untuk card */
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+            padding: 1rem; /* p-4 di mobile */
+        }
+        
+        @media (min-width: 768px) {
+            .card {
+                padding: 1.5rem; /* p-6 di desktop */
+            }
+        }
+
+        
+        /* Styling untuk Kalender (Mockup) */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 4px;
+        }
+        .calendar-day {
+            aspect-ratio: 1 / 1;
+            padding: 8px;
+            border: 1px solid #e2e8f0; /* border-gray-200 */
+            border-radius: 0.25rem; /* rounded */
+            position: relative;
+            cursor: pointer;
+            font-size: 0.75rem; /* Kecilkan font di mobile */
+        }
+        @media (min-width: 768px) {
+             .calendar-day {
+                font-size: 1rem;
+             }
+        }
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 500;
+            padding-bottom: 8px;
+            font-size: 0.75rem;
+        }
+        @media (min-width: 768px) {
+             .calendar-day-header {
+                font-size: 1rem;
+             }
+        }
+        .calendar-day:hover {
+            background-color: #f1f5f9; /* bg-gray-100 */
+        }
+        .calendar-day .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px; /* rounded-full */
+            background-color: #2563eb; /* bg-blue-600 */
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Styling untuk Timeline (Mockup) */
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem; /* pl-12 */
+            padding-bottom: 1.5rem; /* pb-6 */
+            border-left: 2px solid #e2e8f0; /* border-l-2 border-gray-200 */
+        }
+        .timeline-item:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -9px; /* Menggeser dot ke garis */
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            background-color: #ffffff; /* bg-white */
+            border: 4px solid #3b82f6; /* border-4 border-blue-500 */
+            border-radius: 9999px; /* rounded-full */
+        }
+         .timeline-dot-gray {
+            border-color: #6b7280; /* border-gray-500 */
+         }
+         .timeline-dot-green {
+            border-color: #16a34a; /* border-green-600 */
+         }
+
+
+         /* Styling untuk CSS Bar Chart */
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            width: 100%;
+            height: 320px; /* h-80 */
+            padding: 20px;
+            border-left: 2px solid #e5e7eb; /* border-gray-200 */
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .chart-bar {
+            width: 30px;
+            background-color: #3b82f6; /* bg-blue-500 */
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            text-align: center;
+            color: #6b7280; /* text-gray-500 */
+            font-size: 12px;
+            font-weight: 500;
+            transition: height 0.5s ease-out;
+        }
+        .chart-bar:hover {
+            background-color: #2563eb; /* bg-blue-600 */
+        }
+        .chart-bar span {
+            position: absolute;
+            bottom: -20px;
+            width: 100%;
+            left: 0;
+        }
+        .chart-bar .tooltip {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1f2937; /* bg-gray-800 */
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .chart-bar:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Zebra Stripe untuk semua tabel data */
+        .page-content table tbody tr:nth-child(even) {
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .page-content table tbody tr:hover {
+            background-color: #f1f5f9; /* hover:bg-gray-100 */
+        }
+        
+        /* Overlay untuk sidebar mobile */
+        #sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40; /* Di bawah sidebar */
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Utility class untuk tombol hamburger */
+        .hamburger-btn {
+            color: #4b5563; /* text-gray-600 */
+            padding: 0.5rem; /* p-2 */
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .hamburger-btn:hover {
+            background-color: #f3f4f6; /* hover:bg-gray-100 */
+            color: #1f2937; /* hover:text-gray-800 */
+        }
+
+
+    </style>
+</head>
+<body>
+    
+    <!-- Overlay untuk Sidebar Mobile -->
+    <div id="sidebar-overlay" class="hidden md:hidden"></div>
+
+    <!-- ======== SIDEBAR ======== -->
+    <nav id="sidebar" class="sidebar">
+        <!-- Header -->
+        <div class="sidebar-header">
+            <h2>SIPP</h2>
+            <p>SISTEM INFORMASI PERAWATAN DAN PERBAIKAN</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="sidebar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Cari menu...">
+        </div>
+
+        <!-- Menu List -->
+        <ul class="sidebar-menu">
+            <!-- Item 1: Dashboard -->
+            <li>
+                <a href="#dashboard" class="menu-link active-link">
+                    <i class="fas fa-tachometer-alt menu-icon"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <!-- Item 2: Master Data -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link">
+                    <i class="fas fa-database menu-icon"></i>
+                    <span>Master Data</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#master-barang" class="menu-link"><i class="fas fa-box menu-icon"></i><span>Master Barang</span></a></li>
+                    <li><a href="#master-gedung" class="menu-link"><i class="fas fa-building menu-icon"></i><span>Master Gedung</span></a></li>
+                    <li><a href="#master-lantai" class="menu-link"><i class="fas fa-layer-group menu-icon"></i><span>Master Lantai Gedung</span></a></li>
+                    <li><a href="#master-ruangan" class="menu-link"><i class="fas fa-door-open menu-icon"></i><span>Master Ruangan</span></a></li>
+                    <li><a href="#master-satker" class="menu-link"><i class="fas fa-sitemap menu-icon"></i><span>Master Satker</span></a></li>
+                    <li><a href="#master-jenis" class="menu-link"><i class="fas fa-tags menu-icon"></i><span>Master Jenis Barang</span></a></li>
+                    <li><a href="#master-kondisi" class="menu-link"><i class="fas fa-clipboard-check menu-icon"></i><span>Master Kondisi Barang</span></a></li>
+                </ul>
+            </li>
+
+            <!-- Item 3: Perawatan -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link">
+                    <i class="fas fa-tasks menu-icon"></i>
+                    <span>Perawatan</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#jadwal-perawatan" class="menu-link"><i class="fas fa-calendar-alt menu-icon"></i><span>Jadwal Perawatan</span></a></li>
+                    <li><a href="#pengajuan-perawatan" class="menu-link"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perawatan</span></a></li>
+                    <li><a href="#riwayat-pengajuan-perawatan" class="menu-link"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
+                    <li><a href="#riwayat-pelaksanaan-perawatan" class="menu-link"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
+                </ul>
+            </li>
+
+            <!-- Item 4: Perbaikan -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link">
+                    <i class="fas fa-tools menu-icon"></i>
+                    <span>Perbaikan</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#pengajuan-perbaikan" class="menu-link"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perbaikan</span></a></li>
+                    <li><a href="#riwayat-pengajuan-perbaikan" class="menu-link"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
+                    <li><a href="#riwayat-pelaksanaan-perbaikan" class="menu-link"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
+                </ul>
+            </li>
+
+            <!-- Item 5: User & Hak Akses -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link">
+                    <i class="fas fa-users-cog menu-icon"></i>
+                    <span>User & Hak Akses</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#master-user" class="menu-link"><i class="fas fa-user-friends menu-icon"></i><span>Master User</span></a></li>
+                    <li><a href="#master-hak-akses" class="menu-link"><i class="fas fa-user-shield menu-icon"></i><span>Master Hak Akses</span></a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fas fa-sign-out-alt menu-icon"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ======== KONTEN UTAMA HALAMAN ======== -->
+    <div id="main-content" class="main-content">
+        
+        <!-- HEADER KONTEN (USER AVATAR) -->
+        <header class="main-header">
+            <!-- Tombol Hamburger (Hanya terlihat di mobile) -->
+            <button id="menu-toggle" class="hamburger-btn md:hidden">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            
+            <div class="user-profile">
+                <span>Viesti Teknisi</span>
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+        
+        <!-- CONTAINER UNTUK HALAMAN YANG BISA SCROLL -->
+        <div class="page-container">
+
+            <!-- ========= HALAMAN: DASHBOARD ========= -->
+            <div id="dashboard" class="page-content active">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+                
+                <!-- Grid Statistik -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                                <i class="fas fa-tools fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Perawatan Bulan Ini</p>
+                                <p class="text-2xl font-bold text-gray-800">12 Barang</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                                <i class="fas fa-exclamation-triangle fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Perbaikan Mendesak</p>
+                                <p class="text-2xl font-bold text-gray-800">3 Pengajuan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                                <i class="fas fa-check-circle fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Selesai Dikerjakan</p>
+                                <p class="text-2xl font-bold text-gray-800">28</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-gray-100 text-gray-600 mr-4">
+                                <i class="fas fa-box fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
+                                <p class="text-2xl font-bold text-gray-800">1,204</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid Grafik dan List -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Grafik -->
+                    <div class="lg:col-span-2 card">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Grafik Perawatan per Bulan</h2>
+                        <div class="chart-container">
+                            <div class="chart-bar" style="height: 60%;"><span class="tooltip">Juni: 60</span><span>Jun</span></div>
+                            <div class="chart-bar" style="height: 40%;"><span class="tooltip">Juli: 40</span><span>Jul</span></div>
+                            <div class="chart-bar" style="height: 80%;"><span class="tooltip">Agt: 80</span><span>Agt</span></div>
+                            <div class="chart-bar" style="height: 50%;"><span class="tooltip">Sep: 50</span><span>Sep</span></div>
+                            <div class="chart-bar" style="height: 90%;"><span class="tooltip">Okt: 90</span><span>Okt</span></div>
+                            <div class="chart-bar" style="height: 30%;"><span class="tooltip">Nov: 30</span><span>Nov</span></div>
+                        </div>
+                    </div>
+                    <!-- List Barang Terbaru -->
+                    <div class="lg:col-span-1 card">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perbaikan Terbaru</h2>
+                        <ul class="divide-y divide-gray-200">
+                            <li class="py-3">
+                                <p class="font-medium text-gray-800">Komputer Lab LSI 2</p>
+                                <p class="text-sm text-gray-500">Menunggu persetujuan</p>
+                            </li>
+                            <li class="py-3">
+                                <p class="font-medium text-gray-800">Papan Tulis 7584</p>
+                                <p class="text-sm text-gray-500">Sedang dikerjakan</p>
+                            </li>
+                            <li class="py-3">
+                                <p class="font-medium text-gray-800">Kursi Lab LSI 2 (10 unit)</p>
+                                <p class="text-sm text-gray-500">Menunggu persetujuan</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER BARANG (Layout Tabel DIPERBARUI) ========= -->
+            <div id="master-barang" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Barang</h1>
+                <div class="card">
+                    <!-- Header Card: Filter dan Tombol -->
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <!-- Tombol Aksi -->
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                                <i class="fas fa-plus"></i>
+                                <span>Tambah Manual</span>
+                            </button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                                <i class="fas fa-file-import"></i>
+                                <span>Import</span>
+                            </button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                                <i class="fas fa-file-export"></i>
+                                <span>Export</span>
+                            </button>
+                        </div>
+                        <!-- Filter -->
+                        <div class="flex items-center gap-2">
+                            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                        </div>
+                    </div>
+
+                    <!-- Tabel Data -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Satuan Kerja</th>
+                                    <th class="p-4 font-semibold text-gray-600">Kondisi</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">BRG-001</td>
+                                    <td class="p-4 text-gray-700">
+                                        <!-- Link Detail Diubah -->
+                                        <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+                                    </td>
+                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span>
+                                    </td>
+                                    <td class="p-4 flex gap-2">
+                                        <!-- Tombol Detail Dihapus -->
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">BRG-002</td>
+                                    <td class="p-4 text-gray-700">
+                                        <!-- Link Detail Diubah -->
+                                        <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
+                                    </td>
+                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Perlu Perawatan</span>
+                                    </td>
+                                    <td class="p-4 flex gap-2">
+                                         <!-- Tombol Detail Dihapus -->
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-2">
+                        <p class="text-sm text-gray-600">Showing 1 to 2 of 50 entries</p>
+                        <div class="flex gap-1">
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">&laquo;</button>
+                            <button class="bg-blue-600 text-white font-medium py-1 px-3 rounded-lg">1</button>
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">2</button>
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">&raquo;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ========= HALAMAN: MASTER GEDUNG ========= -->
+            <div id="master-gedung" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Gedung</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Kode Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">GD-SIPL</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">GD-AKN</td>
+                                    <td class="p-4 text-gray-700">Gedung Akuntansi</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER LANTAI GEDUNG (DIPERBARUI) ========= -->
+            <div id="master-lantai" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Lantai Gedung</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Lantai</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
+                                    <td class="p-4 text-gray-700">Lantai 1</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
+                                    <td class="p-4 text-gray-700">Lantai 2</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER RUANGAN (DIPERBARUI) ========= -->
+            <div id="master-ruangan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Ruangan</h1>
+                <div class="card">
+                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Ruangan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Lantai</th>
+                                    <th class="p-4 font-semibold text-gray-600">Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">Lab LSI 2</td>
+                                    <td class="p-4 text-gray-700">Lantai 7</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Elektro</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER SATKER (DIPERBARUI) ========= -->
+            <div id="master-satker" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Satuan Kerja (Satker)</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Kode Satker</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Satker</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">JTI</td>
+                                    <td class="p-4 text-gray-700">Jurusan Teknologi Informasi</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">AN</td>
+                                    <td class="p-4 text-gray-700">Jurusan Administrasi Niaga</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER JENIS BARANG (DIPERBARUI) ========= -->
+            <div id="master-jenis" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Jenis Barang</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Jenis Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">Elektronik</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">Furnitur</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER KONDISI BARANG (DIPERBARUI) ========= -->
+            <div id="master-kondisi" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Kondisi Barang</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Kondisi</th>
+                                    <th class="p-4 font-semibold text-gray-600">Deskripsi</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span></td>
+                                    <td class="p-4 text-gray-700">Barang dalam kondisi normal dan berfungsi.</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700"><span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Ringan</span></td>
+                                    <td class="p-4 text-gray-700">Barang perlu perawatan atau perbaikan kecil.</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">3</td>
+                                    <td class="p-4 text-gray-700"><span class="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Berat</span></td>
+                                    <td class="p-4 text-gray-700">Barang tidak dapat digunakan.</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ========= HALAMAN: JADWAL PERAWATAN (Layout Kalender DIPERBARUI) ========= -->
+            <div id="jadwal-perawatan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Jadwal Perawatan</h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Kolom Kalender -->
+                    <div class="lg:col-span-2 card">
+                        <div class="flex justify-between items-center mb-4">
+                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-left"></i></button>
+                            <h2 class="text-xl font-semibold text-gray-800">Oktober 2025</h2>
+                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <!-- Mockup Kalender -->
+                        <div class="calendar-grid">
+                            <div class="calendar-day-header">Min</div>
+                            <div class="calendar-day-header">Sen</div>
+                            <div class="calendar-day-header">Sel</div>
+                            <div class="calendar-day-header">Rab</div>
+                            <div class="calendar-day-header">Kam</div>
+                            <div class="calendar-day-header">Jum</div>
+                            <div class="calendar-day-header">Sab</div>
+                            <!-- Minggu 1 (Contoh) -->
+                            <div class="calendar-day text-gray-400">28</div>
+                            <div class="calendar-day text-gray-400">29</div>
+                            <div class="calendar-day text-gray-400">30</div>
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day" data-date="2">2 <span class="dot"></span></div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day">4</div>
+                            <!-- Minggu 2 (Contoh) -->
+                            <div class="calendar-day">5</div>
+                            <div class="calendar-day">6</div>
+                            <div class="calendar-day">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day" data-date="9">9 <span class="dot"></span></div>
+                            <div class="calendar-day">10</div>
+                            <div class="calendar-day">11</div>
+                            <!-- ... (Sisa tanggal) ... -->
+                            <div class="calendar-day">12</div>
+                            <div class="calendar-day">13</div>
+                            <div class="calendar-day">14</div>
+                            <div class="calendar-day">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day" data-date="17">17 <span class="dot"></span></div>
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day">19</div>
+                            <div class="calendar-day">20</div>
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day">22</div>
+                            <div class="calendar-day">23</div>
+                            <div class="calendar-day">24</div>
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">31</div>
+                        </div>
+                    </div>
+                    <!-- Kolom Detail Hari (Diubah jadi Tabel) -->
+                    <div class="lg:col-span-1 card">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
+                        <p class="font-medium text-gray-700 mb-2" id="detail-tanggal">Pilih tanggal di kalender...</p>
+                         <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 border-b border-gray-200 text-xs uppercase">
+                                    <tr>
+                                        <th class="p-2 font-semibold text-gray-600">Barang</th>
+                                        <th class="p-2 font-semibold text-gray-600">Satker</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detail-list-table" class="divide-y divide-gray-200">
+                                    <!-- JS akan mengisi ini -->
+                                    <tr><td colspan="2" class="p-2 text-center text-gray-500">Pilih tanggal...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- List Barang di Bawah -->
+                <div class="card mt-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
+                    <!-- Filter by rentang tanggal & search -->
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <label for="tgl_mulai" class="text-sm font-medium text-gray-700">Dari:</label>
+                            <input type="date" id="tgl_mulai" class="border border-gray-300 rounded-lg p-2">
+                            <label for="tgl_selesai" class="text-sm font-medium text-gray-700">Sampai:</label>
+                            <input type="date" id="tgl_selesai" class="border border-gray-300 rounded-lg p-2">
+                        </div>
+                         <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <!-- Tabel List -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Jadwal</th>
+                                    <th class="p-4 font-semibold text-gray-600">Satker</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">BRG-001</td>
+                                    <td class="p-4 text-gray-700">
+                                        <!-- Link Detail Diubah -->
+                                        <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+                                    </td>
+                                    <td class="p-4 text-gray-700">9 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">BRG-017</td>
+                                    <td class="p-4 text-gray-700">
+                                        <!-- Link Detail Diubah -->
+                                        <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Proyektor Ruang 712</a>
+                                    </td>
+                                    <td class="p-4 text-gray-700">17 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: PENGAJUAN PERAWATAN ========= -->
+            <div id="pengajuan-perawatan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perawatan</h1>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Kolom Form -->
+                    <div class="lg:col-span-2 card">
+                        <form class="space-y-4">
+                            <div>
+                                <label for="nama_pengajuan" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
+                                <input type="text" id="nama_pengajuan" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2">
+                            </div>
+                            
+                            <div>
+                                <label for="deskripsi_pengajuan" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
+                                <textarea id="deskripsi_pengajuan" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum untuk keseluruhan pengajuan..."></textarea>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="tanggal_pelaksanaan" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
+                                    <input type="date" id="tanggal_pelaksanaan" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2">
+                                </div>
+                                <div>
+                                    <label for="nomor_proposal" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
+                                    <input type="text" id="nomor_proposal" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="satuan_kerja" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
+                                <select id="satuan_kerja" class="w-full border border-gray-300 rounded-lg p-2">
+                                    <option>Administrasi Niaga</option>
+                                    <option>Teknik Elektro</option>
+                                    <option>Teknik Sipil</option>
+                                </select>
+                            </div>
+
+                            <!-- Form Tambah Barang -->
+                            <div class="border border-gray-200 rounded-lg p-4 space-y-3">
+                                <h3 class="font-semibold text-gray-800">Tambah Barang</h3>
+                                <div>
+                                    <label for="pilih_barang" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang (sesuai Satker)</label>
+                                    <select id="pilih_barang" class="w-full border border-gray-300 rounded-lg p-2">
+                                        <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2 (Stok: 3)</option>
+                                        <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2 (Stok: 10)</option>
+                                        <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067 (Stok: 1)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="deskripsi_barang" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
+                                    <textarea id="deskripsi_barang" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Mati total, kaki kursi patah..."></textarea>
+                                </div>
+                                <button type="button" id="tambah-barang-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Tambahkan Barang ke List</span>
+                                </button>
+                            </div>
+                            
+                        </form>
+                    </div>
+
+                    <!-- Kolom Tabel Barang -->
+                    <div class="lg:col-span-1 card">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
+                        <ul id="list-barang-diajukan" class="space-y-3">
+                            <li class="p-3 border rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Epson 13124</p>
+                                        <p class="text-sm text-gray-600 italic mt-1">"Tinta bocor, hasil print putus-putus."</p>
+                                    </div>
+                                    <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                            <li class="p-3 border rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Papan Tulis 7584</p>
+                                        <p class="text-sm text-gray-600 italic mt-1">"Sudah kusam dan sulit dihapus."</p>
+                                    </div>
+                                    <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Tombol Aksi Form -->
+                <div class="flex flex-wrap justify-end gap-3 mt-6">
+                    <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg">Cancel</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg">Ajukan Perawatan</button>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: RIWAYAT PENGAJUAN PERAWATAN ========= -->
+            <div id="riwayat-pengajuan-perawatan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pengajuan Perawatan</h1>
+                <div class="card">
+                    <!-- Header Card: Filter dan Tombol -->
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <select class="border border-gray-300 rounded-lg p-2">
+                                <option>Filter Status</option>
+                                <option>Menunggu Persetujuan</option>
+                                <option>Disetujui</option>
+                                <option>Ditolak</option>
+                            </select>
+                            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                        </div>
+                    </div>
+
+                    <!-- Tabel Data -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">ID Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Tanggal</th>
+                                    <th class="p-4 font-semibold text-gray-600">Status</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">JTI-01324</td>
+                                    <td class="p-4 text-gray-700">Pengajuan Triwulan JTI 2025</td>
+                                    <td class="p-4 text-gray-700">10 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Menunggu Persetujuan</span>
+                                    </td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perawatan">Detail</button>
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">AN-01325</td>
+                                    <td class="p-4 text-gray-700">Perbaikan Kursi AN 2025</td>
+                                    <td class="p-4 text-gray-700">9 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Disetujui</span>
+                                    </td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perawatan">Detail</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: DETAIL RIWAYAT PENGAJUAN (Layout Detail DIPERBARUI) ========= -->
+            <div id="detail-riwayat-perawatan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Pengajuan: JTI-01324</h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Kolom Detail & Timeline -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Card Detail -->
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Informasi Pengajuan</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Pengajuan Triwulan JTI 2025</p></div>
+                                <div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Administrasi Niaga</p></div>
+                                <div><p class="text-sm text-gray-500">Tanggal Pelaksanaan</p><p class="font-medium text-gray-800">13 Oktober 2025</p></div>
+                                <div><p class="text-sm text-gray-500">Nomor Proposal</p><p class="font-medium text-gray-800">KL/ADM-0923</p></div>
+                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Status</p>
+                                    <span class="bg-yellow-100 text-yellow-700 text-sm font-medium px-2 py-1 rounded-full">Menunggu Persetujuan</span>
+                                </div>
+                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi Pengajuan</p><p class="font-medium text-gray-800">Deskripsi umum dari form pengajuan akan muncul di sini.</p></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Daftar Barang (Tabel DIPERBARUI dengan QR) -->
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Daftar Barang (Verifikasi)</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th class="p-3 font-semibold text-gray-600"><input type="checkbox" class="rounded border-gray-300"></th>
+                                            <th class="p-3 font-semibold text-gray-600">ID Barang</th>
+                                            <th class="p-3 font-semibold text-gray-600">Nama Barang</th>
+                                            <th class="p-3 font-semibold text-gray-600">Deskripsi Kondisi</th>
+                                            <th class="p-3 font-semibold text-gray-600 text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="p-3"><input type="checkbox" class="rounded border-gray-300"></td>
+                                            <td class="p-3 text-sm text-gray-700">BRG-013</td>
+                                            <td class="p-3 text-sm font-medium text-gray-800">
+                                                <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Epson 13124</a>
+                                            </td>
+                                            <td class="p-3 text-sm text-gray-600">"Tinta bocor"</td>
+                                            <td class="p-3 text-center space-x-2">
+                                                <button class="text-blue-500 hover:text-blue-700" title="Upload/Lihat Foto"><i class="fas fa-camera"></i></button>
+                                                <!-- Tombol QR Ditambahkan -->
+                                                <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3"><input type="checkbox" class="rounded border-gray-300"></td>
+                                            <td class="p-3 text-sm text-gray-700">BRG-002</td>
+                                            <td class="p-3 text-sm font-medium text-gray-800">
+                                                <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
+                                            </td>
+                                            <td class="p-3 text-sm text-gray-600">"Kusam, sulit dihapus"</td>
+                                            <td class="p-3 text-center space-x-2">
+                                                <button class="text-blue-500 hover:text-blue-700" title="Upload/Lihat Foto"><i class="fas fa-camera"></i></button>
+                                                <!-- Tombol QR Ditambahkan -->
+                                                <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3"><input type="checkbox" class="rounded border-gray-300"></td>
+                                            <td class="p-3 text-sm text-gray-700">BRG-001</td>
+                                            <td class="p-3 text-sm font-medium text-gray-800">
+                                                <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+                                            </td>
+                                            <td class="p-3 text-sm text-gray-600">"Mati total"</td>
+                                             <td class="p-3 text-center space-x-2">
+                                                <button class="text-blue-500 hover:text-blue-700" title="Upload/Lihat Foto"><i class="fas fa-camera"></i></button>
+                                                <!-- Tombol QR Ditambahkan -->
+                                                <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg w-full mt-4">Verifikasi Barang Terpilih</button>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Timeline -->
+                    <div class="lg:col-span-1">
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-6">Timeline</h2>
+                            <div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot"></span>
+                                    <h3 class="font-semibold text-gray-800">Pengajuan Dibuat</h3>
+                                    <p class="text-sm text-gray-600">Oleh: Viesti Teknisi (User Satker)</p>
+                                    <time class="text-sm font-normal text-gray-500">10 Oktober 2025, 09:30 WIB</time>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot timeline-dot-gray"></span>
+                                    <h3 class="font-semibold text-gray-600">Menunggu Persetujuan</h3>
+                                    <p class="text-sm text-gray-600">Oleh: Admin UPA</p>
+                                    <p class="text-sm text-gray-500">Belum ada aksi</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot timeline-dot-gray"></span>
+                                    <h3 class="font-semibold text-gray-600">Pelaksanaan</h3>
+                                    <p class="text-sm text-gray-600">Oleh: (Teknisi yang Ditugaskan)</p>
+                                    <p class="text-sm text-gray-500">Belum dimulai</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: RIWAYAT PELAKSANAAN PERAWATAN ========= -->
+            <div id="riwayat-pelaksanaan-perawatan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pelaksanaan Perawatan</h1>
+                <div class="card">
+                    <p class="mb-4">Halaman ini menampilkan daftar pengajuan yang telah selesai diverifikasi dan dilaksanakan.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">ID Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Tgl Selesai</th>
+                                    <th class="p-4 font-semibold text-gray-600">Status</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                               <tr>
+                                    <td class="p-4 text-gray-700">AN-01325</td>
+                                    <td class="p-4 text-gray-700">Perbaikan Kursi AN 2025</td>
+                                    <td class="p-4 text-gray-700">12 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span>
+                                    </td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perawatan">Detail</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: PENGAJUAN PERBAIKAN ========= -->
+            <div id="pengajuan-perbaikan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perbaikan</h1>
+                <p class="mb-4 text-gray-600">Form ini khusus untuk perbaikan insidentil (tanpa jadwal).</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Kolom Form (Salinan dari Perawatan) -->
+                    <div class="lg:col-span-2 card">
+                        <form class="space-y-4">
+                            <div>
+                                <label for="nama_pengajuan_pb" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
+                                <input type="text" id="nama_pengajuan_pb" placeholder="cth: Perbaikan AC Ruang 712" class="w-full border border-gray-300 rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label for="deskripsi_pengajuan_pb" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
+                                <textarea id="deskripsi_pengajuan_pb" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum..."></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="tanggal_pelaksanaan_pb" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pengajuan</label>
+                                    <input type="date" id="tanggal_pelaksanaan_pb" class="w-full border border-gray-300 rounded-lg p-2">
+                                </div>
+                                <div>
+                                    <label for="nomor_proposal_pb" class="block text-sm font-medium text-gray-700 mb-1">Nomor Surat (Jika Ada)</label>
+                                    <input type="text" id="nomor_proposal_pb" class="w-full border border-gray-300 rounded-lg p-2">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="satuan_kerja_pb" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
+                                <select id="satuan_kerja_pb" class="w-full border border-gray-300 rounded-lg p-2">
+                                    <option>Administrasi Niaga</option>
+                                    <option>Teknik Elektro</option>
+                                    <option>Teknik Sipil</option>
+                                </select>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4 space-y-3">
+                                <h3 class="font-semibold text-gray-800">Tambah Barang Rusak</h3>
+                                <div>
+                                    <label for="pilih_barang_pb" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang</label>
+                                    <select id="pilih_barang_pb" class="w-full border border-gray-300 rounded-lg p-2">
+                                        <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2</option>
+                                        <option value="BRG-017" data-nama="Proyektor Ruang 712">BRG-017 - Proyektor Ruang 712</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="deskripsi_barang_pb" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kerusakan</label>
+                                    <textarea id="deskripsi_barang_pb" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Mati total, gambar buram..."></textarea>
+                                </div>
+                                <button type="button" id="tambah-barang-btn-pb" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Tambahkan Barang</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Kolom Tabel Barang -->
+                    <div class="lg:col-span-1 card">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
+                        <ul id="list-barang-diajukan-pb" class="space-y-3">
+                            <!-- JS akan mengisi ini -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-end gap-3 mt-6">
+                    <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg">Cancel</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg">Ajukan Perbaikan</button>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: RIWAYAT PENGAJUAN PERBAIKAN ========= -->
+            <div id="riwayat-pengajuan-perbaikan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pengajuan Perbaikan</h1>
+                <div class="card">
+                    <!-- Konten disalin dari Riwayat Perawatan -->
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <select class="border border-gray-300 rounded-lg p-2">
+                                <option>Filter Status</option>
+                                <option>Menunggu Persetujuan</option>
+                                <option>Disetujui</option>
+                                <option>Ditolak</option>
+                            </select>
+                            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">ID Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Tanggal</th>
+                                    <th class="p-4 font-semibold text-gray-600">Status</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">PBK-001</td>
+                                    <td class="p-4 text-gray-700">Perbaikan AC Ruang 712</td>
+                                    <td class="p-4 text-gray-700">11 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Disetujui</span>
+                                    </td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perbaikan">Detail</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: RIWAYAT PELAKSANAAN PERBAIKAN ========= -->
+            <div id="riwayat-pelaksanaan-perbaikan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pelaksanaan Perbaikan</h1>
+                 <div class="card">
+                   <p class="mb-4">Halaman ini menampilkan daftar perbaikan yang telah selesai dilaksanakan.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">ID Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Pengajuan</th>
+                                    <th class="p-4 font-semibold text-gray-600">Tgl Selesai</th>
+                                    <th class="p-4 font-semibold text-gray-600">Status</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                               <tr>
+                                    <td class="p-4 text-gray-700">PBK-001</td>
+                                    <td class="p-4 text-gray-700">Perbaikan AC Ruang 712</td>
+                                    <td class="p-4 text-gray-700">13 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span>
+                                    </td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perbaikan">Detail</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: DETAIL RIWAYAT PERBAIKAN (DIPERBARUI DENGAN QR) ========= -->
+            <div id="detail-riwayat-perbaikan" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Pengajuan: PBK-001</h1>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Kolom Detail & Timeline -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Card Detail -->
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Informasi Pengajuan</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Perbaikan AC Ruang 712</p></div>
+                                <div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Teknik Elektro</p></div>
+                                <div><p class="text-sm text-gray-500">Tanggal Pengajuan</p><p class="font-medium text-gray-800">11 Oktober 2025</p></div>
+                                <div><p class="text-sm text-gray-500">Nomor Surat</p><p class="font-medium text-gray-800">-</p></div>
+                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Status</p>
+                                    <span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Selesai</span>
+                                </div>
+                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi Pengajuan</p><p class="font-medium text-gray-800">AC mati total, tidak bisa menyala.</p></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Daftar Barang (Tabel DIPERBARUI dengan QR) -->
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Daftar Barang (Verifikasi)</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th class="p-3 font-semibold text-gray-600"><input type="checkbox" class="rounded border-gray-300" checked disabled></th>
+                                            <th class="p-3 font-semibold text-gray-600">ID Barang</th>
+                                            <th class="p-3 font-semibold text-gray-600">Nama Barang</th>
+                                            <th class="p-3 font-semibold text-gray-600">Deskripsi Kondisi</th>
+                                            <th class="p-3 font-semibold text-gray-600 text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="p-3"><input type="checkbox" class="rounded border-gray-300" checked disabled></td>
+                                            <td class="p-3 text-sm text-gray-700">BRG-034</td>
+                                            <td class="p-3 text-sm font-medium text-gray-800">
+                                                <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">AC Ruang 712</a>
+                                            </td>
+                                            <td class="p-3 text-sm text-gray-600">"Mati total"</td>
+                                            <td class="p-3 text-center space-x-2">
+                                                 <button class="text-green-500" title="Foto Terverifikasi"><i class="fas fa-check-circle"></i></button>
+                                                <!-- Tombol QR Ditambahkan -->
+                                                <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Timeline -->
+                    <div class="lg:col-span-1">
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-6">Timeline</h2>
+                            <div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot"></span>
+                                    <h3 class="font-semibold text-gray-800">Pengajuan Dibuat</h3>
+                                    <p class="text-sm text-gray-600">Oleh: User Teknik Elektro</p>
+                                    <time class="text-sm font-normal text-gray-500">11 Oktober 2025, 10:00 WIB</time>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot timeline-dot-green"></span>
+                                    <h3 class="font-semibold text-gray-800">Disetujui & Diverifikasi</h3>
+                                    <p class="text-sm text-gray-600">Oleh: Admin UPA</p>
+                                    <time class="text-sm font-normal text-gray-500">11 Oktober 2025, 11:30 WIB</time>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot timeline-dot-green"></span>
+                                    <h3 class="font-semibold text-gray-800">Pelaksanaan Selesai</h3>
+                                    <p class="text-sm text-gray-600">Oleh: Viesti Teknisi</p>
+                                    <time class="text-sm font-normal text-gray-500">13 Oktober 2025, 14:00 WIB</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER USER (DIPERBARUI) ========= -->
+            <div id="master-user" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Master User</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah User</span></button>
+                            <!-- Tombol Ditambahkan -->
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search user..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama</th>
+                                    <th class="p-4 font-semibold text-gray-600">Username</th>
+                                    <th class="p-4 font-semibold text-gray-600">Hak Akses</th>
+                                    <th class="p-4 font-semibold text-gray-600">Satker</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">Viesti Teknisi</td>
+                                    <td class="p-4 text-gray-700">viesti</td>
+                                    <td class="p-4 text-gray-700">Teknisi</td>
+                                    <td class="p-4 text-gray-700">JTI</td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">Admin UPA</td>
+                                    <td class="p-4 text-gray-700">admin_upa</td>
+                                    <td class="p-4 text-gray-700">Admin</td>
+                                    <td class="p-4 text-gray-700">UPA PP</td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: MASTER HAK AKSES (DIPERBARUI) ========= -->
+            <div id="master-hak-akses" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Master Hak Akses</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah Hak Akses</span></button>
+                             <!-- Tombol Ditambahkan -->
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Hak Akses</th>
+                                    <th class="p-4 font-semibold text-gray-600">Deskripsi</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">Admin</td>
+                                    <td class="p-4 text-gray-700">Akses penuh ke semua modul</td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">Teknisi</td>
+                                    <td class="p-4 text-gray-700">Hanya bisa melihat jadwal dan mengisi laporan pelaksanaan</td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">3</td>
+                                    <td class="p-4 text-gray-700">User Satker</td>
+                                    <td class="p-4 text-gray-700">Hanya bisa mengajukan perawatan/perbaikan</td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= HALAMAN: DETAIL BARANG (HALAMAN BARU - UI DIPERBARUI) ========= -->
+            <div id="detail-barang" class="page-content">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Barang: BRG-001</h1>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Kolom Informasi Barang -->
+                    <div class="lg:col-span-1 card h-fit"> 
+                         <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-2">Informasi Barang</h2>
+                         <div class="space-y-4">
+                             <!-- Item Info dengan Ikon -->
+                             <div class="flex items-center gap-4">
+                                <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div>
+                                <div>
+                                    <p class="text-sm text-gray-500">ID Barang</p>
+                                    <p class="font-medium text-gray-800">BRG-001</p>
+                                </div>
+                             </div>
+                             <!-- Item Info dengan Ikon -->
+                             <div class="flex items-center gap-4">
+                                <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-box"></i></div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Nama Barang</p>
+                                    <p class="font-medium text-gray-800">Komputer Apple Lab LSI 2</p>
+                                </div>
+                             </div>
+                             <!-- Item Info dengan Ikon -->
+                             <div class="flex items-center gap-4">
+                                <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Lokasi</p>
+                                    <p class="font-medium text-gray-800">Gedung Teknik Elektro / Lt. 7 / Lab LSI 2</p>
+                                </div>
+                             </div>
+                             <!-- Item Info dengan Ikon -->
+                             <div class="flex items-center gap-4">
+                                <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Kondisi Saat Ini</p>
+                                    <span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Baik</span>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+                    
+                    <!-- Kolom Riwayat & Jadwal -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Card Riwayat -->
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-history text-blue-600"></i>Riwayat Perawatan & Perbaikan</h2>
+                             <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th class="p-3 font-semibold text-gray-600">Tanggal</th>
+                                            <th class="p-3 font-semibold text-gray-600">Jenis</th>
+                                            <th class="p-3 font-semibold text-gray-600">Deskripsi</th>
+                                            <th class="p-3 font-semibold text-gray-600">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="p-3 text-sm text-gray-700">10 Okt 2025</td>
+                                            <td class="p-3 text-sm text-gray-700">Perawatan</td>
+                                            <td class="p-3 text-sm text-gray-600">Pembersihan rutin</td>
+                                            <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                                        </tr>
+                                         <tr>
+                                            <td class="p-3 text-sm text-gray-700">15 Agu 2025</td>
+                                            <td class="p-3 text-sm text-gray-700">Perbaikan</td>
+                                            <td class="p-3 text-sm text-gray-600">Ganti keyboard</td>
+                                            <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Card Jadwal -->
+                         <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-calendar-check text-blue-600"></i>Jadwal Perawatan Berikutnya</h2>
+                            <p class="text-gray-700">9 Januari 2026</p>
+                            <p class="text-sm text-gray-500">(Pengecekan rutin triwulanan)</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div> <!-- End .page-container -->
+    </div> <!-- End .main-content -->
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            const allMenuLinks = document.querySelectorAll('.menu-link');
+            const allPages = document.querySelectorAll('.page-content');
+            
+            // --- Elemen untuk Responsive Sidebar ---
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const menuToggleBtn = document.getElementById('menu-toggle');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            
+            // Set tinggi chart-bar setelah halaman dimuat (untuk animasi)
+            document.querySelectorAll('.chart-bar').forEach(bar => {
+                const height = bar.style.height;
+                bar.style.height = '0';
+                setTimeout(() => {
+                    bar.style.height = height;
+                }, 100);
+            });
+
+            // --- FUNGSI RESPONSIVE SIDEBAR ---
+            if (menuToggleBtn) {
+                menuToggleBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('hidden');
+                });
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.add('hidden');
+                });
+            }
+
+
+            // --- FUNGSI NAVIGASI HALAMAN & LINK AKTIF ---
+            function showPage(targetId) {
+                // Sembunyikan semua halaman
+                allPages.forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Tampilkan halaman yang dituju
+                const targetPage = document.querySelector(targetId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    // Scroll ke atas halaman baru
+                    document.querySelector('.page-container').scrollTop = 0;
+                } else {
+                    // Jika tidak ada target (misal error), tampilkan dashboard
+                    document.querySelector('#dashboard').classList.add('active');
+                }
+            }
+
+            allMenuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href') || this.dataset.target;
+
+                    // Cek jika ini BUKAN dropdown toggle
+                    if (!this.classList.contains('dropdown-toggle')) {
+                        e.preventDefault(); 
+                        
+                        if (targetId && targetId.startsWith('#')) {
+                            showPage(targetId);
+                        }
+                        
+                        // Auto-close sidebar on mobile after page link click
+                        if (window.innerWidth < 768) { // 768px is md breakpoint
+                             if (sidebar && sidebarOverlay) {
+                                sidebar.classList.remove('active');
+                                sidebarOverlay.classList.add('hidden');
+                             }
+                        }
+                        
+                    } else {
+                        // Jika ini dropdown, cegah default agar accordion berfungsi
+                        e.preventDefault();
+                    }
+                   
+                    // Hapus 'active-link' dari semua link
+                    allMenuLinks.forEach(l => l.classList.remove('active-link'));
+                    
+                    // Tambahkan 'active-link' ke link yang diklik
+                    this.classList.add('active-link');
+                    
+                    // Logika tambahan: Jika yang diklik ada di dalam sub-menu,
+                    // biarkan parent-nya tetap 'dropdown-active'
+                    let parentMenu = this.closest('.sub-menu');
+                    if (parentMenu) {
+                        let parentToggle = parentMenu.previousElementSibling;
+                        if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
+                            parentToggle.classList.add('dropdown-active');
+                            parentToggle.classList.add('active-link'); // Juga tandai parent-nya
+                        }
+                    }
+                });
+            });
+
+            // --- FUNGSI ACCORDION DROPDOWN ---
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault(); // Mencegah link berpindah halaman
+
+                    const currentSubMenu = this.nextElementSibling;
+                    const wasActive = currentSubMenu.style.maxHeight; 
+
+                    // 1. Tutup SEMUA sub-menu
+                    document.querySelectorAll('.sub-menu').forEach(subMenu => {
+                        subMenu.style.maxHeight = null;
+                    });
+                    // 2. Hapus status 'dropdown-active' dari SEMUA tombol dropdown
+                    dropdownToggles.forEach(t => {
+                        t.classList.remove('dropdown-active');
+                    });
+
+                    // 3. Jika tombol yang diklik TADI-nya tidak aktif, buka dia.
+                    if (!wasActive) {
+                        currentSubMenu.style.maxHeight = currentSubMenu.scrollHeight + "px";
+                        this.classList.add('dropdown-active');
+                    }
+                });
+            });
+
+
+            // --- LOGIKA MOCKUP FORM PENGAJUAN PERAWATAN ---
+            const tambahBarangBtn = document.getElementById('tambah-barang-btn');
+            const pilihBarangSelect = document.getElementById('pilih_barang');
+            const deskripsiBarangTextarea = document.getElementById('deskripsi_barang');
+            const listBarangDiajukan = document.getElementById('list-barang-diajukan');
+
+            if (tambahBarangBtn) {
+                tambahBarangBtn.addEventListener('click', function() {
+                    const selectedOption = pilihBarangSelect.options[pilihBarangSelect.selectedIndex];
+                    const selectedBarangNama = selectedOption.dataset.nama;
+                    const selectedBarangDeskripsi = deskripsiBarangTextarea.value || "Tidak ada deskripsi."; 
+                    
+                    const li = document.createElement('li');
+                    li.className = 'p-3 border rounded-lg';
+                    li.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-medium text-gray-800">${selectedBarangNama}</p>
+                                <p class="text-sm text-gray-600 italic mt-1">"${selectedBarangDeskripsi}"</p>
+                            </div>
+                            <button type="button" class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    listBarangDiajukan.appendChild(li);
+
+                    li.querySelector('.remove-barang-btn').addEventListener('click', function() {
+                        li.remove();
+                    });
+                    
+                    deskripsiBarangTextarea.value = '';
+                });
+            }
+            
+            // --- LOGIKA MOCKUP KALENDER (DIPERBARUI untuk Tabel) ---
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            const detailTanggal = document.getElementById('detail-tanggal');
+            const detailListTableBody = document.getElementById('detail-list-table');
+
+            if (calendarDays.length > 0) {
+                calendarDays.forEach(day => {
+                    day.addEventListener('click', function() {
+                        const dayNumber = this.dataset.date || this.textContent.trim();
+                        const hasDot = this.querySelector('.dot');
+
+                        if (!dayNumber || this.classList.contains('text-gray-400')) return; 
+
+                        detailTanggal.textContent = `Detail untuk Tanggal ${dayNumber} Oktober 2025`;
+                        detailListTableBody.innerHTML = ''; // Kosongkan tabel body
+
+                        if (hasDot) {
+                            const data = { // Data mockup dengan Satker
+                                "2": [{ barang: "Pengecekan AC Ruang Rapat", satker: "Umum" }],
+                                "9": [{ barang: "Komputer Apple Lab LSI 2", satker: "AN" }],
+                                "17": [
+                                    { barang: "Proyektor Ruang 712", satker: "Elektro" },
+                                    { barang: "Speaker Ruang 712", satker: "Elektro" }
+                                ]
+                            };
+                            
+                            if (data[dayNumber]) {
+                                data[dayNumber].forEach(item => {
+                                    const tr = document.createElement('tr');
+                                    tr.innerHTML = `
+                                        <td class="p-2 text-sm text-gray-700">${item.barang}</td>
+                                        <td class="p-2 text-sm text-gray-500">${item.satker}</td>
+                                    `;
+                                    detailListTableBody.appendChild(tr);
+                                });
+                            } else {
+                                detailListTableBody.innerHTML = '<tr><td colspan="2" class="p-2 text-center text-gray-500">Tidak ada jadwal perawatan.</td></tr>';
+                            }
+                        } else {
+                            detailListTableBody.innerHTML = '<tr><td colspan="2" class="p-2 text-center text-gray-500">Tidak ada jadwal perawatan.</td></tr>';
+                        }
+                    });
+                });
+            }
+
+            // --- LOGIKA MOCKUP FORM PERBAIKAN ---
+            const tambahBarangBtnPb = document.getElementById('tambah-barang-btn-pb');
+            const pilihBarangSelectPb = document.getElementById('pilih_barang_pb');
+            const deskripsiBarangTextareaPb = document.getElementById('deskripsi_barang_pb');
+            const listBarangDiajukanPb = document.getElementById('list-barang-diajukan-pb');
+
+            if(tambahBarangBtnPb) {
+                tambahBarangBtnPb.addEventListener('click', function() {
+                    const selectedOption = pilihBarangSelectPb.options[pilihBarangSelectPb.selectedIndex];
+                    const selectedBarangNama = selectedOption.dataset.nama;
+                    const selectedBarangDeskripsi = deskripsiBarangTextareaPb.value || "Tidak ada deskripsi.";
+                    
+                    const li = document.createElement('li');
+                    li.className = 'p-3 border rounded-lg';
+                    li.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-medium text-gray-800">${selectedBarangNama}</p>
+                                <p class="text-sm text-gray-600 italic mt-1">"${selectedBarangDeskripsi}"</p>
+                            </div>
+                            <button type="button" class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    listBarangDiajukanPb.appendChild(li);
+                    li.querySelector('.remove-barang-btn').addEventListener('click', function() { li.remove(); });
+                    deskripsiBarangTextareaPb.value = '';
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
+
