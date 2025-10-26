@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIPP - Sistem Informasi Perawatan dan Perbaikan</title>
-    
+
     <!-- Link ke Font Awesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Link ke Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts (Roboto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,20 +36,20 @@
             color: #ffffff;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; 
+            overflow-y: auto;
             transition: transform 0.3s ease; /* Transisi untuk slide-in/out */
             z-index: 50;
             /* Default tersembunyi di mobile, terlihat di desktop */
-            transform: translateX(-100%); 
+            transform: translateX(-100%);
         }
-        
+
         /* State sidebar terlihat di desktop (md dan lebih besar) */
         @media (min-width: 768px) {
             .sidebar {
                 transform: translateX(0);
             }
         }
-        
+
         /* State sidebar terlihat (saat di-toggle di mobile) */
         .sidebar.active {
             transform: translateX(0);
@@ -84,7 +84,7 @@
 
         .sidebar-search input {
             width: 100%;
-            padding: 10px 15px 10px 40px; 
+            padding: 10px 15px 10px 40px;
             border-radius: 20px;
             border: none;
             background-color: rgba(255, 255, 255, 0.1);
@@ -135,9 +135,9 @@
         .sidebar-menu li a:hover,
         .sidebar-menu li a.active-link { /* Class untuk link yang sedang aktif */
             background-color: #1565c0; /* Biru sedikit lebih cerah */
-            padding-left: 30px; 
+            padding-left: 30px;
         }
-        
+
         /* Ikon Chevron (panah) */
         .sidebar-menu .chevron {
             position: absolute;
@@ -145,12 +145,12 @@
             font-size: 12px;
             transition: transform 0.3s ease;
         }
-        
+
         /* State saat dropdown terbuka */
         .sidebar-menu li a.dropdown-active .chevron {
             transform: rotate(90deg);
         }
-        
+
         .sidebar-menu li a.dropdown-active {
              background-color: #1565c0;
         }
@@ -173,7 +173,7 @@
             font-weight: 400;
             opacity: 0.9;
         }
-        
+
         .sub-menu li a .menu-icon {
             font-size: 14px;
             margin-right: 12px;
@@ -209,7 +209,7 @@
         .sidebar-footer a:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
         .sidebar-footer a .menu-icon {
             margin-right: 10px;
             font-size: 16px;
@@ -217,16 +217,16 @@
 
         /* --- STYLING KONTEN UTAMA (RESPONSIVE) --- */
         .main-content {
-            flex-grow: 1; 
+            flex-grow: 1;
             /* Margin 0 di mobile, 280px di desktop */
-            margin-left: 0px; 
+            margin-left: 0px;
             transition: margin-left 0.3s ease;
             height: 100vh;
             display: flex;
             flex-direction: column;
             width: 100%; /* Mengisi sisa ruang */
         }
-        
+
         @media (min-width: 768px) {
             .main-content {
                 margin-left: 280px;
@@ -247,13 +247,13 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             flex-shrink: 0; /* Mencegah header menyusut */
         }
-        
+
         @media (min-width: 768px) {
             .main-header {
                 justify-content: flex-end; /* Kembali ke user di kanan */
             }
         }
-        
+
         .user-profile {
             display: flex;
             align-items: center;
@@ -285,10 +285,10 @@
             overflow-y: auto; /* Hanya area ini yang scroll */
             padding: 1rem; /* p-4 di mobile */
         }
-        
+
         @media (min-width: 768px) {
              .page-container {
-                padding: 1.5rem; /* p-6 di desktop */
+                 padding: 1.5rem; /* p-6 di desktop */
              }
         }
 
@@ -301,7 +301,7 @@
         .page-content.active {
             display: block; /* Tampilkan halaman yang aktif */
         }
-        
+
         /* Breadcrumbs */
         .breadcrumbs {
             color: #94a3b8; /* text-slate-400 */
@@ -324,14 +324,14 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
             padding: 1rem; /* p-4 di mobile */
         }
-        
+
         @media (min-width: 768px) {
             .card {
                 padding: 1.5rem; /* p-6 di desktop */
             }
         }
 
-        
+
         /* Styling untuk Kalender (Mockup) */
         .calendar-grid {
             display: grid;
@@ -349,7 +349,7 @@
         }
         @media (min-width: 768px) {
              .calendar-day {
-                font-size: 1rem;
+                 font-size: 1rem;
              }
         }
         .calendar-day-header {
@@ -360,7 +360,7 @@
         }
         @media (min-width: 768px) {
              .calendar-day-header {
-                font-size: 1rem;
+                 font-size: 1rem;
              }
         }
         .calendar-day:hover {
@@ -376,13 +376,13 @@
             left: 50%;
             transform: translateX(-50%);
         }
-        
+
         /* Styling untuk Timeline (Mockup - DIPERBARUI) */
         .timeline-item {
             position: relative;
             padding-left: 2.5rem; /* Lebih dekat */
-            padding-bottom: 1.5rem; 
-            border-left: 2px solid #e2e8f0; 
+            padding-bottom: 1.5rem;
+            border-left: 2px solid #e2e8f0;
         }
         .timeline-item:last-child {
             border-left-color: transparent;
@@ -397,24 +397,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #ffffff; 
-            border-radius: 9999px; 
+            background-color: #ffffff;
+            border-radius: 9999px;
             border: 2px solid; /* Warna diatur per class */
         }
          .timeline-dot i {
              font-size: 10px;
              color: inherit; /* Warna ikon ikut warna border */
-         }
-         
-         /* Warna Dot Timeline */
-         .timeline-dot-blue { border-color: #3b82f6; color: #3b82f6; } /* Dibuat */
-         .timeline-dot-green { border-color: #16a34a; color: #16a34a; } /* Disetujui/Selesai */
-         .timeline-dot-yellow { border-color: #f59e0b; color: #f59e0b; } /* Upload/Aksi */
-         .timeline-dot-red { border-color: #ef4444; color: #ef4444; } /* Ditolak */
-         .timeline-dot-gray { border-color: #6b7280; color: #6b7280; } /* Menunggu/Pending */
-         
-         /* Styling untuk lampiran file di timeline */
-         .timeline-attachment {
+        }
+
+        /* Warna Dot Timeline */
+        .timeline-dot-blue { border-color: #3b82f6; color: #3b82f6; } /* Dibuat */
+        .timeline-dot-green { border-color: #16a34a; color: #16a34a; } /* Disetujui/Selesai */
+        .timeline-dot-yellow { border-color: #f59e0b; color: #f59e0b; } /* Upload/Aksi */
+        .timeline-dot-red { border-color: #ef4444; color: #ef4444; } /* Ditolak */
+        .timeline-dot-gray { border-color: #6b7280; color: #6b7280; } /* Menunggu/Pending */
+
+        /* Styling untuk lampiran file di timeline */
+        .timeline-attachment {
              display: flex;
              align-items: center;
              gap: 0.5rem; /* gap-2 */
@@ -422,14 +422,14 @@
              background-color: #f9fafb; /* bg-gray-50 */
              border-radius: 0.375rem; /* rounded-md */
              border: 1px solid #e5e7eb; /* border-gray-200 */
-         }
-         .timeline-attachment i {
+        }
+        .timeline-attachment i {
              color: #6b7280; /* text-gray-500 */
-         }
+        }
 
 
-         /* Styling untuk CSS Bar Chart (DIPERBARUI DENGAN ANGKA & FIX POSISI LABEL Y) */
-         .chart-container {
+        /* Styling untuk CSS Bar Chart (DIPERBARUI DENGAN ANGKA & FIX POSISI LABEL Y) */
+        .chart-container {
              display: flex;
              justify-content: space-around;
              align-items: flex-end;
@@ -439,26 +439,26 @@
              border-left: 2px solid #e5e7eb; /* border-gray-200 */
              border-bottom: 2px solid #e5e7eb;
              position: relative; /* Untuk label sumbu Y */
-         }
-         /* Label Sumbu Y (FIXED POSITION) */
-         .y-axis-label {
+        }
+        /* Label Sumbu Y (FIXED POSITION) */
+        .y-axis-label {
              position: absolute;
              left: -25px; /* Posisikan di kiri border */
              transform: translateY(50%); /* Pusatkan vertikal */
              font-size: 12px;
              color: #6b7280;
-         }
-          .y-axis-label-high { /* Ganti dari y-axis-label */
-            bottom: calc(100% - 20px); /* Atas chart */
-         }
-          .y-axis-label-mid {
-            bottom: 50%;
-         }
-          .y-axis-label-low {
-            bottom: 30px; /* Dekat sumbu X */
-         }
+        }
+         .y-axis-label-high { /* Ganti dari y-axis-label */
+             bottom: calc(100% - 20px); /* Atas chart */
+        }
+         .y-axis-label-mid {
+             bottom: 50%;
+        }
+         .y-axis-label-low {
+             bottom: 30px; /* Dekat sumbu X */
+        }
 
-         .chart-bar {
+        .chart-bar {
              width: 30px;
              background-color: #3b82f6; /* bg-blue-500 */
              border-radius: 4px 4px 0 0;
@@ -468,19 +468,19 @@
              font-size: 12px;
              font-weight: 500;
              transition: height 0.5s ease-out, background-color 0.3s;
-         }
-         .chart-bar:hover {
+        }
+        .chart-bar:hover {
              background-color: #2563eb; /* bg-blue-600 */
-         }
-         /* Label bulan */
-         .chart-bar .label {
+        }
+        /* Label bulan */
+        .chart-bar .label {
              position: absolute;
              bottom: -20px;
              width: 100%;
              left: 0;
-         }
-         /* Nilai di atas bar */
-         .chart-bar .value {
+        }
+        /* Nilai di atas bar */
+        .chart-bar .value {
              position: absolute;
              top: -20px; /* Posisi di atas bar */
              left: 50%;
@@ -490,12 +490,12 @@
              font-weight: 600;
              opacity: 0; /* Sembunyi dulu */
               transition: opacity 0.3s;
-         }
-         /* Tampilkan nilai saat hover atau saat chart dimuat */
-         .chart-container:hover .chart-bar .value,
-         .chart-bar.show-value .value {
-              opacity: 1;
-         }
+        }
+        /* Tampilkan nilai saat hover atau saat chart dimuat */
+        .chart-container:hover .chart-bar .value,
+        .chart-bar.show-value .value {
+             opacity: 1;
+        }
 
 
         /* Zebra Stripe untuk semua tabel data */
@@ -505,7 +505,7 @@
         .page-content table tbody tr:hover {
             background-color: #f1f5f9; /* hover:bg-gray-100 */
         }
-        
+
         /* Overlay untuk sidebar mobile */
         #sidebar-overlay {
             position: fixed;
@@ -514,7 +514,7 @@
             z-index: 40; /* Di bawah sidebar */
             transition: opacity 0.3s ease;
         }
-        
+
         /* Utility class untuk tombol hamburger */
         .hamburger-btn {
             color: #4b5563; /* text-gray-600 */
@@ -533,11 +533,10 @@
             margin-top: 1rem; /* Jarak dari konten di atasnya */
         }
 
-
     </style>
 </head>
 <body>
-    
+
     <!-- Overlay untuk Sidebar Mobile -->
     <div id="sidebar-overlay" class="hidden md:hidden"></div>
 
@@ -596,7 +595,7 @@
                     <li><a href="#riwayat-pengajuan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
                     <li><a href="#riwayat-pelaksanaan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pelaksanaan"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
                      <!-- Link tersembunyi untuk detail, breadcrumb diatur via JS -->
-                     <li style="display: none;"><a href="#detail-riwayat-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
+                      <li style="display: none;"><a href="#detail-riwayat-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
                 </ul>
             </li>
 
@@ -611,8 +610,8 @@
                     <li><a href="#pengajuan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Pengajuan"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perbaikan</span></a></li>
                     <li><a href="#riwayat-pengajuan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
                     <li><a href="#riwayat-pelaksanaan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pelaksanaan"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
-                     <!-- Link tersembunyi untuk detail -->
-                    <li style="display: none;"><a href="#detail-riwayat-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
+                      <!-- Link tersembunyi untuk detail -->
+                     <li style="display: none;"><a href="#detail-riwayat-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
                 </ul>
             </li>
 
@@ -629,7 +628,7 @@
                 </ul>
             </li>
              <!-- Link tersembunyi untuk detail barang -->
-             <li style="display: none;"><a href="#detail-barang" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Barang<span>/</span>Detail"></a></li>
+              <li style="display: none;"><a href="#detail-barang" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Barang<span>/</span>Detail"></a></li>
         </ul>
 
         <!-- Footer -->
@@ -643,14 +642,14 @@
 
     <!-- ======== KONTEN UTAMA HALAMAN ======== -->
     <div id="main-content" class="main-content">
-        
+
         <!-- HEADER KONTEN (USER AVATAR) -->
         <header class="main-header">
             <!-- Tombol Hamburger (Hanya terlihat di mobile) -->
             <button id="menu-toggle" class="hamburger-btn md:hidden">
                 <i class="fas fa-bars fa-lg"></i>
             </button>
-            
+
             <div class="user-profile">
                 <span>Admin UPA</span> <!-- Nama diubah -->
                 <div class="avatar">
@@ -658,7 +657,7 @@
                 </div>
             </div>
         </header>
-        
+
         <!-- CONTAINER UNTUK HALAMAN YANG BISA SCROLL -->
         <div class="page-container">
 
@@ -667,7 +666,7 @@
                  <!-- Breadcrumb -->
                  <div id="breadcrumb-dashboard" class="breadcrumbs">Dashboard</div>
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
-                
+
                 <!-- Grid Statistik -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                     <!-- Card 1 -->
@@ -775,8 +774,8 @@
                                         </tr>
                                         <tr>
                                              <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
-                                            </td>
+                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
+                                             </td>
                                             <td class="p-2 text-gray-600">25 Okt</td>
                                             <td class="p-2">
                                                  <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
@@ -784,8 +783,8 @@
                                         </tr>
                                          <tr>
                                              <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-034" class="menu-link detail-barang-link text-blue-600 hover:underline">AC Ruang 712</a>
-                                            </td>
+                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-034" class="menu-link detail-barang-link text-blue-600 hover:underline">AC Ruang 712</a>
+                                             </td>
                                             <td class="p-2 text-gray-600">11 Okt</td>
                                             <td class="p-2">
                                                  <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">Selesai</span>
@@ -796,17 +795,17 @@
                             </div>
                         </div>
 
-                         <!-- Tabel Jadwal Perawatan Terdekat BARU -->
-                         <div class="card">
+                          <!-- Tabel Jadwal Perawatan Terdekat BARU -->
+                          <div class="card">
                             <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perawatan Terdekat</h2>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left">
-                                     <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                                        <tr>
-                                            <th scope="col" class="p-2">Barang</th>
-                                            <th scope="col" class="p-2">Jadwal</th>
-                                            <th scope="col" class="p-2">Lokasi</th>
-                                        </tr>
+                                      <thead class="bg-gray-50 text-xs uppercase text-gray-700">
+                                         <tr>
+                                             <th scope="col" class="p-2">Barang</th>
+                                             <th scope="col" class="p-2">Jadwal</th>
+                                             <th scope="col" class="p-2">Lokasi</th>
+                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
@@ -826,7 +825,7 @@
                                          <tr>
                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
                                                  <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
-                                            </td>
+                                             </td>
                                             <td class="p-2 text-gray-600">5 Nov</td>
                                             <td class="p-2 text-gray-500">R. 712</td>
                                         </tr>
@@ -913,7 +912,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- ========= HALAMAN: MASTER GEDUNG ========= -->
             <div id="master-gedung" class="page-content">
                  <div id="breadcrumb-master-gedung" class="breadcrumbs"></div>
@@ -1216,34 +1215,34 @@
                             <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-right"></i></button>
                         </div>
                         <div class="calendar-grid">
-                             <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div><div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div><div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div><div class="calendar-day-header">Sab</div>
-                             <div class="calendar-day text-gray-400">28</div><div class="calendar-day text-gray-400">29</div><div class="calendar-day text-gray-400">30</div><div class="calendar-day">1</div><div class="calendar-day" data-date="2">2 <span class="dot"></span></div><div class="calendar-day">3</div><div class="calendar-day">4</div>
-                             <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day" data-date="9">9 <span class="dot"></span></div><div class="calendar-day">10</div><div class="calendar-day">11</div>
-                             <div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day" data-date="17">17 <span class="dot"></span></div><div class="calendar-day">18</div>
-                             <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
-                             <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
+                              <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div><div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div><div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div><div class="calendar-day-header">Sab</div>
+                              <div class="calendar-day text-gray-400">28</div><div class="calendar-day text-gray-400">29</div><div class="calendar-day text-gray-400">30</div><div class="calendar-day">1</div><div class="calendar-day" data-date="2">2 <span class="dot"></span></div><div class="calendar-day">3</div><div class="calendar-day">4</div>
+                              <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day" data-date="9">9 <span class="dot"></span></div><div class="calendar-day">10</div><div class="calendar-day">11</div>
+                              <div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day" data-date="17">17 <span class="dot"></span></div><div class="calendar-day">18</div>
+                              <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
+                              <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
                         </div>
                     </div>
                     <!-- Kolom Detail Hari -->
                     <div class="lg:col-span-1 card">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
                         <p class="font-medium text-gray-700 mb-2" id="detail-tanggal">Pilih tanggal di kalender...</p>
-                         <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead class="bg-gray-50 border-b border-gray-200 text-xs uppercase">
-                                    <tr>
-                                        <th class="p-2 font-semibold text-gray-600">Barang</th>
-                                        <th class="p-2 font-semibold text-gray-600">Satker</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="detail-list-table" class="divide-y divide-gray-200">
-                                    <tr><td colspan="2" class="p-2 text-center text-gray-500">Pilih tanggal...</td></tr>
-                                </tbody>
-                            </table>
+                          <div class="overflow-x-auto">
+                              <table class="w-full text-left">
+                                  <thead class="bg-gray-50 border-b border-gray-200 text-xs uppercase">
+                                      <tr>
+                                          <th class="p-2 font-semibold text-gray-600">Barang</th>
+                                          <th class="p-2 font-semibold text-gray-600">Satker</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody id="detail-list-table" class="divide-y divide-gray-200">
+                                      <tr><td colspan="2" class="p-2 text-center text-gray-500">Pilih tanggal...</td></tr>
+                                  </tbody>
+                              </table>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- List Barang di Bawah (SEARCH BAR DIKEMBALIKAN) -->
                 <div class="card mt-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
@@ -1293,7 +1292,7 @@
             <div id="pengajuan-perawatan" class="page-content">
                  <div id="breadcrumb-pengajuan-perawatan" class="breadcrumbs"></div>
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perawatan</h1>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Kolom Form -->
                     <div class="lg:col-span-2 card">
@@ -1450,9 +1449,9 @@
 
                 <!-- Container Tombol Aksi Admin -->
                 <div id="admin-actions-perawatan" class="admin-action-buttons mb-4 hidden">
-                     <button class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-check"></i><span>Setujui Pengajuan</span></button>
-                     <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-times"></i><span>Tolak Pengajuan</span></button>
-                 </div>
+                       <button class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-check"></i><span>Setujui Pengajuan</span></button>
+                       <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-times"></i><span>Tolak Pengajuan</span></button>
+                </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Kolom Detail & Barang -->
@@ -1465,10 +1464,10 @@
                                 <p class="col-span-2 text-gray-500">Memuat data...</p>
                             </div>
                         </div>
-                        
+
                         <!-- Card Daftar Barang -->
                         <div id="detail-barang-card-perawatan" class="card">
-                             <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-clipboard-list text-blue-600"></i>Daftar Barang (Verifikasi)</h2>
+                               <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-clipboard-list text-blue-600"></i>Daftar Barang (Verifikasi)</h2>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left">
                                     <thead class="bg-gray-50 border-b border-gray-200">
@@ -1486,7 +1485,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button id="verifikasi-btn-perawatan" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg w-full mt-4 hidden">Verifikasi Barang Terpilih</button>
+                             <button id="verifikasi-btn-perawatan" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg w-full mt-4 hidden">Verifikasi Barang Terpilih</button>
                         </div>
                     </div>
 
@@ -1494,7 +1493,7 @@
                     <div class="lg:col-span-1">
                         <div class="card">
                             <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3"><i class="fas fa-stream text-blue-600"></i>Timeline</h2>
-                            <div id="detail-timeline-perawatan" class="mb-6"> 
+                            <div id="detail-timeline-perawatan" class="mb-6">
                                 <!-- JS will populate this -->
                                 <p class="text-gray-500">Memuat timeline...</p>
                             </div>
@@ -1557,7 +1556,7 @@
                  <div id="breadcrumb-pengajuan-perbaikan" class="breadcrumbs"></div>
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perbaikan</h1>
                 <p class="mb-4 text-gray-600">Form ini khusus untuk perbaikan insidentil (tanpa jadwal).</p>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Kolom Form -->
                     <div class="lg:col-span-2 card">
@@ -1577,7 +1576,13 @@
                                 </div>
                                 <div>
                                     <label for="nomor_proposal_pb" class="block text-sm font-medium text-gray-700 mb-1">Nomor Surat (Jika Ada)</label>
-                                    <input type="text" id="nomor_proposal_pb" class="w-full border border-gray-300 rounded-lg p-2">
+                                    <!-- Input Group dengan Tombol Generate -->
+                                    <div class="flex items-center">
+                                        <input type="text" id="nomor_proposal_pb" class="w-full border border-gray-300 rounded-l-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                                        <button type="button" id="generate-nomor-surat-pb" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-3 rounded-r-lg flex items-center gap-1 text-sm whitespace-nowrap">
+                                            <i class="fas fa-sync-alt"></i> Auto
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -1664,7 +1669,7 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                <tr> 
+                                <tr>
                                     <td class="p-4 text-gray-700">PBK-002</td>
                                     <td class="p-4 text-gray-700">Perbaikan Pintu Lab Jaringan</td>
                                     <td class="p-4 text-gray-700">25 Oktober 2025</td>
@@ -1677,7 +1682,7 @@
                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
                                     </td>
                                 </tr>
-                                <tr> 
+                                <tr>
                                     <td class="p-4 text-gray-700">PBK-001</td>
                                     <td class="p-4 text-gray-700">Perbaikan AC Ruang 712</td>
                                     <td class="p-4 text-gray-700">11 Oktober 2025</td>
@@ -1736,8 +1741,8 @@
 
                  <!-- Container Tombol Aksi Admin -->
                  <div id="admin-actions-perbaikan" class="admin-action-buttons mb-4 hidden">
-                     <button class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-check"></i><span>Setujui Pengajuan</span></button>
-                     <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-times"></i><span>Tolak Pengajuan</span></button>
+                       <button class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-check"></i><span>Setujui Pengajuan</span></button>
+                       <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-times"></i><span>Tolak Pengajuan</span></button>
                  </div>
 
 
@@ -1752,7 +1757,7 @@
                                 <p class="col-span-2 text-gray-500">Memuat data...</p>
                             </div>
                         </div>
-                        
+
                         <!-- Card Daftar Barang -->
                         <div id="detail-barang-card-perbaikan" class="card">
                             <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-clipboard-list text-blue-600"></i>Daftar Barang (Verifikasi)</h2>
@@ -1773,20 +1778,20 @@
                                     </tbody>
                                 </table>
                             </div>
-                             <button id="verifikasi-btn-perbaikan" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg w-full mt-4 hidden">Verifikasi Barang Terpilih</button>
+                               <button id="verifikasi-btn-perbaikan" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg w-full mt-4 hidden">Verifikasi Barang Terpilih</button>
                         </div>
                     </div>
 
                     <!-- Kolom Timeline -->
                     <div class="lg:col-span-1">
                         <div class="card">
-                             <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3"><i class="fas fa-stream text-blue-600"></i>Timeline</h2>
-                             <div id="detail-timeline-perbaikan" class="mb-6"> 
+                               <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3"><i class="fas fa-stream text-blue-600"></i>Timeline</h2>
+                               <div id="detail-timeline-perbaikan" class="mb-6">
                                 <!-- JS will populate this -->
                                 <p class="text-gray-500">Memuat timeline...</p>
                             </div>
-                             <!-- Catatan Tambahan -->
-                             <div class="border-t pt-4">
+                               <!-- Catatan Tambahan -->
+                               <div class="border-t pt-4">
                                 <h3 class="font-semibold text-gray-800 mb-2 flex items-center gap-2"><i class="fas fa-sticky-note text-blue-600"></i>Catatan Tambahan</h3>
                                 <div id="catatan-tersimpan-perbaikan" class="mb-3 space-y-2">
                                      <!-- JS will add notes here if available -->
@@ -1914,17 +1919,17 @@
                  <div id="breadcrumb-detail-barang" class="breadcrumbs"></div>
                  <!-- Judul diupdate oleh JS -->
                 <h1 id="detail-barang-title" class="text-3xl font-bold text-gray-800 mb-6">Detail Barang</h1>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Kolom Informasi Barang -->
-                    <div class="lg:col-span-1 card h-fit"> 
+                    <div class="lg:col-span-1 card h-fit">
                          <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-2">Informasi Barang</h2>
                          <div id="detail-barang-info" class="space-y-4">
                              <!-- JS will populate this -->
                              <p class="text-gray-500">Memuat data...</p>
                         </div>
                     </div>
-                    
+
                     <!-- Kolom Riwayat & Jadwal -->
                     <div class="lg:col-span-2 space-y-6">
                         <!-- Card Riwayat -->
@@ -1938,17 +1943,18 @@
                                             <th class="p-3 font-semibold text-gray-600">Jenis</th>
                                             <th class="p-3 font-semibold text-gray-600">Deskripsi</th>
                                             <th class="p-3 font-semibold text-gray-600">Status</th>
+                                            <th class="p-3 font-semibold text-gray-600 text-center">Aksi</th> <!-- Kolom Aksi Baru -->
                                         </tr>
                                     </thead>
                                     <tbody id="detail-barang-riwayat" class="divide-y divide-gray-200">
                                         <!-- JS will populate this -->
-                                        <tr><td colspan="4" class="p-4 text-center text-gray-500">Memuat riwayat...</td></tr>
+                                        <tr><td colspan="5" class="p-4 text-center text-gray-500">Memuat riwayat...</td></tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <!-- Card Jadwal -->
-                         <div class="card">
+                          <div class="card">
                             <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-calendar-check text-blue-600"></i>Jadwal Perawatan Berikutnya</h2>
                             <div id="detail-barang-jadwal">
                                 <!-- JS will populate this -->
@@ -1969,7 +1975,7 @@
             const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
             const allMenuLinks = document.querySelectorAll('.menu-link');
             const allPages = document.querySelectorAll('.page-content');
-            
+
             // --- Elemen untuk Responsive Sidebar ---
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('main-content');
@@ -2041,16 +2047,16 @@
             function updateBreadcrumb(breadcrumbHtml) {
                  const breadcrumbContainers = document.querySelectorAll('.breadcrumbs');
                  breadcrumbContainers.forEach(container => {
-                    // Hanya update breadcrumb di halaman yang aktif
-                    if(container.closest('.page-content.active')) {
-                         container.innerHTML = breadcrumbHtml || 'Dashboard'; // Default ke Dashboard
-                    } else {
-                        // Kosongkan breadcrumb di halaman lain jika perlu
-                        // container.innerHTML = ''; 
-                    }
+                     // Hanya update breadcrumb di halaman yang aktif
+                     if(container.closest('.page-content.active')) {
+                          container.innerHTML = breadcrumbHtml || 'Dashboard'; // Default ke Dashboard
+                     } else {
+                         // Kosongkan breadcrumb di halaman lain jika perlu
+                         // container.innerHTML = '';
+                     }
                  });
             }
-            
+
             function showPage(targetId, breadcrumbHtml) {
                 allPages.forEach(page => {
                     page.classList.remove('active');
@@ -2078,11 +2084,11 @@
                     const breadcrumbData = this.dataset.breadcrumb;
 
                     if (!this.classList.contains('dropdown-toggle')) {
-                        e.preventDefault(); 
-                        
+                        e.preventDefault();
+
                         if (targetId && targetId.startsWith('#')) {
                             showPage(targetId, breadcrumbData);
-                             
+
                              // --- LOGIKA KHUSUS UNTUK DETAIL PAGES ---
                             if (targetId === '#detail-riwayat-perawatan' || targetId === '#detail-riwayat-perbaikan') {
                                 loadDetailPengajuan(this.dataset.id, this.dataset.status, targetId.includes('perawatan'));
@@ -2090,30 +2096,30 @@
                                 loadDetailBarang(this.dataset.id);
                             }
                        }
-                        
-                        if (window.innerWidth < 768) { 
+
+                        if (window.innerWidth < 768) {
                              if (sidebar && sidebarOverlay) {
-                                sidebar.classList.remove('active');
-                                sidebarOverlay.classList.add('hidden');
+                                 sidebar.classList.remove('active');
+                                 sidebarOverlay.classList.add('hidden');
                              }
                         }
-                        
+
                     } else {
                         // Prevent default only for dropdown toggles
                         e.preventDefault();
                     }
-                    
+
                     // Update Active Link Styling
                     allMenuLinks.forEach(l => l.classList.remove('active-link'));
                     this.classList.add('active-link');
-                    
+
                     // Highlight parent if it's a sub-menu link
                     let parentMenu = this.closest('.sub-menu');
                     if (parentMenu) {
                         let parentToggle = parentMenu.previousElementSibling;
                         if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
                             // Don't remove dropdown-active here, let accordion handle it
-                            parentToggle.classList.add('active-link'); 
+                            parentToggle.classList.add('active-link');
                         }
                     } else if (this.classList.contains('dropdown-toggle')) {
                         // Also add active-link to the toggle itself if clicked
@@ -2125,14 +2131,14 @@
             // --- FUNGSI ACCORDION DROPDOWN ---
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
-                    e.preventDefault(); 
+                    e.preventDefault();
 
                     const currentSubMenu = this.nextElementSibling;
-                    const wasActive = currentSubMenu.style.maxHeight && currentSubMenu.style.maxHeight !== '0px'; 
+                    const wasActive = currentSubMenu.style.maxHeight && currentSubMenu.style.maxHeight !== '0px';
 
                     // Close other sub-menus first
                     document.querySelectorAll('.sub-menu').forEach(subMenu => {
-                         if (subMenu !== currentSubMenu) { 
+                         if (subMenu !== currentSubMenu) {
                             subMenu.style.maxHeight = null;
                             const siblingToggle = subMenu.previousElementSibling;
                             if (siblingToggle && siblingToggle.classList.contains('dropdown-toggle')) {
@@ -2144,13 +2150,6 @@
                             }
                         }
                     });
-                    // Remove active state from other toggles
-                    // dropdownToggles.forEach(t => {
-                    //    if (t !== this) { 
-                    //        t.classList.remove('dropdown-active');
-                           // Don't remove active-link here to keep parent highlighted
-                    //    }
-                    // });
 
                     if (!wasActive) {
                         currentSubMenu.style.maxHeight = currentSubMenu.scrollHeight + "px";
@@ -2161,7 +2160,7 @@
                          // If closing a dropdown, remove active state only if no child is active
                          const hasActiveChild = currentSubMenu.querySelector('.active-link');
                          if (!hasActiveChild) {
-                            // this.classList.remove('active-link'); // Keep parent active
+                             // this.classList.remove('active-link'); // Keep parent active
                          }
                     }
                 });
@@ -2183,8 +2182,8 @@
                     tambahBarangBtn.addEventListener('click', function() {
                         const selectedOption = pilihBarangSelect.options[pilihBarangSelect.selectedIndex];
                         const selectedBarangNama = selectedOption.dataset.nama;
-                        const selectedBarangDeskripsi = deskripsiBarangTextarea.value || "Tidak ada deskripsi."; 
-                        
+                        const selectedBarangDeskripsi = deskripsiBarangTextarea.value || "Tidak ada deskripsi.";
+
                         const li = document.createElement('li');
                         li.className = 'p-3 border rounded-lg';
                         li.innerHTML = `
@@ -2212,8 +2211,8 @@
             }
             setupPengajuanForm('pw'); // Setup for Perawatan
             setupPengajuanForm('pb'); // Setup for Perbaikan
-            
-            // --- LOGIKA MOCKUP KALENDER ---
+
+             // --- LOGIKA MOCKUP KALENDER ---
             const calendarDays = document.querySelectorAll('.calendar-day');
             const detailTanggal = document.getElementById('detail-tanggal');
             const detailListTableBody = document.getElementById('detail-list-table');
@@ -2223,13 +2222,13 @@
                     day.addEventListener('click', function() {
                         const dayNumber = this.dataset.date || this.textContent.trim().match(/^\d+/)?.[0]; // Get only number
                         const hasDot = this.querySelector('.dot');
-                        if (!dayNumber || this.classList.contains('text-gray-400')) return; 
+                        if (!dayNumber || this.classList.contains('text-gray-400')) return;
 
                         detailTanggal.textContent = `Detail untuk Tanggal ${dayNumber} Oktober 2025`;
-                        detailListTableBody.innerHTML = ''; 
+                        detailListTableBody.innerHTML = '';
 
                         if (hasDot) {
-                            const data = { 
+                            const data = {
                                 "2": [{ barang: "Pengecekan AC", satker: "Umum" }],
                                 "9": [{ barang: "Komputer Apple", satker: "AN" }],
                                 "17": [ { barang: "Proyektor 712", satker: "Elektro" }, { barang: "Speaker 712", satker: "Elektro" } ]
@@ -2325,7 +2324,7 @@
                  let breadcrumbPrefix = isPerawatan ? 'Perawatan<span>/</span>Riwayat Pengajuan' : 'Perbaikan<span>/</span>Riwayat Pengajuan';
                  // Cek jika status 'selesai' untuk mengubah prefix breadcrumb riwayat pelaksanaan
                  if (status === 'selesai') {
-                     breadcrumbPrefix = isPerawatan ? 'Perawatan<span>/</span>Riwayat Pelaksanaan' : 'Perbaikan<span>/</span>Riwayat Pelaksanaan';
+                      breadcrumbPrefix = isPerawatan ? 'Perawatan<span>/</span>Riwayat Pelaksanaan' : 'Perbaikan<span>/</span>Riwayat Pelaksanaan';
                  }
                  let newBreadcrumb = `${breadcrumbPrefix}<span>/</span>Detail: ${id}`;
                  document.querySelector(pageId + ' .breadcrumbs').innerHTML = newBreadcrumb;
@@ -2335,25 +2334,25 @@
                 document.querySelector(barangTableId).innerHTML = data.barang;
                 document.querySelector(timelineContainerId).innerHTML = data.timeline;
                 document.querySelector(catatanContainerId).innerHTML = data.catatan || ''; // Kosongkan jika tidak ada catatan
-                
+
                  // Tampilkan/sembunyikan card barang & tombol verifikasi berdasarkan status
                  const verifikasiBtn = document.querySelector(verifikasiBtnId);
                  const barangCard = document.querySelector(barangCardId);
-                 
+
                 if (status === 'ditolak' || status === 'selesai') {
                     verifikasiBtn.classList.add('hidden');
-                     // Jika selesai, biarkan card barang terlihat (untuk QR), jika ditolak, sembunyikan card barang
-                     if (status === 'ditolak') {
-                         barangCard.classList.add('hidden');
-                    } else {
-                         barangCard.classList.remove('hidden');
-                         // Disable checkbox di tabel barang jika sudah selesai
-                         barangCard.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.disabled = true);
-                    }
+                      // Jika selesai, biarkan card barang terlihat (untuk QR), jika ditolak, sembunyikan card barang
+                      if (status === 'ditolak') {
+                           barangCard.classList.add('hidden');
+                     } else {
+                           barangCard.classList.remove('hidden');
+                           // Disable checkbox di tabel barang jika sudah selesai
+                           barangCard.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.disabled = true);
+                     }
                 } else {
-                     barangCard.classList.remove('hidden');
-                     verifikasiBtn.classList.remove('hidden'); // Tampilkan tombol verifikasi jika belum selesai/ditolak
-                      barangCard.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.disabled = false); // Enable checkbox
+                       barangCard.classList.remove('hidden');
+                       verifikasiBtn.classList.remove('hidden'); // Tampilkan tombol verifikasi jika belum selesai/ditolak
+                       barangCard.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.disabled = false); // Enable checkbox
                 }
 
                 // Tampilkan/sembunyikan tombol aksi admin berdasarkan status
@@ -2364,135 +2363,260 @@
                         adminActionsContainer.classList.add('hidden');
                     }
                 }
-                
+
                 // Re-attach event listener untuk link detail barang di dalam tabel detail
                  attachDetailBarangListeners(barangTableId);
             }
 
-            // --- DATA MOCKUP DETAIL BARANG ---
-             const barangData = {
-                "BRG-001": {
-                    title: "Detail Barang: BRG-001",
-                    info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-001</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-box"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Komputer Apple Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Baik</span></div></div>`,
-                    riwayat: `<tr><td class="p-3 text-sm text-gray-700">10 Okt 2025</td><td class="p-3 text-sm text-gray-700">Perawatan</td><td class="p-3 text-sm text-gray-600">Pembersihan rutin</td><td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td></tr><tr><td class="p-3 text-sm text-gray-700">15 Agu 2025</td><td class="p-3 text-sm text-gray-700">Perbaikan</td><td class="p-3 text-sm text-gray-600">Ganti keyboard</td><td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td></tr>`,
-                    jadwal: `<p class="text-gray-700">9 Januari 2026</p><p class="text-sm text-gray-500">(Pengecekan rutin triwulanan)</p>`
+           // --- DATA MOCKUP DETAIL BARANG (UPDATED with QR button in history) ---
+           const barangData = {
+               "BRG-001": {
+                   title: "Detail Barang: BRG-001",
+                   info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-001</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-box"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Komputer Apple Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Baik</span></div></div>`,
+                   // Added QR button column and link to detail pengajuan
+                   riwayat: `<tr>
+                               <td class="p-3 text-sm text-gray-700">10 Okt 2025</td>
+                               <td class="p-3 text-sm text-gray-700">Perawatan</td>
+                               <td class="p-3 text-sm text-gray-600">Pembersihan rutin</td>
+                               <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                               <td class="p-3 text-center space-x-2">
+                                   <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perawatan" data-id="AN-01325" data-status="selesai" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button>
+                                   <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="p-3 text-sm text-gray-700">15 Agu 2025</td>
+                               <td class="p-3 text-sm text-gray-700">Perbaikan</td>
+                               <td class="p-3 text-sm text-gray-600">Ganti keyboard</td>
+                               <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                               <td class="p-3 text-center space-x-2">
+                                   <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perbaikan" data-id="PBK-00X" data-status="selesai" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button> <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                               </td>
+                            </tr>`,
+                   jadwal: `<p class="text-gray-700">9 Januari 2026</p><p class="text-sm text-gray-500">(Pengecekan rutin triwulanan)</p>`
+               },
+                "BRG-002": {
+                   title: "Detail Barang: BRG-002",
+                   info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-002</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-chalkboard"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Papan Tulis 7584</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Ruang 712</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-yellow-100 text-yellow-700 text-sm font-medium px-2 py-1 rounded-full">Perlu Perawatan</span></div></div>`,
+                   riwayat: `<tr>
+                                <td class="p-3 text-sm text-gray-700">1 Des 2024</td>
+                                <td class="p-3 text-sm text-gray-700">Perawatan</td>
+                                <td class="p-3 text-sm text-gray-600">Pembersihan</td>
+                                <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                     <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perawatan" data-id="JTI-XXXX" data-status="selesai" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button> <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                </td>
+                             </tr>
+                             <tr>
+                                <td class="p-3 text-sm text-gray-700">25 Okt 2025</td>
+                                <td class="p-3 text-sm text-gray-700">Perbaikan</td>
+                                <td class="p-3 text-sm text-gray-600">Perbaikan bingkai</td>
+                                <td class="p-3 text-sm"><span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded-full">Dikerjakan</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                     <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perbaikan" data-id="PBK-XXX" data-status="dikerjakan" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button> <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                </td>
+                             </tr>`,
+                   jadwal: `<p class="text-gray-700">1 Desember 2025</p><p class="text-sm text-gray-500">(Pembersihan tahunan)</p>`
                 },
-                 "BRG-002": {
-                     title: "Detail Barang: BRG-002",
-                     info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-002</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-chalkboard"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Papan Tulis 7584</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Ruang 712</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-yellow-100 text-yellow-700 text-sm font-medium px-2 py-1 rounded-full">Perlu Perawatan</span></div></div>`,
-                     riwayat: `<tr><td class="p-3 text-sm text-gray-700">1 Des 2024</td><td class="p-3 text-sm text-gray-700">Perawatan</td><td class="p-3 text-sm text-gray-600">Pembersihan</td><td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td></tr>`,
-                     jadwal: `<p class="text-gray-700">1 Desember 2025</p><p class="text-sm text-gray-500">(Pembersihan tahunan)</p>`
-                 },
-                 // Tambahkan data barang lain jika perlu
-             };
+                "BRG-012": { // Kursi Lab LSI 2
+                   title: "Detail Barang: BRG-012",
+                   info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-012</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-chair"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Kursi Lab LSI 2 (10 unit)</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-yellow-100 text-yellow-700 text-sm font-medium px-2 py-1 rounded-full">Perlu Perbaikan</span></div></div>`,
+                   riwayat: `<tr>
+                                <td class="p-3 text-sm text-gray-700">9 Okt 2025</td>
+                                <td class="p-3 text-sm text-gray-700">Perawatan</td>
+                                <td class="p-3 text-sm text-gray-600">Perbaikan kaki kursi</td>
+                                <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                     <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perawatan" data-id="AN-01325" data-status="selesai" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button>
+                                     <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                </td>
+                             </tr>`,
+                   jadwal: `<p class="text-gray-700">-</p>`
+               },
+                "BRG-034": { // AC Ruang 712
+                   title: "Detail Barang: BRG-034",
+                   info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-034</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-wind"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">AC Ruang 712</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Ruang 712</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Baik</span></div></div>`,
+                   riwayat: `<tr>
+                                <td class="p-3 text-sm text-gray-700">11 Okt 2025</td>
+                                <td class="p-3 text-sm text-gray-700">Perbaikan</td>
+                                <td class="p-3 text-sm text-gray-600">Ganti kompresor</td>
+                                <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                     <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perbaikan" data-id="PBK-001" data-status="selesai" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button>
+                                     <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                </td>
+                             </tr>`,
+                   jadwal: `<p class="text-gray-700">11 April 2026</p><p class="text-sm text-gray-500">(Pembersihan rutin 6 bulanan)</p>`
+               }
+               // Tambahkan data barang lain jika perlu
+           };
 
-            // --- FUNGSI UNTUK LOAD DETAIL BARANG ---
-             function loadDetailBarang(id) {
-                 const data = barangData[id];
-                 const page = document.querySelector('#detail-barang');
-                 if (!page) return;
+           // --- FUNGSI UNTUK LOAD DETAIL BARANG ---
+           function loadDetailBarang(id) {
+               const data = barangData[id];
+               const page = document.querySelector('#detail-barang');
+               if (!page) return;
 
-                 const titleEl = page.querySelector('#detail-barang-title');
-                 const infoEl = page.querySelector('#detail-barang-info');
-                 const riwayatEl = page.querySelector('#detail-barang-riwayat');
-                 const jadwalEl = page.querySelector('#detail-barang-jadwal');
-                  const breadcrumbEl = page.querySelector('#breadcrumb-detail-barang');
+               const titleEl = page.querySelector('#detail-barang-title');
+               const infoEl = page.querySelector('#detail-barang-info');
+               const riwayatEl = page.querySelector('#detail-barang-riwayat');
+               const jadwalEl = page.querySelector('#detail-barang-jadwal');
+                const breadcrumbEl = page.querySelector('#breadcrumb-detail-barang');
 
 
-                 if (data) {
-                     titleEl.textContent = data.title;
-                     infoEl.innerHTML = data.info;
-                     riwayatEl.innerHTML = data.riwayat;
-                     jadwalEl.innerHTML = data.jadwal;
-                      breadcrumbEl.innerHTML = `Master Data<span>/</span>Master Barang<span>/</span>Detail: ${id}`;
-                 } else {
-                     titleEl.textContent = `Detail Barang (Error)`;
-                     infoEl.innerHTML = `<p class="text-red-500">Data barang tidak ditemukan.</p>`;
-                     riwayatEl.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">Data riwayat tidak ditemukan.</td></tr>`;
-                     jadwalEl.innerHTML = `<p class="text-red-500">Data jadwal tidak ditemukan.</p>`;
-                      breadcrumbEl.innerHTML = `Master Data<span>/</span>Master Barang<span>/</span>Error`;
-                 }
-             }
+               if (data) {
+                   titleEl.textContent = data.title;
+                   infoEl.innerHTML = data.info;
+                   riwayatEl.innerHTML = data.riwayat;
+                   jadwalEl.innerHTML = data.jadwal;
+                   breadcrumbEl.innerHTML = `Master Data<span>/</span>Master Barang<span>/</span>Detail: ${id}`;
 
-             // --- ATTACH EVENT LISTENERS AWAL ---
-             // Attach listener untuk link detail pengajuan di tabel riwayat
-            function attachDetailPengajuanListeners(tableSelector) {
-                 document.querySelectorAll(tableSelector + ' .detail-link').forEach(link => {
-                     link.addEventListener('click', function(e) {
-                         e.preventDefault();
-                         const id = this.dataset.id;
-                         const status = this.dataset.status;
-                         const target = this.dataset.target;
-                         const isPerawatan = target.includes('perawatan');
-                         
-                         // Panggil fungsi load detail
-                         loadDetailPengajuan(id, status, isPerawatan);
+                   // Attach listener for detail links inside history table
+                   attachDetailPengajuanListeners('#detail-barang-riwayat');
 
-                         // Tampilkan halaman detail
-                         showPage(target, this.dataset.breadcrumb || (isPerawatan ? 'Perawatan > Riwayat > Detail' : 'Perbaikan > Riwayat > Detail')); 
-                         
-                          // Update active link di sidebar (cari link tersembunyi)
-                         allMenuLinks.forEach(l => l.classList.remove('active-link'));
-                         const detailMenuLink = document.querySelector(`.menu-link[href="${target}"]`);
-                         if(detailMenuLink) {
-                            detailMenuLink.classList.add('active-link');
-                            // Juga aktifkan parent dropdown jika ada
-                             let parentMenu = detailMenuLink.closest('.sub-menu');
-                             if (parentMenu) {
-                                let parentToggle = parentMenu.previousElementSibling;
-                                if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
-                                    parentToggle.classList.add('dropdown-active');
-                                    parentToggle.classList.add('active-link'); 
-                                }
-                            }
-                         }
+               } else {
+                   titleEl.textContent = `Detail Barang (Error)`;
+                   infoEl.innerHTML = `<p class="text-red-500">Data barang tidak ditemukan.</p>`;
+                   riwayatEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Data riwayat tidak ditemukan.</td></tr>`; // Colspan jadi 5
+                   jadwalEl.innerHTML = `<p class="text-red-500">Data jadwal tidak ditemukan.</p>`;
+                    breadcrumbEl.innerHTML = `Master Data<span>/</span>Master Barang<span>/</span>Error`;
+               }
+           }
 
-                     });
-                 });
-             }
-             attachDetailPengajuanListeners('#riwayat-pengajuan-perawatan');
-             attachDetailPengajuanListeners('#riwayat-pengajuan-perbaikan');
-             attachDetailPengajuanListeners('#riwayat-pelaksanaan-perawatan'); // Juga untuk riwayat pelaksanaan
-             attachDetailPengajuanListeners('#riwayat-pelaksanaan-perbaikan');
+            // --- ATTACH EVENT LISTENERS AWAL ---
+            // Attach listener untuk link detail pengajuan di tabel riwayat
+           function attachDetailPengajuanListeners(tableSelector) {
+               document.querySelectorAll(tableSelector + ' .detail-link').forEach(link => {
+                   // Remove existing listener to prevent duplicates if function is called multiple times
+                   link.removeEventListener('click', handleDetailPengajuanClick);
+                   link.addEventListener('click', handleDetailPengajuanClick);
+               });
+           }
 
-             // Attach listener untuk link detail barang di tabel master dan lainnya
-             function attachDetailBarangListeners(scopeSelector = '') {
-                // Hapus listener lama jika ada (untuk mencegah duplikasi saat reload detail)
-                 document.querySelectorAll(scopeSelector + ' .detail-barang-link').forEach(link => {
-                     link.removeEventListener('click', handleDetailBarangClick); // Gunakan fungsi bernama
-                     link.addEventListener('click', handleDetailBarangClick);
-                 });
-             }
-             
-             function handleDetailBarangClick(e) {
-                 e.preventDefault();
-                 const id = this.dataset.id;
-                 const target = this.dataset.target;
-                 
-                 loadDetailBarang(id);
-                 showPage(target, `Master Data<span>/</span>Master Barang<span>/</span>Detail: ${id}`);
-                 
-                  // Update active link di sidebar
+           // Handler for detail pengajuan links
+            function handleDetailPengajuanClick(e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                const status = this.dataset.status;
+                const target = this.dataset.target;
+                const isPerawatan = target.includes('perawatan');
+
+                // Panggil fungsi load detail
+                loadDetailPengajuan(id, status, isPerawatan);
+
+                // Tentukan breadcrumb default jika tidak ada
+                let defaultBreadcrumb = 'Detail Pengajuan'; // Breadcrumb paling dasar
+                if (status === 'selesai') {
+                     defaultBreadcrumb = isPerawatan ? 'Perawatan<span>/</span>Riwayat Pelaksanaan<span>/</span>Detail' : 'Perbaikan<span>/</span>Riwayat Pelaksanaan<span>/</span>Detail';
+                } else {
+                     defaultBreadcrumb = isPerawatan ? 'Perawatan<span>/</span>Riwayat Pengajuan<span>/</span>Detail' : 'Perbaikan<span>/</span>Riwayat Pengajuan<span>/</span>Detail';
+                }
+
+                // Tampilkan halaman detail
+                showPage(target, `${defaultBreadcrumb}: ${id}`); // Menambahkan ID ke breadcrumb
+
+                 // Update active link di sidebar (cari link tersembunyi)
                  allMenuLinks.forEach(l => l.classList.remove('active-link'));
                  const detailMenuLink = document.querySelector(`.menu-link[href="${target}"]`);
-                  if(detailMenuLink) {
-                     detailMenuLink.classList.add('active-link');
-                      let parentMenu = detailMenuLink.closest('.sub-menu');
-                      if (parentMenu) {
+                 const listMenuLink = document.querySelector(`.menu-link[href="${tableSelector.replace('#','#')}"]`); // Link tabel riwayat asal
+
+                 if(detailMenuLink) {
+                    detailMenuLink.classList.add('active-link'); // Aktifkan link detail (tersembunyi)
+                    // Juga aktifkan parent dropdown jika ada
+                    let parentMenu = detailMenuLink.closest('.sub-menu');
+                    if (parentMenu) {
+                        let parentToggle = parentMenu.previousElementSibling;
+                        if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
+                            parentToggle.classList.add('dropdown-active'); // Biarkan dropdown terbuka
+                            parentToggle.classList.add('active-link'); // Tandai parent juga aktif
+                        }
+                    }
+                } else if (listMenuLink) {
+                     // Jika link detail tidak ditemukan (misal dari detail barang), coba aktifkan link list
+                     listMenuLink.classList.add('active-link');
+                     let parentMenu = listMenuLink.closest('.sub-menu');
+                     if (parentMenu) {
                          let parentToggle = parentMenu.previousElementSibling;
                          if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
-                             parentToggle.classList.add('dropdown-active'); // Biarkan dropdown terbuka
-                             parentToggle.classList.add('active-link'); 
+                             parentToggle.classList.add('dropdown-active');
+                             parentToggle.classList.add('active-link');
                          }
                      }
                  }
-             }
+           }
 
-             attachDetailBarangListeners(); // Panggil saat awal load untuk semua link detail barang
 
-        });
-    </script>
+           attachDetailPengajuanListeners('#riwayat-pengajuan-perawatan');
+           attachDetailPengajuanListeners('#riwayat-pengajuan-perbaikan');
+           attachDetailPengajuanListeners('#riwayat-pelaksanaan-perawatan'); // Juga untuk riwayat pelaksanaan
+           attachDetailPengajuanListeners('#riwayat-pelaksanaan-perbaikan');
+
+           // Attach listener untuk link detail barang di tabel master dan lainnya
+           function attachDetailBarangListeners(scopeSelector = '') {
+                const selector = scopeSelector ? `${scopeSelector} .detail-barang-link` : '.detail-barang-link';
+                document.querySelectorAll(selector).forEach(link => {
+                   link.removeEventListener('click', handleDetailBarangClick); // Gunakan fungsi bernama
+                   link.addEventListener('click', handleDetailBarangClick);
+                });
+           }
+
+           function handleDetailBarangClick(e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                const target = this.dataset.target;
+                if (!id || !target) return; // Pastikan id dan target ada
+
+                loadDetailBarang(id);
+                showPage(target, `Master Data<span>/</span>Master Barang<span>/</span>Detail: ${id}`);
+
+                 // Update active link di sidebar
+                 allMenuLinks.forEach(l => l.classList.remove('active-link'));
+                 const detailMenuLink = document.querySelector(`.menu-link[href="${target}"]`); // Link tersembunyi #detail-barang
+                 const masterBarangLink = document.querySelector(`.menu-link[href="#master-barang"]`); // Link utama Master Barang
+
+                 if(detailMenuLink) {
+                     detailMenuLink.classList.add('active-link');
+                     let parentMenu = detailMenuLink.closest('.sub-menu');
+                     if (parentMenu) {
+                         let parentToggle = parentMenu.previousElementSibling;
+                         if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
+                             parentToggle.classList.add('dropdown-active'); // Biarkan dropdown terbuka
+                             parentToggle.classList.add('active-link');
+                         }
+                     }
+                 } else if (masterBarangLink) {
+                    // Fallback jika link tersembunyi tidak ada, aktifkan link Master Barang
+                    masterBarangLink.classList.add('active-link');
+                     let parentMenu = masterBarangLink.closest('.sub-menu');
+                     if (parentMenu) {
+                         let parentToggle = parentMenu.previousElementSibling;
+                         if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
+                             parentToggle.classList.add('dropdown-active');
+                             parentToggle.classList.add('active-link');
+                         }
+                     }
+                 }
+           }
+
+            attachDetailBarangListeners(); // Panggil saat awal load untuk semua link detail barang
+
+            // --- Fungsi Generate Nomor Surat Otomatis (Contoh) ---
+            const generateNomorBtnPb = document.getElementById('generate-nomor-surat-pb');
+            const nomorSuratInputPb = document.getElementById('nomor_proposal_pb');
+
+            if (generateNomorBtnPb && nomorSuratInputPb) {
+                 generateNomorBtnPb.addEventListener('click', function() {
+                      const date = new Date();
+                      const year = date.getFullYear();
+                      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                      // Contoh format: PBK/YYYYMM/XXX (XXX adalah nomor urut acak/unik)
+                      const randomNum = Math.floor(Math.random() * 900) + 100; // Nomor 3 digit acak
+                      nomorSuratInputPb.value = `PBK/${year}${month}/${randomNum}`;
+                 });
+            }
+
+       });
+   </script>
 
 </body>
 </html>
-
