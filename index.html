@@ -2369,11 +2369,11 @@
             }
 
            // --- DATA MOCKUP DETAIL BARANG (UPDATED with QR button in history) ---
+          // --- DATA MOCKUP DETAIL BARANG (LENGKAP) ---
            const barangData = {
                "BRG-001": {
                    title: "Detail Barang: BRG-001",
                    info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-001</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-box"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Komputer Apple Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Lab LSI 2</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Baik</span></div></div>`,
-                   // Added QR button column and link to detail pengajuan
                    riwayat: `<tr>
                                <td class="p-3 text-sm text-gray-700">10 Okt 2025</td>
                                <td class="p-3 text-sm text-gray-700">Perawatan</td>
@@ -2447,10 +2447,41 @@
                                 </td>
                              </tr>`,
                    jadwal: `<p class="text-gray-700">11 April 2026</p><p class="text-sm text-gray-500">(Pembersihan rutin 6 bulanan)</p>`
+               },
+               // --- DATA BARU UNTUK BRG-017 ---
+               "BRG-017": {
+                   title: "Detail Barang: BRG-017",
+                   info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-017</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-video"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Proyektor Ruang 712</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Ruang 712</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-yellow-100 text-yellow-700 text-sm font-medium px-2 py-1 rounded-full">Perlu Perawatan</span></div></div>`,
+                   riwayat: `<tr>
+                                <td class="p-3 text-sm text-gray-700">17 Mei 2025</td>
+                                <td class="p-3 text-sm text-gray-700">Perawatan</td>
+                                <td class="p-3 text-sm text-gray-600">Pembersihan lensa</td>
+                                <td class="p-3 text-sm"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                     <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perawatan" data-id="JTI-YYYY" data-status="selesai" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button> <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                </td>
+                             </tr>`,
+                   jadwal: `<p class="text-gray-700">17 November 2025</p><p class="text-sm text-gray-500">(Pengecekan rutin 6 bulanan)</p>`
+               },
+               // --- DATA BARU UNTUK BRG-013 ---
+               "BRG-013": {
+                   title: "Detail Barang: BRG-013",
+                   info: `<div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div><div><p class="text-sm text-gray-500">ID Barang</p><p class="font-medium text-gray-800">BRG-013</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-print"></i></div><div><p class="text-sm text-gray-500">Nama Barang</p><p class="font-medium text-gray-800">Epson 13124</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-sm text-gray-500">Lokasi</p><p class="font-medium text-gray-800">Gedung Administrasi / Lt. 2 / Ruang Staff</p></div></div><div class="flex items-center gap-4"><div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div><div><p class="text-sm text-gray-500">Kondisi Saat Ini</p><span class="bg-red-100 text-red-700 text-sm font-medium px-2 py-1 rounded-full">Rusak Ringan</span></div></div>`,
+                   riwayat: `<tr>
+                                <td class="p-3 text-sm text-gray-700">10 Okt 2025</td>
+                                <td class="p-3 text-sm text-gray-700">Perawatan</td>
+                                <td class="p-3 text-sm text-gray-600">Pengajuan - Tinta bocor</td>
+                                <td class="p-3 text-sm"><span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Menunggu</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                     <button class="text-blue-500 hover:text-blue-700 menu-link detail-link" data-target="#detail-riwayat-perawatan" data-id="JTI-01324" data-status="menunggu" title="Lihat Detail Pengajuan"><i class="fas fa-eye"></i></button>
+                                     <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
+                                </td>
+                             </tr>`,
+                   jadwal: `<p class="text-gray-700">-</p><p class="text-sm text-gray-500">(Menunggu perbaikan/perawatan)</p>`
                }
-               // Tambahkan data barang lain jika perlu
            };
 
+            
            // --- FUNGSI UNTUK LOAD DETAIL BARANG ---
            function loadDetailBarang(id) {
                const data = barangData[id];
