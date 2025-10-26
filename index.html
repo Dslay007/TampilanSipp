@@ -362,12 +362,12 @@
             transform: translateX(-50%);
         }
         
-        /* Styling untuk Timeline (Mockup) */
+        /* Styling untuk Timeline (Mockup - DIPERBARUI) */
         .timeline-item {
             position: relative;
-            padding-left: 3rem; /* pl-12 */
-            padding-bottom: 1.5rem; /* pb-6 */
-            border-left: 2px solid #e2e8f0; /* border-l-2 border-gray-200 */
+            padding-left: 2.5rem; /* Lebih dekat */
+            padding-bottom: 1.5rem; 
+            border-left: 2px solid #e2e8f0; 
         }
         .timeline-item:last-child {
             border-left-color: transparent;
@@ -375,33 +375,70 @@
         }
         .timeline-dot {
             position: absolute;
-            left: -9px; /* Menggeser dot ke garis */
-            top: 4px;
-            width: 18px;
-            height: 18px;
-            background-color: #ffffff; /* bg-white */
-            border: 4px solid #3b82f6; /* border-4 border-blue-500 */
-            border-radius: 9999px; /* rounded-full */
+            left: -11px; /* Disesuaikan agar pas di garis */
+            top: 0px; /* Sejajar dengan teks */
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff; 
+            border-radius: 9999px; 
+            border: 2px solid; /* Warna diatur per class */
         }
-         .timeline-dot-gray {
-            border-color: #6b7280; /* border-gray-500 */
+         .timeline-dot i {
+             font-size: 10px;
+             color: inherit; /* Warna ikon ikut warna border */
          }
-         .timeline-dot-green {
-            border-color: #16a34a; /* border-green-600 */
+         
+         /* Warna Dot Timeline */
+         .timeline-dot-blue { border-color: #3b82f6; color: #3b82f6; } /* Dibuat */
+         .timeline-dot-green { border-color: #16a34a; color: #16a34a; } /* Disetujui/Selesai */
+         .timeline-dot-yellow { border-color: #f59e0b; color: #f59e0b; } /* Upload/Aksi */
+         .timeline-dot-gray { border-color: #6b7280; color: #6b7280; } /* Menunggu/Pending */
+         
+         /* Styling untuk lampiran file di timeline */
+         .timeline-attachment {
+             display: flex;
+             align-items: center;
+             gap: 0.5rem; /* gap-2 */
+             padding: 0.5rem; /* p-2 */
+             background-color: #f9fafb; /* bg-gray-50 */
+             border-radius: 0.375rem; /* rounded-md */
+             border: 1px solid #e5e7eb; /* border-gray-200 */
+         }
+         .timeline-attachment i {
+             color: #6b7280; /* text-gray-500 */
          }
 
 
-         /* Styling untuk CSS Bar Chart */
+         /* Styling untuk CSS Bar Chart (DIPERBARUI DENGAN ANGKA) */
         .chart-container {
             display: flex;
             justify-content: space-around;
             align-items: flex-end;
             width: 100%;
             height: 320px; /* h-80 */
-            padding: 20px;
+            padding: 20px 20px 30px 30px; /* Ruang lebih di bawah & kiri */
             border-left: 2px solid #e5e7eb; /* border-gray-200 */
             border-bottom: 2px solid #e5e7eb;
+            position: relative; /* Untuk label sumbu Y */
         }
+        /* Label Sumbu Y (Contoh) */
+        .y-axis-label {
+            position: absolute;
+            left: 5px;
+            bottom: calc(100% - 20px); /* Atas chart */
+            font-size: 12px;
+            color: #6b7280;
+        }
+         .y-axis-label-mid {
+            bottom: 50%;
+         }
+         .y-axis-label-low {
+            bottom: 30px; /* Dekat sumbu X */
+         }
+
         .chart-bar {
             width: 30px;
             background-color: #3b82f6; /* bg-blue-500 */
@@ -411,35 +448,36 @@
             color: #6b7280; /* text-gray-500 */
             font-size: 12px;
             font-weight: 500;
-            transition: height 0.5s ease-out;
+            transition: height 0.5s ease-out, background-color 0.3s;
         }
         .chart-bar:hover {
             background-color: #2563eb; /* bg-blue-600 */
         }
-        .chart-bar span {
+        /* Label bulan */
+        .chart-bar .label {
             position: absolute;
             bottom: -20px;
             width: 100%;
             left: 0;
         }
-        .chart-bar .tooltip {
+        /* Nilai di atas bar */
+        .chart-bar .value {
             position: absolute;
-            top: -30px;
+            top: -20px; /* Posisi di atas bar */
             left: 50%;
             transform: translateX(-50%);
-            background-color: #1f2937; /* bg-gray-800 */
-            color: #ffffff;
-            padding: 4px 8px;
-            border-radius: 4px;
+            color: #1f2937; /* text-gray-800 */
             font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.2s;
-            pointer-events: none;
+            font-weight: 600;
+            opacity: 0; /* Sembunyi dulu */
+             transition: opacity 0.3s;
         }
-        .chart-bar:hover .tooltip {
-            opacity: 1;
+        /* Tampilkan nilai saat hover atau saat chart dimuat */
+        .chart-container:hover .chart-bar .value,
+        .chart-bar.show-value .value {
+             opacity: 1;
         }
+
 
         /* Zebra Stripe untuk semua tabel data */
         .page-content table tbody tr:nth-child(even) {
@@ -592,7 +630,7 @@
         <!-- CONTAINER UNTUK HALAMAN YANG BISA SCROLL -->
         <div class="page-container">
 
-            <!-- ========= HALAMAN: DASHBOARD ========= -->
+            <!-- ========= HALAMAN: DASHBOARD (UI DIPERBARUI) ========= -->
             <div id="dashboard" class="page-content active">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
                 
@@ -650,40 +688,61 @@
 
                 <!-- Grid Grafik dan List -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Grafik -->
+                    <!-- Grafik (DIPERBARUI DENGAN ANGKA) -->
                     <div class="lg:col-span-2 card">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Grafik Perawatan per Bulan</h2>
                         <div class="chart-container">
-                            <div class="chart-bar" style="height: 60%;"><span class="tooltip">Juni: 60</span><span>Jun</span></div>
-                            <div class="chart-bar" style="height: 40%;"><span class="tooltip">Juli: 40</span><span>Jul</span></div>
-                            <div class="chart-bar" style="height: 80%;"><span class="tooltip">Agt: 80</span><span>Agt</span></div>
-                            <div class="chart-bar" style="height: 50%;"><span class="tooltip">Sep: 50</span><span>Sep</span></div>
-                            <div class="chart-bar" style="height: 90%;"><span class="tooltip">Okt: 90</span><span>Okt</span></div>
-                            <div class="chart-bar" style="height: 30%;"><span class="tooltip">Nov: 30</span><span>Nov</span></div>
+                             <!-- Contoh label sumbu Y -->
+                            <span class="y-axis-label-low">0</span>
+                            <span class="y-axis-label-mid">50</span>
+                            <span class="y-axis-label">100</span>
+                            <!-- Bars -->
+                            <div class="chart-bar show-value" style="height: 60%;"><span class="value">60</span><span class="label">Jun</span></div>
+                            <div class="chart-bar show-value" style="height: 40%;"><span class="value">40</span><span class="label">Jul</span></div>
+                            <div class="chart-bar show-value" style="height: 80%;"><span class="value">80</span><span class="label">Agt</span></div>
+                            <div class="chart-bar show-value" style="height: 50%;"><span class="value">50</span><span class="label">Sep</span></div>
+                            <div class="chart-bar show-value" style="height: 90%;"><span class="value">90</span><span class="label">Okt</span></div>
+                            <div class="chart-bar show-value" style="height: 30%;"><span class="value">30</span><span class="label">Nov</span></div>
                         </div>
                     </div>
-                    <!-- List Barang Terbaru -->
+                    <!-- List Barang Terbaru (UI DIPERBARUI) -->
                     <div class="lg:col-span-1 card">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perbaikan Terbaru</h2>
-                        <ul class="divide-y divide-gray-200">
-                            <li class="py-3">
-                                <p class="font-medium text-gray-800">Komputer Lab LSI 2</p>
-                                <p class="text-sm text-gray-500">Menunggu persetujuan</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-1 text-yellow-500"><i class="fas fa-hourglass-half"></i></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Komputer Lab LSI 2</p>
+                                    <p class="text-sm text-gray-500">Menunggu persetujuan</p>
+                                </div>
                             </li>
-                            <li class="py-3">
-                                <p class="font-medium text-gray-800">Papan Tulis 7584</p>
-                                <p class="text-sm text-gray-500">Sedang dikerjakan</p>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-1 text-blue-500"><i class="fas fa-spinner fa-spin"></i></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Papan Tulis 7584</p>
+                                    <p class="text-sm text-gray-500">Sedang dikerjakan</p>
+                                </div>
                             </li>
-                            <li class="py-3">
-                                <p class="font-medium text-gray-800">Kursi Lab LSI 2 (10 unit)</p>
-                                <p class="text-sm text-gray-500">Menunggu persetujuan</p>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-1 text-yellow-500"><i class="fas fa-hourglass-half"></i></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Kursi Lab LSI 2 (10 unit)</p>
+                                    <p class="text-sm text-gray-500">Menunggu persetujuan</p>
+                                </div>
+                            </li>
+                             <li class="flex items-start gap-3">
+                                <div class="mt-1 text-green-500"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">AC Ruang 712</p>
+                                    <p class="text-sm text-gray-500">Selesai diperbaiki</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER BARANG (Layout Tabel DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER BARANG ========= -->
             <div id="master-barang" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Barang</h1>
                 <div class="card">
@@ -728,7 +787,6 @@
                                     <td class="p-4 text-gray-700">1</td>
                                     <td class="p-4 text-gray-700">BRG-001</td>
                                     <td class="p-4 text-gray-700">
-                                        <!-- Link Detail Diubah -->
                                         <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
                                     </td>
                                     <td class="p-4 text-gray-700">Administrasi Niaga</td>
@@ -736,7 +794,6 @@
                                         <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span>
                                     </td>
                                     <td class="p-4 flex gap-2">
-                                        <!-- Tombol Detail Dihapus -->
                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
                                     </td>
@@ -745,7 +802,6 @@
                                     <td class="p-4 text-gray-700">2</td>
                                     <td class="p-4 text-gray-700">BRG-002</td>
                                     <td class="p-4 text-gray-700">
-                                        <!-- Link Detail Diubah -->
                                         <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
                                     </td>
                                     <td class="p-4 text-gray-700">Teknik Elektro</td>
@@ -753,7 +809,6 @@
                                         <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Perlu Perawatan</span>
                                     </td>
                                     <td class="p-4 flex gap-2">
-                                         <!-- Tombol Detail Dihapus -->
                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
                                     </td>
@@ -821,7 +876,7 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER LANTAI GEDUNG (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER LANTAI GEDUNG ========= -->
             <div id="master-lantai" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Lantai Gedung</h1>
                 <div class="card">
@@ -868,7 +923,7 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER RUANGAN (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER RUANGAN ========= -->
             <div id="master-ruangan" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Ruangan</h1>
                 <div class="card">
@@ -908,7 +963,7 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER SATKER (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER SATKER ========= -->
             <div id="master-satker" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Satuan Kerja (Satker)</h1>
                 <div class="card">
@@ -955,7 +1010,7 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER JENIS BARANG (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER JENIS BARANG ========= -->
             <div id="master-jenis" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Jenis Barang</h1>
                 <div class="card">
@@ -999,7 +1054,7 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER KONDISI BARANG (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER KONDISI BARANG ========= -->
             <div id="master-kondisi" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Kondisi Barang</h1>
                 <div class="card">
@@ -1056,7 +1111,7 @@
             </div>
 
 
-            <!-- ========= HALAMAN: JADWAL PERAWATAN (Layout Kalender DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: JADWAL PERAWATAN ========= -->
             <div id="jadwal-perawatan" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Jadwal Perawatan</h1>
 
@@ -1077,7 +1132,6 @@
                             <div class="calendar-day-header">Kam</div>
                             <div class="calendar-day-header">Jum</div>
                             <div class="calendar-day-header">Sab</div>
-                            <!-- Minggu 1 (Contoh) -->
                             <div class="calendar-day text-gray-400">28</div>
                             <div class="calendar-day text-gray-400">29</div>
                             <div class="calendar-day text-gray-400">30</div>
@@ -1085,7 +1139,6 @@
                             <div class="calendar-day" data-date="2">2 <span class="dot"></span></div>
                             <div class="calendar-day">3</div>
                             <div class="calendar-day">4</div>
-                            <!-- Minggu 2 (Contoh) -->
                             <div class="calendar-day">5</div>
                             <div class="calendar-day">6</div>
                             <div class="calendar-day">7</div>
@@ -1093,7 +1146,6 @@
                             <div class="calendar-day" data-date="9">9 <span class="dot"></span></div>
                             <div class="calendar-day">10</div>
                             <div class="calendar-day">11</div>
-                            <!-- ... (Sisa tanggal) ... -->
                             <div class="calendar-day">12</div>
                             <div class="calendar-day">13</div>
                             <div class="calendar-day">14</div>
@@ -1116,7 +1168,7 @@
                             <div class="calendar-day">31</div>
                         </div>
                     </div>
-                    <!-- Kolom Detail Hari (Diubah jadi Tabel) -->
+                    <!-- Kolom Detail Hari -->
                     <div class="lg:col-span-1 card">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
                         <p class="font-medium text-gray-700 mb-2" id="detail-tanggal">Pilih tanggal di kalender...</p>
@@ -1129,7 +1181,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="detail-list-table" class="divide-y divide-gray-200">
-                                    <!-- JS akan mengisi ini -->
                                     <tr><td colspan="2" class="p-2 text-center text-gray-500">Pilih tanggal...</td></tr>
                                 </tbody>
                             </table>
@@ -1140,13 +1191,13 @@
                 <!-- List Barang di Bawah -->
                 <div class="card mt-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
-                    <!-- Filter by rentang tanggal & search -->
+                    <!-- Filter -->
                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                         <div class="flex flex-wrap items-center gap-2">
-                            <label for="tgl_mulai" class="text-sm font-medium text-gray-700">Dari:</label>
-                            <input type="date" id="tgl_mulai" class="border border-gray-300 rounded-lg p-2">
-                            <label for="tgl_selesai" class="text-sm font-medium text-gray-700">Sampai:</label>
-                            <input type="date" id="tgl_selesai" class="border border-gray-300 rounded-lg p-2">
+                            <label for="tgl_mulai_jadwal" class="text-sm font-medium text-gray-700">Dari:</label>
+                            <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2">
+                            <label for="tgl_selesai_jadwal" class="text-sm font-medium text-gray-700">Sampai:</label>
+                            <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2">
                         </div>
                          <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
                     </div>
@@ -1165,7 +1216,7 @@
                                 <tr>
                                     <td class="p-4 text-gray-700">BRG-001</td>
                                     <td class="p-4 text-gray-700">
-                                        <!-- Link Detail Diubah -->
+                                        <!-- Link Detail Ditambahkan -->
                                         <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
                                     </td>
                                     <td class="p-4 text-gray-700">9 Oktober 2025</td>
@@ -1174,7 +1225,7 @@
                                 <tr>
                                     <td class="p-4 text-gray-700">BRG-017</td>
                                     <td class="p-4 text-gray-700">
-                                        <!-- Link Detail Diubah -->
+                                         <!-- Link Detail Ditambahkan -->
                                         <a href="#detail-barang" data-target="#detail-barang" class="menu-link text-blue-600 font-medium hover:underline">Proyektor Ruang 712</a>
                                     </td>
                                     <td class="p-4 text-gray-700">17 Oktober 2025</td>
@@ -1195,29 +1246,29 @@
                     <div class="lg:col-span-2 card">
                         <form class="space-y-4">
                             <div>
-                                <label for="nama_pengajuan" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
-                                <input type="text" id="nama_pengajuan" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2">
+                                <label for="nama_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
+                                <input type="text" id="nama_pengajuan_pw" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2">
                             </div>
                             
                             <div>
-                                <label for="deskripsi_pengajuan" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
-                                <textarea id="deskripsi_pengajuan" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum untuk keseluruhan pengajuan..."></textarea>
+                                <label for="deskripsi_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
+                                <textarea id="deskripsi_pengajuan_pw" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum..."></textarea>
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label for="tanggal_pelaksanaan" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
-                                    <input type="date" id="tanggal_pelaksanaan" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2">
+                                    <label for="tanggal_pelaksanaan_pw" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
+                                    <input type="date" id="tanggal_pelaksanaan_pw" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2">
                                 </div>
                                 <div>
-                                    <label for="nomor_proposal" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
-                                    <input type="text" id="nomor_proposal" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2">
+                                    <label for="nomor_proposal_pw" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
+                                    <input type="text" id="nomor_proposal_pw" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2">
                                 </div>
                             </div>
 
                             <div>
-                                <label for="satuan_kerja" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
-                                <select id="satuan_kerja" class="w-full border border-gray-300 rounded-lg p-2">
+                                <label for="satuan_kerja_pw" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
+                                <select id="satuan_kerja_pw" class="w-full border border-gray-300 rounded-lg p-2">
                                     <option>Administrasi Niaga</option>
                                     <option>Teknik Elektro</option>
                                     <option>Teknik Sipil</option>
@@ -1228,18 +1279,18 @@
                             <div class="border border-gray-200 rounded-lg p-4 space-y-3">
                                 <h3 class="font-semibold text-gray-800">Tambah Barang</h3>
                                 <div>
-                                    <label for="pilih_barang" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang (sesuai Satker)</label>
-                                    <select id="pilih_barang" class="w-full border border-gray-300 rounded-lg p-2">
-                                        <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2 (Stok: 3)</option>
-                                        <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2 (Stok: 10)</option>
-                                        <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067 (Stok: 1)</option>
+                                    <label for="pilih_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang</label>
+                                    <select id="pilih_barang_pw" class="w-full border border-gray-300 rounded-lg p-2">
+                                        <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2</option>
+                                        <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2</option>
+                                        <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label for="deskripsi_barang" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
-                                    <textarea id="deskripsi_barang" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Mati total, kaki kursi patah..."></textarea>
+                                    <label for="deskripsi_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
+                                    <textarea id="deskripsi_barang_pw" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Perlu dibersihkan, debu tebal..."></textarea>
                                 </div>
-                                <button type="button" id="tambah-barang-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
+                                <button type="button" id="tambah-barang-btn-pw" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
                                     <i class="fas fa-plus"></i>
                                     <span>Tambahkan Barang ke List</span>
                                 </button>
@@ -1251,21 +1302,12 @@
                     <!-- Kolom Tabel Barang -->
                     <div class="lg:col-span-1 card">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
-                        <ul id="list-barang-diajukan" class="space-y-3">
+                        <ul id="list-barang-diajukan-pw" class="space-y-3">
                             <li class="p-3 border rounded-lg">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <p class="font-medium text-gray-800">Epson 13124</p>
-                                        <p class="text-sm text-gray-600 italic mt-1">"Tinta bocor, hasil print putus-putus."</p>
-                                    </div>
-                                    <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </li>
-                            <li class="p-3 border rounded-lg">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Papan Tulis 7584</p>
-                                        <p class="text-sm text-gray-600 italic mt-1">"Sudah kusam dan sulit dihapus."</p>
+                                        <p class="text-sm text-gray-600 italic mt-1">"Perlu pembersihan head"</p>
                                     </div>
                                     <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
                                 </div>
@@ -1285,7 +1327,7 @@
             <div id="riwayat-pengajuan-perawatan" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pengajuan Perawatan</h1>
                 <div class="card">
-                    <!-- Header Card: Filter dan Tombol -->
+                    <!-- Header Card -->
                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                         <div class="flex flex-wrap gap-2">
                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
@@ -1345,31 +1387,32 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: DETAIL RIWAYAT PENGAJUAN (Layout Detail DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: DETAIL RIWAYAT PENGAJUAN PERAWATAN (UI DIPERBARUI) ========= -->
             <div id="detail-riwayat-perawatan" class="page-content">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Pengajuan: JTI-01324</h1>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Pengajuan Perawatan</h1>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Detail & Timeline -->
+                    <!-- Kolom Detail & Barang -->
                     <div class="lg:col-span-2 space-y-6">
                         <!-- Card Detail -->
                         <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Informasi Pengajuan</h2>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-info-circle text-blue-600"></i>Informasi Pengajuan</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <div><p class="text-sm text-gray-500">ID Pengajuan</p><p class="font-medium text-gray-800">JTI-01324</p></div>
                                 <div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Pengajuan Triwulan JTI 2025</p></div>
                                 <div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Administrasi Niaga</p></div>
-                                <div><p class="text-sm text-gray-500">Tanggal Pelaksanaan</p><p class="font-medium text-gray-800">13 Oktober 2025</p></div>
                                 <div><p class="text-sm text-gray-500">Nomor Proposal</p><p class="font-medium text-gray-800">KL/ADM-0923</p></div>
-                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Status</p>
+                                <div><p class="text-sm text-gray-500">Tgl. Pelaksanaan</p><p class="font-medium text-gray-800">13 Oktober 2025</p></div>
+                                <div><p class="text-sm text-gray-500">Status</p>
                                     <span class="bg-yellow-100 text-yellow-700 text-sm font-medium px-2 py-1 rounded-full">Menunggu Persetujuan</span>
                                 </div>
-                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi Pengajuan</p><p class="font-medium text-gray-800">Deskripsi umum dari form pengajuan akan muncul di sini.</p></div>
+                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi</p><p class="font-medium text-gray-800">Perawatan rutin untuk barang-barang elektronik di lab JTI.</p></div>
                             </div>
                         </div>
                         
-                        <!-- Card Daftar Barang (Tabel DIPERBARUI dengan QR) -->
+                        <!-- Card Daftar Barang -->
                         <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Daftar Barang (Verifikasi)</h2>
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-clipboard-list text-blue-600"></i>Daftar Barang (Verifikasi)</h2>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left">
                                     <thead class="bg-gray-50 border-b border-gray-200">
@@ -1391,7 +1434,6 @@
                                             <td class="p-3 text-sm text-gray-600">"Tinta bocor"</td>
                                             <td class="p-3 text-center space-x-2">
                                                 <button class="text-blue-500 hover:text-blue-700" title="Upload/Lihat Foto"><i class="fas fa-camera"></i></button>
-                                                <!-- Tombol QR Ditambahkan -->
                                                 <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
                                             </td>
                                         </tr>
@@ -1404,7 +1446,6 @@
                                             <td class="p-3 text-sm text-gray-600">"Kusam, sulit dihapus"</td>
                                             <td class="p-3 text-center space-x-2">
                                                 <button class="text-blue-500 hover:text-blue-700" title="Upload/Lihat Foto"><i class="fas fa-camera"></i></button>
-                                                <!-- Tombol QR Ditambahkan -->
                                                 <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
                                             </td>
                                         </tr>
@@ -1417,7 +1458,6 @@
                                             <td class="p-3 text-sm text-gray-600">"Mati total"</td>
                                              <td class="p-3 text-center space-x-2">
                                                 <button class="text-blue-500 hover:text-blue-700" title="Upload/Lihat Foto"><i class="fas fa-camera"></i></button>
-                                                <!-- Tombol QR Ditambahkan -->
                                                 <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
                                             </td>
                                         </tr>
@@ -1428,29 +1468,47 @@
                         </div>
                     </div>
 
-                    <!-- Kolom Timeline -->
+                    <!-- Kolom Timeline (DIPERBARUI DENGAN FOTO & CATATAN) -->
                     <div class="lg:col-span-1">
                         <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-6">Timeline</h2>
-                            <div>
+                            <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3"><i class="fas fa-stream text-blue-600"></i>Timeline</h2>
+                            <div class="mb-6"> <!-- Container Timeline Utama -->
                                 <div class="timeline-item">
-                                    <span class="timeline-dot"></span>
+                                    <span class="timeline-dot timeline-dot-blue"><i class="fas fa-paper-plane"></i></span>
                                     <h3 class="font-semibold text-gray-800">Pengajuan Dibuat</h3>
-                                    <p class="text-sm text-gray-600">Oleh: Viesti Teknisi (User Satker)</p>
-                                    <time class="text-sm font-normal text-gray-500">10 Oktober 2025, 09:30 WIB</time>
+                                    <p class="text-sm text-gray-600">Oleh: Viesti Teknisi</p>
+                                    <time class="text-sm font-normal text-gray-500">10 Okt 2025, 09:30</time>
+                                </div>
+                                <div class="timeline-item"> <!-- Contoh Upload Foto -->
+                                    <span class="timeline-dot timeline-dot-yellow"><i class="fas fa-camera"></i></span>
+                                    <h3 class="font-semibold text-gray-800">Foto Diupload (3)</h3>
+                                    <p class="text-sm text-gray-600">Oleh: Viesti Teknisi</p>
+                                     <div class="mt-2 space-y-1">
+                                        <div class="timeline-attachment text-sm">
+                                            <i class="fas fa-file-image"></i> <span>foto_komputer_1.jpg</span>
+                                        </div>
+                                         <div class="timeline-attachment text-sm">
+                                            <i class="fas fa-file-image"></i> <span>foto_papan.png</span>
+                                        </div>
+                                     </div>
+                                    <time class="text-sm font-normal text-gray-500">10 Okt 2025, 10:15</time>
                                 </div>
                                 <div class="timeline-item">
-                                    <span class="timeline-dot timeline-dot-gray"></span>
+                                    <span class="timeline-dot timeline-dot-gray"><i class="fas fa-hourglass-half"></i></span>
                                     <h3 class="font-semibold text-gray-600">Menunggu Persetujuan</h3>
                                     <p class="text-sm text-gray-600">Oleh: Admin UPA</p>
-                                    <p class="text-sm text-gray-500">Belum ada aksi</p>
                                 </div>
                                 <div class="timeline-item">
-                                    <span class="timeline-dot timeline-dot-gray"></span>
+                                    <span class="timeline-dot timeline-dot-gray"><i class="fas fa-hammer"></i></span>
                                     <h3 class="font-semibold text-gray-600">Pelaksanaan</h3>
-                                    <p class="text-sm text-gray-600">Oleh: (Teknisi yang Ditugaskan)</p>
-                                    <p class="text-sm text-gray-500">Belum dimulai</p>
+                                    <p class="text-sm text-gray-600">Oleh: (Teknisi)</p>
                                 </div>
+                            </div>
+                            <!-- Catatan Tambahan -->
+                             <div class="border-t pt-4">
+                                <h3 class="font-semibold text-gray-800 mb-2 flex items-center gap-2"><i class="fas fa-sticky-note text-blue-600"></i>Catatan Tambahan</h3>
+                                <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-2 text-sm" placeholder="Tambahkan catatan..."></textarea>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-1 px-3 rounded-lg mt-2">Simpan Catatan</button>
                             </div>
                         </div>
                     </div>
@@ -1461,7 +1519,7 @@
             <div id="riwayat-pelaksanaan-perawatan" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pelaksanaan Perawatan</h1>
                 <div class="card">
-                    <p class="mb-4">Halaman ini menampilkan daftar pengajuan yang telah selesai diverifikasi dan dilaksanakan.</p>
+                    <p class="mb-4">Halaman ini menampilkan daftar pengajuan yang telah selesai dilaksanakan.</p>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead class="bg-gray-50 border-b border-gray-200">
@@ -1491,13 +1549,13 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: PENGAJUAN PERBAIKAN ========= -->
+            <!-- ========= HALAMAN: PENGAJUAN PERBAIKAN (CONTOH BARANG DITAMBAHKAN) ========= -->
             <div id="pengajuan-perbaikan" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perbaikan</h1>
                 <p class="mb-4 text-gray-600">Form ini khusus untuk perbaikan insidentil (tanpa jadwal).</p>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Form (Salinan dari Perawatan) -->
+                    <!-- Kolom Form -->
                     <div class="lg:col-span-2 card">
                         <form class="space-y-4">
                             <div>
@@ -1546,11 +1604,20 @@
                             </div>
                         </form>
                     </div>
-                    <!-- Kolom Tabel Barang -->
+                    <!-- Kolom Tabel Barang (DENGAN CONTOH) -->
                     <div class="lg:col-span-1 card">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
                         <ul id="list-barang-diajukan-pb" class="space-y-3">
-                            <!-- JS akan mengisi ini -->
+                            <li class="p-3 border rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Proyektor Ruang 712</p>
+                                        <p class="text-sm text-gray-600 italic mt-1">"Gambar buram dan bergaris."</p>
+                                    </div>
+                                    <button type="button" class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                            <!-- JS akan mengisi sisanya -->
                         </ul>
                     </div>
                 </div>
@@ -1560,11 +1627,10 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: RIWAYAT PENGAJUAN PERBAIKAN ========= -->
+            <!-- ========= HALAMAN: RIWAYAT PENGAJUAN PERBAIKAN (CONTOH BARU DITAMBAHKAN) ========= -->
             <div id="riwayat-pengajuan-perbaikan" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Riwayat Pengajuan Perbaikan</h1>
                 <div class="card">
-                    <!-- Konten disalin dari Riwayat Perawatan -->
                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                         <div class="flex flex-wrap gap-2">
                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
@@ -1592,12 +1658,25 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                <tr>
+                                <tr> <!-- Contoh Baru Belum Selesai -->
+                                    <td class="p-4 text-gray-700">PBK-002</td>
+                                    <td class="p-4 text-gray-700">Perbaikan Pintu Lab Jaringan</td>
+                                    <td class="p-4 text-gray-700">25 Oktober 2025</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded-full">Sedang Dikerjakan</span>
+                                    </td>
+                                    <td class="p-4 flex flex-wrap gap-2">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perbaikan">Detail</button>
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr> <!-- Contoh Lama Sudah Selesai -->
                                     <td class="p-4 text-gray-700">PBK-001</td>
                                     <td class="p-4 text-gray-700">Perbaikan AC Ruang 712</td>
                                     <td class="p-4 text-gray-700">11 Oktober 2025</td>
                                     <td class="p-4 text-gray-700">
-                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Disetujui</span>
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Selesai</span>
                                     </td>
                                     <td class="p-4 flex flex-wrap gap-2">
                                         <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg menu-link" data-target="#detail-riwayat-perbaikan">Detail</button>
@@ -1643,30 +1722,32 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: DETAIL RIWAYAT PERBAIKAN (DIPERBARUI DENGAN QR) ========= -->
+            <!-- ========= HALAMAN: DETAIL RIWAYAT PERBAIKAN (UI DIPERBARUI) ========= -->
             <div id="detail-riwayat-perbaikan" class="page-content">
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Pengajuan: PBK-001</h1>
+                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Pengajuan Perbaikan</h1>
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Detail & Timeline -->
+                    <!-- Kolom Detail & Barang -->
                     <div class="lg:col-span-2 space-y-6">
                         <!-- Card Detail -->
                         <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Informasi Pengajuan</h2>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-info-circle text-blue-600"></i>Informasi Pengajuan</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <div><p class="text-sm text-gray-500">ID Pengajuan</p><p class="font-medium text-gray-800">PBK-001</p></div>
                                 <div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Perbaikan AC Ruang 712</p></div>
                                 <div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Teknik Elektro</p></div>
-                                <div><p class="text-sm text-gray-500">Tanggal Pengajuan</p><p class="font-medium text-gray-800">11 Oktober 2025</p></div>
                                 <div><p class="text-sm text-gray-500">Nomor Surat</p><p class="font-medium text-gray-800">-</p></div>
-                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Status</p>
+                                <div><p class="text-sm text-gray-500">Tgl. Pengajuan</p><p class="font-medium text-gray-800">11 Oktober 2025</p></div>
+                                <div><p class="text-sm text-gray-500">Status</p>
                                     <span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Selesai</span>
                                 </div>
-                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi Pengajuan</p><p class="font-medium text-gray-800">AC mati total, tidak bisa menyala.</p></div>
+                                <div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi</p><p class="font-medium text-gray-800">AC mati total, tidak bisa menyala.</p></div>
                             </div>
                         </div>
                         
-                        <!-- Card Daftar Barang (Tabel DIPERBARUI dengan QR) -->
+                        <!-- Card Daftar Barang -->
                         <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Daftar Barang (Verifikasi)</h2>
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3"><i class="fas fa-clipboard-list text-blue-600"></i>Daftar Barang (Verifikasi)</h2>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left">
                                     <thead class="bg-gray-50 border-b border-gray-200">
@@ -1688,7 +1769,6 @@
                                             <td class="p-3 text-sm text-gray-600">"Mati total"</td>
                                             <td class="p-3 text-center space-x-2">
                                                  <button class="text-green-500" title="Foto Terverifikasi"><i class="fas fa-check-circle"></i></button>
-                                                <!-- Tombol QR Ditambahkan -->
                                                 <button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button>
                                             </td>
                                         </tr>
@@ -1698,43 +1778,59 @@
                         </div>
                     </div>
 
-                    <!-- Kolom Timeline -->
+                    <!-- Kolom Timeline (DIPERBARUI DENGAN FOTO & CATATAN) -->
                     <div class="lg:col-span-1">
                         <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-6">Timeline</h2>
-                            <div>
+                             <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-3"><i class="fas fa-stream text-blue-600"></i>Timeline</h2>
+                             <div class="mb-6"> <!-- Container Timeline Utama -->
                                 <div class="timeline-item">
-                                    <span class="timeline-dot"></span>
+                                    <span class="timeline-dot timeline-dot-blue"><i class="fas fa-paper-plane"></i></span>
                                     <h3 class="font-semibold text-gray-800">Pengajuan Dibuat</h3>
-                                    <p class="text-sm text-gray-600">Oleh: User Teknik Elektro</p>
-                                    <time class="text-sm font-normal text-gray-500">11 Oktober 2025, 10:00 WIB</time>
+                                    <p class="text-sm text-gray-600">Oleh: User Elektro</p>
+                                    <time class="text-sm font-normal text-gray-500">11 Okt 2025, 10:00</time>
+                                </div>
+                                 <div class="timeline-item"> <!-- Contoh Upload Foto -->
+                                    <span class="timeline-dot timeline-dot-yellow"><i class="fas fa-camera"></i></span>
+                                    <h3 class="font-semibold text-gray-800">Foto Bukti Diupload</h3>
+                                    <p class="text-sm text-gray-600">Oleh: User Elektro</p>
+                                     <div class="mt-2 space-y-1">
+                                        <div class="timeline-attachment text-sm">
+                                            <i class="fas fa-file-image"></i> <span>ac_mati.jpg</span>
+                                        </div>
+                                     </div>
+                                    <time class="text-sm font-normal text-gray-500">11 Okt 2025, 10:05</time>
                                 </div>
                                 <div class="timeline-item">
-                                    <span class="timeline-dot timeline-dot-green"></span>
+                                    <span class="timeline-dot timeline-dot-green"><i class="fas fa-check"></i></span>
                                     <h3 class="font-semibold text-gray-800">Disetujui & Diverifikasi</h3>
                                     <p class="text-sm text-gray-600">Oleh: Admin UPA</p>
-                                    <time class="text-sm font-normal text-gray-500">11 Oktober 2025, 11:30 WIB</time>
+                                    <time class="text-sm font-normal text-gray-500">11 Okt 2025, 11:30</time>
                                 </div>
                                 <div class="timeline-item">
-                                    <span class="timeline-dot timeline-dot-green"></span>
+                                    <span class="timeline-dot timeline-dot-green"><i class="fas fa-check-double"></i></span>
                                     <h3 class="font-semibold text-gray-800">Pelaksanaan Selesai</h3>
                                     <p class="text-sm text-gray-600">Oleh: Viesti Teknisi</p>
-                                    <time class="text-sm font-normal text-gray-500">13 Oktober 2025, 14:00 WIB</time>
+                                    <time class="text-sm font-normal text-gray-500">13 Okt 2025, 14:00</time>
                                 </div>
+                            </div>
+                             <!-- Catatan Tambahan -->
+                             <div class="border-t pt-4">
+                                <h3 class="font-semibold text-gray-800 mb-2 flex items-center gap-2"><i class="fas fa-sticky-note text-blue-600"></i>Catatan Tambahan</h3>
+                                <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-2 text-sm" placeholder="Tambahkan catatan..."></textarea>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-1 px-3 rounded-lg mt-2">Simpan Catatan</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER USER (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER USER ========= -->
             <div id="master-user" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Master User</h1>
                 <div class="card">
                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                         <div class="flex flex-wrap gap-2">
                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah User</span></button>
-                            <!-- Tombol Ditambahkan -->
                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
                             <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
                         </div>
@@ -1781,14 +1877,13 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: MASTER HAK AKSES (DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: MASTER HAK AKSES ========= -->
             <div id="master-hak-akses" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Master Hak Akses</h1>
                 <div class="card">
                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                         <div class="flex flex-wrap gap-2">
                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah Hak Akses</span></button>
-                             <!-- Tombol Ditambahkan -->
                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
                             <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
                         </div>
@@ -1837,7 +1932,7 @@
                 </div>
             </div>
 
-            <!-- ========= HALAMAN: DETAIL BARANG (HALAMAN BARU - UI DIPERBARUI) ========= -->
+            <!-- ========= HALAMAN: DETAIL BARANG ========= -->
             <div id="detail-barang" class="page-content">
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Detail Barang: BRG-001</h1>
                 
@@ -1846,7 +1941,6 @@
                     <div class="lg:col-span-1 card h-fit"> 
                          <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-2">Informasi Barang</h2>
                          <div class="space-y-4">
-                             <!-- Item Info dengan Ikon -->
                              <div class="flex items-center gap-4">
                                 <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-barcode"></i></div>
                                 <div>
@@ -1854,7 +1948,6 @@
                                     <p class="font-medium text-gray-800">BRG-001</p>
                                 </div>
                              </div>
-                             <!-- Item Info dengan Ikon -->
                              <div class="flex items-center gap-4">
                                 <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-box"></i></div>
                                 <div>
@@ -1862,15 +1955,13 @@
                                     <p class="font-medium text-gray-800">Komputer Apple Lab LSI 2</p>
                                 </div>
                              </div>
-                             <!-- Item Info dengan Ikon -->
                              <div class="flex items-center gap-4">
                                 <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-map-marker-alt"></i></div>
                                 <div>
                                     <p class="text-sm text-gray-500">Lokasi</p>
-                                    <p class="font-medium text-gray-800">Gedung Teknik Elektro / Lt. 7 / Lab LSI 2</p>
+                                    <p class="font-medium text-gray-800">Gedung Elektro / Lt. 7 / Lab LSI 2</p>
                                 </div>
                              </div>
-                             <!-- Item Info dengan Ikon -->
                              <div class="flex items-center gap-4">
                                 <div class="text-blue-600 text-xl w-6 text-center"><i class="fas fa-heartbeat"></i></div>
                                 <div>
@@ -1940,13 +2031,15 @@
             const menuToggleBtn = document.getElementById('menu-toggle');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
             
-            // Set tinggi chart-bar setelah halaman dimuat (untuk animasi)
+             // --- Chart Initialization (show values) ---
             document.querySelectorAll('.chart-bar').forEach(bar => {
                 const height = bar.style.height;
                 bar.style.height = '0';
                 setTimeout(() => {
                     bar.style.height = height;
-                }, 100);
+                     // Show value after animation
+                     bar.classList.add('show-value');
+                }, 100); 
             });
 
             // --- FUNGSI RESPONSIVE SIDEBAR ---
@@ -1997,7 +2090,7 @@
                         }
                         
                         // Auto-close sidebar on mobile after page link click
-                        if (window.innerWidth < 768) { // 768px is md breakpoint
+                        if (window.innerWidth < 768) { 
                              if (sidebar && sidebarOverlay) {
                                 sidebar.classList.remove('active');
                                 sidebarOverlay.classList.add('hidden');
@@ -2022,8 +2115,10 @@
                         let parentToggle = parentMenu.previousElementSibling;
                         if(parentToggle && parentToggle.classList.contains('dropdown-toggle')) {
                             parentToggle.classList.add('dropdown-active');
-                            parentToggle.classList.add('active-link'); // Juga tandai parent-nya
+                            parentToggle.classList.add('active-link'); 
                         }
+                    } else if (this.classList.contains('dropdown-toggle')) {
+                         this.classList.add('active-link');
                     }
                 });
             });
@@ -2031,40 +2126,47 @@
             // --- FUNGSI ACCORDION DROPDOWN ---
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
-                    e.preventDefault(); // Mencegah link berpindah halaman
+                    e.preventDefault(); 
 
                     const currentSubMenu = this.nextElementSibling;
-                    const wasActive = currentSubMenu.style.maxHeight; 
+                    const wasActive = currentSubMenu.style.maxHeight && currentSubMenu.style.maxHeight !== '0px'; 
 
-                    // 1. Tutup SEMUA sub-menu
+                    // 1. Tutup SEMUA sub-menu KECUALI yang ini
                     document.querySelectorAll('.sub-menu').forEach(subMenu => {
-                        subMenu.style.maxHeight = null;
+                         if (subMenu !== currentSubMenu) { 
+                            subMenu.style.maxHeight = null;
+                         }
                     });
-                    // 2. Hapus status 'dropdown-active' dari SEMUA tombol dropdown
+                    // 2. Hapus status 'dropdown-active' dari SEMUA tombol dropdown KECUALI yang ini
                     dropdownToggles.forEach(t => {
-                        t.classList.remove('dropdown-active');
+                        if (t !== this) { 
+                            t.classList.remove('dropdown-active');
+                        }
                     });
 
-                    // 3. Jika tombol yang diklik TADI-nya tidak aktif, buka dia.
+                    // 3. Toggle state untuk yang diklik
                     if (!wasActive) {
                         currentSubMenu.style.maxHeight = currentSubMenu.scrollHeight + "px";
                         this.classList.add('dropdown-active');
+                    } else {
+                        currentSubMenu.style.maxHeight = null;
+                         this.classList.remove('dropdown-active');
                     }
                 });
             });
 
 
             // --- LOGIKA MOCKUP FORM PENGAJUAN PERAWATAN ---
-            const tambahBarangBtn = document.getElementById('tambah-barang-btn');
-            const pilihBarangSelect = document.getElementById('pilih_barang');
-            const deskripsiBarangTextarea = document.getElementById('deskripsi_barang');
-            const listBarangDiajukan = document.getElementById('list-barang-diajukan');
+            const tambahBarangBtnPw = document.getElementById('tambah-barang-btn-pw');
+            const pilihBarangSelectPw = document.getElementById('pilih_barang_pw');
+            const deskripsiBarangTextareaPw = document.getElementById('deskripsi_barang_pw');
+            const listBarangDiajukanPw = document.getElementById('list-barang-diajukan-pw');
 
-            if (tambahBarangBtn) {
-                tambahBarangBtn.addEventListener('click', function() {
-                    const selectedOption = pilihBarangSelect.options[pilihBarangSelect.selectedIndex];
+            if (tambahBarangBtnPw) {
+                tambahBarangBtnPw.addEventListener('click', function() {
+                    const selectedOption = pilihBarangSelectPw.options[pilihBarangSelectPw.selectedIndex];
                     const selectedBarangNama = selectedOption.dataset.nama;
-                    const selectedBarangDeskripsi = deskripsiBarangTextarea.value || "Tidak ada deskripsi."; 
+                    const selectedBarangDeskripsi = deskripsiBarangTextareaPw.value || "Tidak ada deskripsi."; 
                     
                     const li = document.createElement('li');
                     li.className = 'p-3 border rounded-lg';
@@ -2078,17 +2180,24 @@
                         </div>
                     `;
                     
-                    listBarangDiajukan.appendChild(li);
+                    listBarangDiajukanPw.appendChild(li);
 
                     li.querySelector('.remove-barang-btn').addEventListener('click', function() {
                         li.remove();
                     });
                     
-                    deskripsiBarangTextarea.value = '';
+                    deskripsiBarangTextareaPw.value = '';
                 });
             }
+             // Hapus item awal di list perawatan
+            const initialRemoveBtnsPw = document.querySelectorAll('#list-barang-diajukan-pw .remove-barang-btn');
+            initialRemoveBtnsPw.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('li').remove();
+                });
+            });
             
-            // --- LOGIKA MOCKUP KALENDER (DIPERBARUI untuk Tabel) ---
+            // --- LOGIKA MOCKUP KALENDER ---
             const calendarDays = document.querySelectorAll('.calendar-day');
             const detailTanggal = document.getElementById('detail-tanggal');
             const detailListTableBody = document.getElementById('detail-list-table');
@@ -2102,15 +2211,15 @@
                         if (!dayNumber || this.classList.contains('text-gray-400')) return; 
 
                         detailTanggal.textContent = `Detail untuk Tanggal ${dayNumber} Oktober 2025`;
-                        detailListTableBody.innerHTML = ''; // Kosongkan tabel body
+                        detailListTableBody.innerHTML = ''; 
 
                         if (hasDot) {
-                            const data = { // Data mockup dengan Satker
-                                "2": [{ barang: "Pengecekan AC Ruang Rapat", satker: "Umum" }],
-                                "9": [{ barang: "Komputer Apple Lab LSI 2", satker: "AN" }],
+                            const data = { 
+                                "2": [{ barang: "Pengecekan AC", satker: "Umum" }],
+                                "9": [{ barang: "Komputer Apple", satker: "AN" }],
                                 "17": [
-                                    { barang: "Proyektor Ruang 712", satker: "Elektro" },
-                                    { barang: "Speaker Ruang 712", satker: "Elektro" }
+                                    { barang: "Proyektor 712", satker: "Elektro" },
+                                    { barang: "Speaker 712", satker: "Elektro" }
                                 ]
                             };
                             
@@ -2124,10 +2233,10 @@
                                     detailListTableBody.appendChild(tr);
                                 });
                             } else {
-                                detailListTableBody.innerHTML = '<tr><td colspan="2" class="p-2 text-center text-gray-500">Tidak ada jadwal perawatan.</td></tr>';
+                                detailListTableBody.innerHTML = '<tr><td colspan="2" class="p-2 text-center text-gray-500">Tidak ada jadwal.</td></tr>';
                             }
                         } else {
-                            detailListTableBody.innerHTML = '<tr><td colspan="2" class="p-2 text-center text-gray-500">Tidak ada jadwal perawatan.</td></tr>';
+                            detailListTableBody.innerHTML = '<tr><td colspan="2" class="p-2 text-center text-gray-500">Tidak ada jadwal.</td></tr>';
                         }
                     });
                 });
@@ -2161,6 +2270,13 @@
                     deskripsiBarangTextareaPb.value = '';
                 });
             }
+             // Hapus item awal di list perbaikan
+            const initialRemoveBtnsPb = document.querySelectorAll('#list-barang-diajukan-pb .remove-barang-btn');
+            initialRemoveBtnsPb.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('li').remove();
+                });
+            });
 
         });
     </script>
