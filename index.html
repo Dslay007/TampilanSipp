@@ -846,7 +846,7 @@
                         <div class="flex flex-wrap gap-2">
                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
                                 <i class="fas fa-plus"></i><span>Tambah Manual</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                            <button id="open-import-modal" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
                                 <i class="fas fa-file-import"></i><span>Import</span></button>
                             <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
                                 <i class="fas fa-file-export"></i><span>Export</span></button>
@@ -1968,9 +1968,48 @@
 
         </div> <!-- End .page-container -->
     </div> <!-- End .main-content -->
-
+    
+        <div id="import-barang-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg transform transition-all duration-300 scale-100">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-800"><i class="fas fa-file-import mr-2 text-blue-600"></i> Import Master Barang</h3>
+                    <button id="close-import-modal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times fa-lg"></i>
+                    </button>
+                </div>
+        
+                <div class="p-6 space-y-5">
+                    <div class="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="font-medium text-blue-800">Unduh Template Import (.xlsx)</p>
+                        <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 text-sm" onclick="alert('Downloading Template...')">
+                            <i class="fas fa-download"></i><span>Download</span>
+                        </button>
+                    </div>
+        
+                    <div id="drop-zone-barang" class="border-2 border-dashed border-gray-300 p-8 text-center rounded-lg cursor-pointer hover:border-blue-500 transition duration-150">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-gray-400 mb-3"></i>
+                        <p class="text-gray-600 font-medium">Drag & Drop file CSV/Excel di sini</p>
+                        <p class="text-sm text-gray-500">atau</p>
+                        <input type="file" id="import-file-input" class="hidden" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                        <button type="button" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg text-sm" onclick="document.getElementById('import-file-input').click()">
+                            Pilih File dari Komputer
+                        </button>
+                    </div>
+                    
+                    <p id="file-status-barang" class="text-sm text-gray-500 italic mt-2">Belum ada file dipilih.</p>
+                </div>
+        
+                <div class="p-4 border-t flex justify-end gap-3">
+                    <button id="cancel-import-barang" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg">Batal</button>
+                    <button id="submit-import-barang" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg disabled:opacity-50" disabled>
+                        Proses Import
+                    </button>
+                </div>
+            </div>
+        </div>
 
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
             const allMenuLinks = document.querySelectorAll('.menu-link');
@@ -2646,6 +2685,92 @@
                  });
             }
 
+// --- LOGIKA MODAL IMPORT MASTER BARANG ---
+           const importModal = document.getElementById('import-barang-modal');
+           const openImportBtn = document.getElementById('open-import-modal');
+           const closeImportBtn = document.getElementById('close-import-modal');
+           const cancelImportBtn = document.getElementById('cancel-import-barang');
+           const dropZone = document.getElementById('drop-zone-barang');
+           const importFileInput = document.getElementById('import-file-input');
+           const fileStatus = document.getElementById('file-status-barang');
+           const submitImportBtn = document.getElementById('submit-import-barang');
+
+           function hideModal() {
+                importModal.classList.add('hidden');
+           }
+
+           function showModal() {
+                importModal.classList.remove('hidden');
+                // Reset state saat modal dibuka
+                fileStatus.textContent = "Belum ada file dipilih.";
+                importFileInput.value = null;
+                submitImportBtn.disabled = true;
+                dropZone.classList.remove('border-green-500');
+           }
+
+           function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    fileStatus.textContent = `File dipilih: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                    dropZone.classList.add('border-green-500');
+                    submitImportBtn.disabled = false;
+                } else {
+                    fileStatus.textContent = "Belum ada file dipilih.";
+                    dropZone.classList.remove('border-green-500');
+                    submitImportBtn.disabled = true;
+                }
+           }
+
+           // Event listeners untuk tombol
+           if (openImportBtn) openImportBtn.addEventListener('click', showModal);
+           if (closeImportBtn) closeImportBtn.addEventListener('click', hideModal);
+           if (cancelImportBtn) cancelImportBtn.addEventListener('click', hideModal);
+
+           // Event listener untuk input file
+           if (importFileInput) {
+                importFileInput.addEventListener('change', function() {
+                    handleFiles(this.files);
+                });
+           }
+
+           // Event listeners untuk Drop Zone (Drag & Drop)
+           if (dropZone) {
+                // Prevent default drag behaviors
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, false);
+                });
+
+                // Highlight drop zone when item is dragged over
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => dropZone.classList.add('border-blue-600', 'bg-blue-50'), false);
+                });
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-blue-600', 'bg-blue-50'), false);
+                });
+
+                // Handle dropped files
+                dropZone.addEventListener('drop', e => {
+                    const dt = e.dataTransfer;
+                    handleFiles(dt.files);
+                    importFileInput.files = dt.files; // Set files to the hidden input
+                }, false);
+           }
+           
+           // Event listener untuk tombol Proses Import
+           if (submitImportBtn) {
+                submitImportBtn.addEventListener('click', function() {
+                    if (importFileInput.files.length > 0) {
+                        alert(`Simulasi: Memproses file ${importFileInput.files[0].name} untuk import...`);
+                        hideModal();
+                    } else {
+                        alert("Pilih file terlebih dahulu.");
+                    }
+                });
+           }
+            
        });
    </script>
 
