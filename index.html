@@ -1,1363 +1,1386 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPP - Sistem Informasi Perawatan dan Perbaikan</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPP - Sistem Informasi Perawatan dan Perbaikan</title>
 
-    <!-- Link ke Font Awesome untuk Ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Link ke Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Link ke Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link ke Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts (Roboto) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Roboto) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* CSS Khusus untuk Sidebar (di luar Tailwind) */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8fafc; /* Tailwind gray-50 */
-            display: flex;
-            overflow-x: hidden; /* Mencegah horizontal scroll di body */
-        }
+    <style>
+        /* CSS Khusus untuk Sidebar (di luar Tailwind) */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc; /* Tailwind gray-50 */
+            display: flex;
+            overflow-x: hidden; /* Mencegah horizontal scroll di body */
+        }
 
-        /* Kontainer Sidebar Utama */
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed; /* Tetap di kiri */
-            top: 0;
-            left: 0;
-            background-color: #0d47a1; /* Biru tua */
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            transition: transform 0.3s ease; /* Transisi untuk slide-in/out */
-            z-index: 50;
-            /* Default tersembunyi di mobile, terlihat di desktop */
-            transform: translateX(-100%);
-        }
+        /* Kontainer Sidebar Utama */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed; /* Tetap di kiri */
+            top: 0;
+            left: 0;
+            background-color: #0d47a1; /* Biru tua */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: transform 0.3s ease; /* Transisi untuk slide-in/out */
+            z-index: 50;
+            /* Default tersembunyi di mobile, terlihat di desktop */
+            transform: translateX(-100%);
+        }
 
-        /* State sidebar terlihat di desktop (md dan lebih besar) */
-        @media (min-width: 768px) {
-            .sidebar {
-                transform: translateX(0);
-            }
-        }
+        /* State sidebar terlihat di desktop (md dan lebih besar) */
+        @media (min-width: 768px) {
+            .sidebar {
+                transform: translateX(0);
+            }
+        }
 
-        /* State sidebar terlihat (saat di-toggle di mobile) */
-        .sidebar.active {
-            transform: translateX(0);
-        }
+        /* State sidebar terlihat (saat di-toggle di mobile) */
+        .sidebar.active {
+            transform: translateX(0);
+        }
 
-        /* Header Sidebar */
-        .sidebar-header {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        /* Header Sidebar */
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        .sidebar-header h2 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 700;
-        }
+        .sidebar-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
 
-        .sidebar-header p {
-            margin: 0;
-            font-size: 10px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            opacity: 0.8;
-        }
+        .sidebar-header p {
+            margin: 0;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
 
-        /* Search Bar */
-        .sidebar-search {
-            padding: 20px;
-            position: relative;
-        }
+        /* Search Bar */
+        .sidebar-search {
+            padding: 20px;
+            position: relative;
+        }
 
-        .sidebar-search input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            border-radius: 20px;
-            border: none;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            font-size: 14px;
-        }
+        .sidebar-search input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 14px;
+        }
 
-        .sidebar-search input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
+        .sidebar-search input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-        .sidebar-search .fa-search {
-            position: absolute;
-            left: 35px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-        }
+        .sidebar-search .fa-search {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-        /* Menu Navigasi */
-        .sidebar-menu {
-            list-style: none;
-            flex-grow: 1; /* Mendorong footer ke bawah */
-            padding: 10px 0;
-        }
+        /* Menu Navigasi */
+        .sidebar-menu {
+            list-style: none;
+            flex-grow: 1; /* Mendorong footer ke bawah */
+            padding: 10px 0;
+        }
 
-        .sidebar-menu li a {
-            display: flex;
-            align-items: center;
-            padding: 14px 25px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: background-color 0.3s, padding-left 0.3s;
-            position: relative;
-        }
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: background-color 0.3s, padding-left 0.3s;
+            position: relative;
+        }
 
-        .sidebar-menu li a .menu-icon {
-            font-size: 18px;
-            width: 20px;
-            text-align: center;
-            margin-right: 15px;
-            opacity: 0.9;
-        }
+        .sidebar-menu li a .menu-icon {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+            margin-right: 15px;
+            opacity: 0.9;
+        }
 
-        /* Efek Hover */
-        .sidebar-menu li a:hover,
-        .sidebar-menu li a.active-link { /* Class untuk link yang sedang aktif */
-            background-color: #1565c0; /* Biru sedikit lebih cerah */
-            padding-left: 30px;
-        }
+        /* Efek Hover */
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active-link { /* Class untuk link yang sedang aktif */
+            background-color: #1565c0; /* Biru sedikit lebih cerah */
+            padding-left: 30px;
+        }
 
-        /* Ikon Chevron (panah) */
-        .sidebar-menu .chevron {
-            position: absolute;
-            right: 20px;
-            font-size: 12px;
-            transition: transform 0.3s ease;
-        }
+        /* Ikon Chevron (panah) */
+        .sidebar-menu .chevron {
+            position: absolute;
+            right: 20px;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
 
-        /* State saat dropdown terbuka */
-        .sidebar-menu li a.dropdown-active .chevron {
-            transform: rotate(90deg);
-        }
+        /* State saat dropdown terbuka */
+        .sidebar-menu li a.dropdown-active .chevron {
+            transform: rotate(90deg);
+        }
 
-        .sidebar-menu li a.dropdown-active {
-             background-color: #1565c0;
-        }
-
-
-        /* Sub-menu */
-        .sub-menu {
-            list-style: none;
-            background-color: #0b3c8a; /* Biru lebih gelap */
-            max-height: 0; /* Sembunyi secara default */
-            overflow: hidden;
-            transition: max-height 0.4s ease-out; /* Animasi expand/collapse */
-        }
-
-        .sub-menu li a {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            padding-left: 35px; /* Lebih menjorok ke dalam */
-            font-size: 14px;
-            font-weight: 400;
-            opacity: 0.9;
-        }
-
-        .sub-menu li a .menu-icon {
-            font-size: 14px;
-            margin-right: 12px;
-        }
-
-        .sub-menu li a:hover,
-        .sub-menu li a.active-link {
-            background-color: #1565c0;
-            opacity: 1;
-            padding-left: 40px;
-        }
+        .sidebar-menu li a.dropdown-active {
+             background-color: #1565c0;
+        }
 
 
-        /* Footer Sidebar */
-        .sidebar-footer {
-            padding: 20px 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        /* Sub-menu */
+        .sub-menu {
+            list-style: none;
+            background-color: #0b3c8a; /* Biru lebih gelap */
+            max-height: 0; /* Sembunyi secara default */
+            overflow: hidden;
+            transition: max-height 0.4s ease-out; /* Animasi expand/collapse */
+        }
 
-        .sidebar-footer a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
+        .sub-menu li a {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 35px; /* Lebih menjorok ke dalam */
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
 
-        .sidebar-footer a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+        .sub-menu li a .menu-icon {
+            font-size: 14px;
+            margin-right: 12px;
+        }
 
-        .sidebar-footer a .menu-icon {
-            margin-right: 10px;
-            font-size: 16px;
-        }
-
-        /* --- STYLING KONTEN UTAMA (RESPONSIVE) --- */
-        .main-content {
-            flex-grow: 1;
-            /* Margin 0 di mobile, 280px di desktop */
-            margin-left: 0px;
-            transition: margin-left 0.3s ease;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            width: 100%; /* Mengisi sisa ruang */
-        }
-
-        @media (min-width: 768px) {
-            .main-content {
-                margin-left: 280px;
-                width: calc(100% - 280px); /* Kalkulasi lebar */
-            }
-        }
+        .sub-menu li a:hover,
+        .sub-menu li a.active-link {
+            background-color: #1565c0;
+            opacity: 1;
+            padding-left: 40px;
+        }
 
 
-        /* Header Konten (User Avatar) */
-        .main-header {
-            background-color: #ffffff;
-            padding: 1rem 1.5rem; /* p-4 px-6 */
-            border-bottom: 1px solid #e2e8f0; /* border-b border-gray-200 */
-            /* Di mobile: justify-between. Di desktop: justify-end */
-            display: flex;
-            justify-content: space-between; /* Untuk hamburger & user */
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            flex-shrink: 0; /* Mencegah header menyusut */
-        }
+        /* Footer Sidebar */
+        .sidebar-footer {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        @media (min-width: 768px) {
-            .main-header {
-                justify-content: flex-end; /* Kembali ke user di kanan */
-            }
-        }
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem; /* gap-3 */
-        }
-        .user-profile span {
-            font-weight: 500;
-            color: #374151; /* text-gray-700 */
-        }
-        .user-profile .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 9999px; /* rounded-full */
-            background-color: #dbeafe; /* bg-blue-100 */
-            color: #1d4ed8; /* text-blue-700 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-        .user-profile .avatar i {
-            font-size: 1.1rem;
-        }
+        .sidebar-footer a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
 
+        .sidebar-footer a .menu-icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
 
-        /* Area Konten yang Bisa Scroll */
-        .page-container {
-            flex-grow: 1;
-            overflow-y: auto; /* Hanya area ini yang scroll */
-            padding: 1rem; /* p-4 di mobile */
-        }
+        /* --- STYLING KONTEN UTAMA (RESPONSIVE) --- */
+        .main-content {
+            flex-grow: 1;
+            /* Margin 0 di mobile, 280px di desktop */
+            margin-left: 0px;
+            transition: margin-left 0.3s ease;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: 100%; /* Mengisi sisa ruang */
+        }
 
-        @media (min-width: 768px) {
-             .page-container {
-                 padding: 1.5rem; /* p-6 di desktop */
-             }
-        }
+        @media (min-width: 768px) {
+            .main-content {
+                margin-left: 280px;
+                width: calc(100% - 280px); /* Kalkulasi lebar */
+            }
+        }
 
 
-        /* Kontainer untuk setiap halaman */
-        .page-content {
-            display: none; /* Sembunyikan semua halaman by default */
-        }
+        /* Header Konten (User Avatar) */
+        .main-header {
+            background-color: #ffffff;
+            padding: 1rem 1.5rem; /* p-4 px-6 */
+            border-bottom: 1px solid #e2e8f0; /* border-b border-gray-200 */
+            /* Di mobile: justify-between. Di desktop: justify-end */
+            display: flex;
+            justify-content: space-between; /* Untuk hamburger & user */
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-shrink: 0; /* Mencegah header menyusut */
+        }
 
-        .page-content.active {
-            display: block; /* Tampilkan halaman yang aktif */
-        }
+        @media (min-width: 768px) {
+            .main-header {
+                justify-content: flex-end; /* Kembali ke user di kanan */
+            }
+        }
 
-        /* Breadcrumbs */
-        .breadcrumbs {
-            color: #94a3b8; /* text-slate-400 */
-            font-size: 0.875rem; /* text-sm */
-            margin-bottom: 0.5rem; /* mb-2 */
-        }
-        .breadcrumbs span {
-             margin: 0 0.25rem; /* mx-1 */
-        }
-        .breadcrumbs strong {
-             color: #475569; /* text-slate-600 */
-             font-weight: 500;
-        }
-
-
-        /* Helper class untuk card */
-        .card {
-            background-color: #ffffff;
-            border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
-            padding: 1rem; /* p-4 di mobile */
-        }
-
-        @media (min-width: 768px) {
-            .card {
-                padding: 1.5rem; /* p-6 di desktop */
-            }
-        }
-
-
-        /* Styling untuk Kalender (Mockup) */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, minmax(0, 1fr));
-            gap: 4px;
-        }
-        .calendar-day {
-            aspect-ratio: 1 / 1;
-            padding: 8px;
-            border: 1px solid #e2e8f0; /* border-gray-200 */
-            border-radius: 0.25rem; /* rounded */
-            position: relative;
-            cursor: pointer;
-            font-size: 0.75rem; /* Kecilkan font di mobile */
-        }
-        @media (min-width: 768px) {
-             .calendar-day {
-                 font-size: 1rem;
-             }
-        }
-        .calendar-day-header {
-            text-align: center;
-            font-weight: 500;
-            padding-bottom: 8px;
-            font-size: 0.75rem;
-        }
-        @media (min-width: 768px) {
-             .calendar-day-header {
-                 font-size: 1rem;
-             }
-        }
-        .calendar-day:hover {
-            background-color: #f1f5f9; /* bg-gray-100 */
-        }
-        .calendar-day .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 9999px; /* rounded-full */
-            background-color: #2563eb; /* bg-blue-600 */
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* Styling untuk Timeline (Mockup - DIPERBARUI) */
-        .timeline-item {
-            position: relative;
-            padding-left: 2.5rem; /* Lebih dekat */
-            padding-bottom: 1.5rem;
-            border-left: 2px solid #e2e8f0;
-        }
-        .timeline-item:last-child {
-            border-left-color: transparent;
-            padding-bottom: 0;
-        }
-        .timeline-dot {
-            position: absolute;
-            left: -11px; /* Disesuaikan agar pas di garis */
-            top: 0px; /* Sejajar dengan teks */
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            border-radius: 9999px;
-            border: 2px solid; /* Warna diatur per class */
-        }
-         .timeline-dot i {
-             font-size: 10px;
-             color: inherit; /* Warna ikon ikut warna border */
-        }
-
-        /* Warna Dot Timeline */
-        .timeline-dot-blue { border-color: #3b82f6; color: #3b82f6; } /* Dibuat */
-        .timeline-dot-green { border-color: #16a34a; color: #16a34a; } /* Disetujui/Selesai */
-        .timeline-dot-yellow { border-color: #f59e0b; color: #f59e0b; } /* Upload/Aksi */
-        .timeline-dot-red { border-color: #ef4444; color: #ef4444; } /* Ditolak */
-        .timeline-dot-gray { border-color: #6b7280; color: #6b7280; } /* Menunggu/Pending */
-
-        /* Styling untuk lampiran file di timeline */
-        .timeline-attachment {
-             display: flex;
-             align-items: center;
-             gap: 0.5rem; /* gap-2 */
-             padding: 0.5rem; /* p-2 */
-             background-color: #f9fafb; /* bg-gray-50 */
-             border-radius: 0.375rem; /* rounded-md */
-             border: 1px solid #e5e7eb; /* border-gray-200 */
-        }
-        .timeline-attachment i {
-             color: #6b7280; /* text-gray-500 */
-        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* gap-3 */
+        }
+        .user-profile span {
+            font-weight: 500;
+            color: #374151; /* text-gray-700 */
+        }
+        .user-profile .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px; /* rounded-full */
+            background-color: #dbeafe; /* bg-blue-100 */
+            color: #1d4ed8; /* text-blue-700 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .user-profile .avatar i {
+            font-size: 1.1rem;
+        }
 
 
-        /* Styling untuk CSS Bar Chart (DIPERBARUI DENGAN ANGKA & FIX POSISI LABEL Y) */
-        .chart-container {
-             display: flex;
-             justify-content: space-around;
-             align-items: flex-end;
-             width: 100%;
-             height: 320px; /* h-80 */
-             padding: 20px 20px 30px 40px; /* Ruang lebih di kiri untuk label Y */
-             border-left: 2px solid #e5e7eb; /* border-gray-200 */
-             border-bottom: 2px solid #e5e7eb;
-             position: relative; /* Untuk label sumbu Y */
-        }
-        /* Label Sumbu Y (FIXED POSITION) */
-        .y-axis-label {
-             position: absolute;
-             left: -25px; /* Posisikan di kiri border */
-             transform: translateY(50%); /* Pusatkan vertikal */
-             font-size: 12px;
-             color: #6b7280;
-        }
-         .y-axis-label-high { /* Ganti dari y-axis-label */
-             bottom: calc(100% - 20px); /* Atas chart */
-        }
-         .y-axis-label-mid {
-             bottom: 50%;
-        }
-         .y-axis-label-low {
-             bottom: 30px; /* Dekat sumbu X */
-        }
+        /* Area Konten yang Bisa Scroll */
+        .page-container {
+            flex-grow: 1;
+            overflow-y: auto; /* Hanya area ini yang scroll */
+            padding: 1rem; /* p-4 di mobile */
+        }
 
-        .chart-bar {
-             width: 30px;
-             background-color: #3b82f6; /* bg-blue-500 */
-             border-radius: 4px 4px 0 0;
-             position: relative;
-             text-align: center;
-             color: #6b7280; /* text-gray-500 */
-             font-size: 12px;
-             font-weight: 500;
-             transition: height 0.5s ease-out, background-color 0.3s;
-        }
-        .chart-bar:hover {
-             background-color: #2563eb; /* bg-blue-600 */
-        }
-        /* Label bulan */
-        .chart-bar .label {
-             position: absolute;
-             bottom: -20px;
-             width: 100%;
-             left: 0;
-        }
-        /* Nilai di atas bar */
-        .chart-bar .value {
-             position: absolute;
-             top: -20px; /* Posisi di atas bar */
-             left: 50%;
-             transform: translateX(-50%);
-             color: #1f2937; /* text-gray-800 */
-             font-size: 12px;
-             font-weight: 600;
-             opacity: 0; /* Sembunyi dulu */
-              transition: opacity 0.3s;
-        }
-        /* Tampilkan nilai saat hover atau saat chart dimuat */
-        .chart-container:hover .chart-bar .value,
-        .chart-bar.show-value .value {
-             opacity: 1;
-        }
+        @media (min-width: 768px) {
+             .page-container {
+                 padding: 1.5rem; /* p-6 di desktop */
+             }
+        }
 
 
-        /* Zebra Stripe untuk semua tabel data */
-        .page-content table tbody tr:nth-child(even) {
-            background-color: #f9fafb; /* bg-gray-50 */
-        }
-        .page-content table tbody tr:hover {
-            background-color: #f1f5f9; /* hover:bg-gray-100 */
-        }
+        /* Kontainer untuk setiap halaman */
+        .page-content {
+            display: none; /* Sembunyikan semua halaman by default */
+        }
 
-        /* Overlay untuk sidebar mobile */
-        #sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 40; /* Di bawah sidebar */
-            transition: opacity 0.3s ease;
-        }
+        .page-content.active {
+            display: block; /* Tampilkan halaman yang aktif */
+        }
 
-        /* Utility class untuk tombol hamburger */
-        .hamburger-btn {
-            color: #4b5563; /* text-gray-600 */
-            padding: 0.5rem; /* p-2 */
-            border-radius: 0.375rem; /* rounded-md */
-        }
-        .hamburger-btn:hover {
-            background-color: #f3f4f6; /* hover:bg-gray-100 */
-            color: #1f2937; /* hover:text-gray-800 */
-        }
+        /* Breadcrumbs */
+        .breadcrumbs {
+            color: #94a3b8; /* text-slate-400 */
+            font-size: 0.875rem; /* text-sm */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .breadcrumbs span {
+             margin: 0 0.25rem; /* mx-1 */
+        }
+        .breadcrumbs strong {
+             color: #475569; /* text-slate-600 */
+             font-weight: 500;
+        }
 
-        /* Tombol Aksi Admin */
-        .admin-action-buttons {
-            display: flex;
-            gap: 0.5rem; /* Jarak antar tombol */
-            margin-top: 1rem; /* Jarak dari konten di atasnya */
-        }
 
-    </style>
+        /* Helper class untuk card */
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+            padding: 1rem; /* p-4 di mobile */
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                padding: 1.5rem; /* p-6 di desktop */
+            }
+        }
+
+
+        /* Styling untuk Kalender (Mockup) */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 4px;
+        }
+        .calendar-day {
+            aspect-ratio: 1 / 1;
+            padding: 8px;
+            border: 1px solid #e2e8f0; /* border-gray-200 */
+            border-radius: 0.25rem; /* rounded */
+            position: relative;
+            cursor: pointer;
+            font-size: 0.75rem; /* Kecilkan font di mobile */
+        }
+        @media (min-width: 768px) {
+             .calendar-day {
+                 font-size: 1rem;
+             }
+        }
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 500;
+            padding-bottom: 8px;
+            font-size: 0.75rem;
+        }
+        @media (min-width: 768px) {
+             .calendar-day-header {
+                 font-size: 1rem;
+             }
+        }
+        .calendar-day:hover {
+            background-color: #f1f5f9; /* bg-gray-100 */
+        }
+        .calendar-day .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px; /* rounded-full */
+            background-color: #2563eb; /* bg-blue-600 */
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Styling untuk Timeline (Mockup - DIPERBARUI) */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem; /* Lebih dekat */
+            padding-bottom: 1.5rem;
+            border-left: 2px solid #e2e8f0;
+        }
+        .timeline-item:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -11px; /* Disesuaikan agar pas di garis */
+            top: 0px; /* Sejajar dengan teks */
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 9999px;
+            border: 2px solid; /* Warna diatur per class */
+        }
+         .timeline-dot i {
+             font-size: 10px;
+             color: inherit; /* Warna ikon ikut warna border */
+        }
+
+        /* Warna Dot Timeline */
+        .timeline-dot-blue { border-color: #3b82f6; color: #3b82f6; } /* Dibuat */
+        .timeline-dot-green { border-color: #16a34a; color: #16a34a; } /* Disetujui/Selesai */
+        .timeline-dot-yellow { border-color: #f59e0b; color: #f59e0b; } /* Upload/Aksi */
+        .timeline-dot-red { border-color: #ef4444; color: #ef4444; } /* Ditolak */
+        .timeline-dot-gray { border-color: #6b7280; color: #6b7280; } /* Menunggu/Pending */
+
+        /* Styling untuk lampiran file di timeline */
+        .timeline-attachment {
+             display: flex;
+             align-items: center;
+             gap: 0.5rem; /* gap-2 */
+             padding: 0.5rem; /* p-2 */
+             background-color: #f9fafb; /* bg-gray-50 */
+             border-radius: 0.375rem; /* rounded-md */
+             border: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+        .timeline-attachment i {
+             color: #6b7280; /* text-gray-500 */
+        }
+
+
+        /* Styling untuk CSS Bar Chart (DIPERBARUI DENGAN ANGKA & FIX POSISI LABEL Y) */
+        .chart-container {
+             display: flex;
+             justify-content: space-around;
+             align-items: flex-end;
+             width: 100%;
+             height: 320px; /* h-80 */
+             padding: 20px 20px 30px 40px; /* Ruang lebih di kiri untuk label Y */
+             border-left: 2px solid #e5e7eb; /* border-gray-200 */
+             border-bottom: 2px solid #e5e7eb;
+             position: relative; /* Untuk label sumbu Y */
+        }
+        /* Label Sumbu Y (FIXED POSITION) */
+        .y-axis-label {
+             position: absolute;
+             left: -25px; /* Posisikan di kiri border */
+             transform: translateY(50%); /* Pusatkan vertikal */
+             font-size: 12px;
+             color: #6b7280;
+        }
+         .y-axis-label-high { /* Ganti dari y-axis-label */
+             bottom: calc(100% - 20px); /* Atas chart */
+        }
+         .y-axis-label-mid {
+             bottom: 50%;
+        }
+         .y-axis-label-low {
+             bottom: 30px; /* Dekat sumbu X */
+        }
+
+        .chart-bar {
+             width: 30px;
+             background-color: #3b82f6; /* bg-blue-500 */
+             border-radius: 4px 4px 0 0;
+             position: relative;
+             text-align: center;
+             color: #6b7280; /* text-gray-500 */
+             font-size: 12px;
+             font-weight: 500;
+             transition: height 0.5s ease-out, background-color 0.3s;
+        }
+        .chart-bar:hover {
+             background-color: #2563eb; /* bg-blue-600 */
+        }
+        /* Label bulan */
+        .chart-bar .label {
+             position: absolute;
+             bottom: -20px;
+             width: 100%;
+             left: 0;
+        }
+        /* Nilai di atas bar */
+        .chart-bar .value {
+             position: absolute;
+             top: -20px; /* Posisi di atas bar */
+             left: 50%;
+             transform: translateX(-50%);
+             color: #1f2937; /* text-gray-800 */
+             font-size: 12px;
+             font-weight: 600;
+             opacity: 0; /* Sembunyi dulu */
+              transition: opacity 0.3s;
+        }
+        /* Tampilkan nilai saat hover atau saat chart dimuat */
+        .chart-container:hover .chart-bar .value,
+        .chart-bar.show-value .value {
+             opacity: 1;
+        }
+
+
+        /* Zebra Stripe untuk semua tabel data */
+        .page-content table tbody tr:nth-child(even) {
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .page-content table tbody tr:hover {
+            background-color: #f1f5f9; /* hover:bg-gray-100 */
+        }
+
+        /* Overlay untuk sidebar mobile */
+        #sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40; /* Di bawah sidebar */
+            transition: opacity 0.3s ease;
+        }
+
+        /* Utility class untuk tombol hamburger */
+        .hamburger-btn {
+            color: #4b5563; /* text-gray-600 */
+            padding: 0.5rem; /* p-2 */
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .hamburger-btn:hover {
+            background-color: #f3f4f6; /* hover:bg-gray-100 */
+            color: #1f2937; /* hover:text-gray-800 */
+        }
+
+        /* Tombol Aksi Admin */
+        .admin-action-buttons {
+            display: flex;
+            gap: 0.5rem; /* Jarak antar tombol */
+            margin-top: 1rem; /* Jarak dari konten di atasnya */
+        }
+        
+        /* Custom Style for Drop Zone Highlight */
+        .drop-zone-highlight {
+            border-color: #10b981 !important; /* Tailwind green-500 */
+            background-color: #d1fae5 !important; /* Tailwind green-100 */
+            color: #065f46 !important; /* Tailwind green-800 */
+        }
+
+    </style>
 </head>
 <body>
 
-    <!-- Overlay untuk Sidebar Mobile -->
-    <div id="sidebar-overlay" class="hidden md:hidden"></div>
+    <!-- Overlay untuk Sidebar Mobile -->
+    <div id="sidebar-overlay" class="hidden md:hidden"></div>
 
-    <!-- ======== SIDEBAR ======== -->
-    <nav id="sidebar" class="sidebar">
-        <!-- Header -->
-        <div class="sidebar-header">
-            <h2>SIPP</h2>
-            <p>SISTEM INFORMASI PERAWATAN DAN PERBAIKAN</p>
-        </div>
+    <!-- ======== SIDEBAR ======== -->
+    <nav id="sidebar" class="sidebar">
+        <!-- Header -->
+        <div class="sidebar-header">
+            <h2>SIPP</h2>
+            <p>SISTEM INFORMASI PERAWATAN DAN PERBAIKAN</p>
+        </div>
 
-        <!-- Search Bar -->
-        <div class="sidebar-search">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Cari menu...">
-        </div>
+        <!-- Search Bar -->
+        <div class="sidebar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Cari menu...">
+        </div>
 
-        <!-- Menu List -->
-        <ul class="sidebar-menu">
-            <!-- Item 1: Dashboard -->
-            <li>
-                <a href="#dashboard" class="menu-link active-link" data-breadcrumb="Dashboard">
-                    <i class="fas fa-tachometer-alt menu-icon"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+        <!-- Menu List -->
+        <ul class="sidebar-menu">
+            <!-- Item 1: Dashboard -->
+            <li>
+                <a href="#dashboard" class="menu-link active-link" data-breadcrumb="Dashboard">
+                    <i class="fas fa-tachometer-alt menu-icon"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-            <!-- Item 2: Master Data -->
-            <li>
-                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="Master Data">
-                    <i class="fas fa-database menu-icon"></i>
-                    <span>Master Data</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="#master-barang" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Barang"><i class="fas fa-box menu-icon"></i><span>Master Barang</span></a></li>
-                    <li><a href="#master-gedung" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Gedung"><i class="fas fa-building menu-icon"></i><span>Master Gedung</span></a></li>
-                    <li><a href="#master-lantai" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Lantai"><i class="fas fa-layer-group menu-icon"></i><span>Master Lantai Gedung</span></a></li>
-                    <li><a href="#master-ruangan" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Ruangan"><i class="fas fa-door-open menu-icon"></i><span>Master Ruangan</span></a></li>
-                    <li><a href="#master-satker" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Satker"><i class="fas fa-sitemap menu-icon"></i><span>Master Satker</span></a></li>
-                    <li><a href="#master-jenis" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Jenis"><i class="fas fa-tags menu-icon"></i><span>Master Jenis Barang</span></a></li>
-                    <li><a href="#master-kondisi" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Kondisi"><i class="fas fa-clipboard-check menu-icon"></i><span>Master Kondisi Barang</span></a></li>
-                </ul>
-            </li>
+            <!-- Item 2: Master Data -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="Master Data">
+                    <i class="fas fa-database menu-icon"></i>
+                    <span>Master Data</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#master-barang" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Barang"><i class="fas fa-box menu-icon"></i><span>Master Barang</span></a></li>
+                    <li><a href="#master-gedung" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Gedung"><i class="fas fa-building menu-icon"></i><span>Master Gedung</span></a></li>
+                    <li><a href="#master-lantai" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Lantai"><i class="fas fa-layer-group menu-icon"></i><span>Master Lantai Gedung</span></a></li>
+                    <li><a href="#master-ruangan" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Ruangan"><i class="fas fa-door-open menu-icon"></i><span>Master Ruangan</span></a></li>
+                    <li><a href="#master-satker" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Satker"><i class="fas fa-sitemap menu-icon"></i><span>Master Satker</span></a></li>
+                    <li><a href="#master-jenis" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Jenis"><i class="fas fa-tags menu-icon"></i><span>Master Jenis Barang</span></a></li>
+                    <li><a href="#master-kondisi" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Kondisi"><i class="fas fa-clipboard-check menu-icon"></i><span>Master Kondisi Barang</span></a></li>
+                </ul>
+            </li>
 
-            <!-- Item 3: Perawatan -->
-            <li>
-                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="Perawatan">
-                    <i class="fas fa-tasks menu-icon"></i>
-                    <span>Perawatan</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="#jadwal-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Jadwal Perawatan"><i class="fas fa-calendar-alt menu-icon"></i><span>Jadwal Perawatan</span></a></li>
-                    <li><a href="#pengajuan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Pengajuan"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perawatan</span></a></li>
-                    <li><a href="#riwayat-pengajuan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
-                    <li><a href="#riwayat-pelaksanaan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pelaksanaan"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
-                     <!-- Link tersembunyi untuk detail, breadcrumb diatur via JS -->
-                      <li style="display: none;"><a href="#detail-riwayat-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
-                </ul>
-            </li>
+            <!-- Item 3: Perawatan -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="Perawatan">
+                    <i class="fas fa-tasks menu-icon"></i>
+                    <span>Perawatan</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#jadwal-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Jadwal Perawatan"><i class="fas fa-calendar-alt menu-icon"></i><span>Jadwal Perawatan</span></a></li>
+                    <li><a href="#pengajuan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Pengajuan"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perawatan</span></a></li>
+                    <li><a href="#riwayat-pengajuan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
+                    <li><a href="#riwayat-pelaksanaan-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pelaksanaan"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
+                     <!-- Link tersembunyi untuk detail, breadcrumb diatur via JS -->
+                      <li style="display: none;"><a href="#detail-riwayat-perawatan" class="menu-link" data-breadcrumb="Perawatan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
+                </ul>
+            </li>
 
-            <!-- Item 4: Perbaikan -->
-            <li>
-                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="Perbaikan">
-                    <i class="fas fa-tools menu-icon"></i>
-                    <span>Perbaikan</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="#pengajuan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Pengajuan"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perbaikan</span></a></li>
-                    <li><a href="#riwayat-pengajuan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
-                    <li><a href="#riwayat-pelaksanaan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pelaksanaan"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
-                      <!-- Link tersembunyi untuk detail -->
-                     <li style="display: none;"><a href="#detail-riwayat-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
-                </ul>
-            </li>
+            <!-- Item 4: Perbaikan -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="Perbaikan">
+                    <i class="fas fa-tools menu-icon"></i>
+                    <span>Perbaikan</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#pengajuan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Pengajuan"><i class="fas fa-file-signature menu-icon"></i><span>Pengajuan Perbaikan</span></a></li>
+                    <li><a href="#riwayat-pengajuan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan"><i class="fas fa-history menu-icon"></i><span>Riwayat Pengajuan</span></a></li>
+                    <li><a href="#riwayat-pelaksanaan-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pelaksanaan"><i class="fas fa-check-circle menu-icon"></i><span>Riwayat Pelaksanaan</span></a></li>
+                      <!-- Link tersembunyi untuk detail -->
+                     <li style="display: none;"><a href="#detail-riwayat-perbaikan" class="menu-link" data-breadcrumb="Perbaikan<span>/</span>Riwayat Pengajuan<span>/</span>Detail"></a></li>
+                </ul>
+            </li>
 
-            <!-- Item 5: User & Hak Akses -->
-            <li>
-                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="User & Hak Akses">
-                    <i class="fas fa-users-cog menu-icon"></i>
-                    <span>User & Hak Akses</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="#master-user" class="menu-link" data-breadcrumb="User & Hak Akses<span>/</span>Master User"><i class="fas fa-user-friends menu-icon"></i><span>Master User</span></a></li>
-                    <li><a href="#master-hak-akses" class="menu-link" data-breadcrumb="User & Hak Akses<span>/</span>Hak Akses"><i class="fas fa-user-shield menu-icon"></i><span>Master Hak Akses</span></a></li>
-                </ul>
-            </li>
-             <!-- Link tersembunyi untuk detail barang -->
-              <li style="display: none;"><a href="#detail-barang" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Barang<span>/</span>Detail"></a></li>
-        </ul>
+            <!-- Item 5: User & Hak Akses -->
+            <li>
+                <a href="#" class="dropdown-toggle menu-link" data-breadcrumb="User & Hak Akses">
+                    <i class="fas fa-users-cog menu-icon"></i>
+                    <span>User & Hak Akses</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#master-user" class="menu-link" data-breadcrumb="User & Hak Akses<span>/</span>Master User"><i class="fas fa-user-friends menu-icon"></i><span>Master User</span></a></li>
+                    <li><a href="#master-hak-akses" class="menu-link" data-breadcrumb="User & Hak Akses<span>/</span>Hak Akses"><i class="fas fa-user-shield menu-icon"></i><span>Master Hak Akses</span></a></li>
+                </ul>
+            </li>
+             <!-- Link tersembunyi untuk detail barang -->
+              <li style="display: none;"><a href="#detail-barang" class="menu-link" data-breadcrumb="Master Data<span>/</span>Master Barang<span>/</span>Detail"></a></li>
+        </ul>
 
-        <!-- Footer -->
-        <div class="sidebar-footer">
-            <a href="#">
-                <i class="fas fa-sign-out-alt menu-icon"></i>
-                <span>Logout</span>
-            </a>
-        </div>
-    </nav>
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fas fa-sign-out-alt menu-icon"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
 
-    <!-- ======== KONTEN UTAMA HALAMAN ======== -->
-    <div id="main-content" class="main-content">
+    <!-- ======== KONTEN UTAMA HALAMAN ======== -->
+    <div id="main-content" class="main-content">
 
-        <!-- HEADER KONTEN (USER AVATAR) -->
-        <header class="main-header">
-            <!-- Tombol Hamburger (Hanya terlihat di mobile) -->
-            <button id="menu-toggle" class="hamburger-btn md:hidden">
-                <i class="fas fa-bars fa-lg"></i>
-            </button>
+        <!-- HEADER KONTEN (USER AVATAR) -->
+        <header class="main-header">
+            <!-- Tombol Hamburger (Hanya terlihat di mobile) -->
+            <button id="menu-toggle" class="hamburger-btn md:hidden">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
 
-            <div class="user-profile">
-                <span>Admin UPA</span> <!-- Nama diubah -->
-                <div class="avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-            </div>
-        </header>
+            <div class="user-profile">
+                <span>Admin UPA</span> <!-- Nama diubah -->
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
 
-        <!-- CONTAINER UNTUK HALAMAN YANG BISA SCROLL -->
-        <div class="page-container">
+        <!-- CONTAINER UNTUK HALAMAN YANG BISA SCROLL -->
+        <div class="page-container">
 
-            <!-- ========= HALAMAN: DASHBOARD (UI DIPERBARUI) ========= -->
-            <div id="dashboard" class="page-content active">
-                 <!-- Breadcrumb -->
-                 <div id="breadcrumb-dashboard" class="breadcrumbs">Dashboard</div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+            <!-- ========= HALAMAN: DASHBOARD (UI DIPERBARUI) ========= -->
+            <div id="dashboard" class="page-content active">
+                 <!-- Breadcrumb -->
+                 <div id="breadcrumb-dashboard" class="breadcrumbs">Dashboard</div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
 
-                <!-- Grid Statistik -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <!-- Card 1 -->
-                    <div class="card">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
-                                <i class="fas fa-tools fa-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Perawatan Bulan Ini</p>
-                                <p class="text-2xl font-bold text-gray-800">12 Barang</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="card">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
-                                <i class="fas fa-exclamation-triangle fa-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Perbaikan Mendesak</p>
-                                <p class="text-2xl font-bold text-gray-800">3 Pengajuan</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="card">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
-                                <i class="fas fa-check-circle fa-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Selesai Dikerjakan</p>
-                                <p class="text-2xl font-bold text-gray-800">28</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 4 -->
-                    <div class="card">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-gray-100 text-gray-600 mr-4">
-                                <i class="fas fa-box fa-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
-                                <p class="text-2xl font-bold text-gray-800">1,204</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Grid Statistik -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                                <i class="fas fa-tools fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Perawatan Bulan Ini</p>
+                                <p class="text-2xl font-bold text-gray-800">12 Barang</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                                <i class="fas fa-exclamation-triangle fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Perbaikan Mendesak</p>
+                                <p class="text-2xl font-bold text-gray-800">3 Pengajuan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                                <i class="fas fa-check-circle fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Selesai Dikerjakan</p>
+                                <p class="text-2xl font-bold text-gray-800">28</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="card">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-gray-100 text-gray-600 mr-4">
+                                <i class="fas fa-box fa-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
+                                <p class="text-2xl font-bold text-gray-800">1,204</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Grid Grafik dan List -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Grafik (DIPERBARUI DENGAN CTA TAHUN & DINAMIS) -->
-                    <div class="lg:col-span-2 card">
-                        <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
-                             <h2 class="text-xl font-semibold text-gray-800">Grafik Perawatan per Bulan</h2>
-                             <select id="chart-year-select" class="border border-gray-300 rounded-lg p-1 text-sm">
-                                 <option value="2025">2025</option>
-                                 <option value="2024">2024</option>
-                                 <option value="2023">2023</option>
-                             </select>
-                        </div>
-                        <div class="chart-container" id="chart-container">
-                            <span class="y-axis-label y-axis-label-low">0</span>
-                            <span class="y-axis-label y-axis-label-mid">50</span>
-                            <span class="y-axis-label y-axis-label-high">100</span>
-                            <!-- Bars will be generated by JS -->
-                        </div>
-                    </div>
+                <!-- Grid Grafik dan List -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Grafik (DIPERBARUI DENGAN CTA TAHUN & DINAMIS) -->
+                    <div class="lg:col-span-2 card">
+                        <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
+                             <h2 class="text-xl font-semibold text-gray-800">Grafik Perawatan per Bulan</h2>
+                             <select id="chart-year-select" class="border border-gray-300 rounded-lg p-1 text-sm">
+                                 <option value="2025">2025</option>
+                                 <option value="2024">2024</option>
+                                 <option value="2023">2023</option>
+                             </select>
+                        </div>
+                        <div class="chart-container" id="chart-container">
+                            <span class="y-axis-label y-axis-label-low">0</span>
+                            <span class="y-axis-label y-axis-label-mid">50</span>
+                            <span class="y-axis-label y-axis-label-high">100</span>
+                            <!-- Bars will be generated by JS -->
+                        </div>
+                    </div>
 
-                    <!-- Kolom Kanan (Tabel Pengajuan & Jadwal) -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <!-- Tabel Pengajuan Perbaikan Terbaru -->
-                        <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Pengajuan Perbaikan Terbaru</h2>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                    <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                                        <tr>
-                                            <th scope="col" class="p-2">Barang</th>
-                                            <th scope="col" class="p-2">Tgl. Ajuan</th>
-                                            <th scope="col" class="p-2">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Lab LSI 2</a>
-                                            </td>
-                                            <td class="p-2 text-gray-600">26 Okt</td>
-                                            <td class="p-2">
-                                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
-                                            </td>
-                                            <td class="p-2 text-gray-600">25 Okt</td>
-                                            <td class="p-2">
-                                                 <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">Dikerjakan</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
-                                             </td>
-                                            <td class="p-2 text-gray-600">25 Okt</td>
-                                            <td class="p-2">
-                                                 <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
-                                            </td>
-                                        </tr>
-                                         <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-034" class="menu-link detail-barang-link text-blue-600 hover:underline">AC Ruang 712</a>
-                                             </td>
-                                            <td class="p-2 text-gray-600">11 Okt</td>
-                                            <td class="p-2">
-                                                 <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">Selesai</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <!-- Kolom Kanan (Tabel Pengajuan & Jadwal) -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <!-- Tabel Pengajuan Perbaikan Terbaru -->
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Pengajuan Perbaikan Terbaru</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-50 text-xs uppercase text-gray-700">
+                                        <tr>
+                                            <th scope="col" class="p-2">Barang</th>
+                                            <th scope="col" class="p-2">Tgl. Ajuan</th>
+                                            <th scope="col" class="p-2">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Lab LSI 2</a>
+                                            </td>
+                                            <td class="p-2 text-gray-600">26 Okt</td>
+                                            <td class="p-2">
+                                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
+                                            </td>
+                                            <td class="p-2 text-gray-600">25 Okt</td>
+                                            <td class="p-2">
+                                                 <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">Dikerjakan</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
+                                             </td>
+                                            <td class="p-2 text-gray-600">25 Okt</td>
+                                            <td class="p-2">
+                                                 <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-034" class="menu-link detail-barang-link text-blue-600 hover:underline">AC Ruang 712</a>
+                                             </td>
+                                            <td class="p-2 text-gray-600">11 Okt</td>
+                                            <td class="p-2">
+                                                 <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">Selesai</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                          <!-- Tabel Jadwal Perawatan Terdekat BARU -->
-                          <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perawatan Terdekat</h2>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                      <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                                         <tr>
-                                             <th scope="col" class="p-2">Barang</th>
-                                             <th scope="col" class="p-2">Jadwal</th>
-                                             <th scope="col" class="p-2">Lokasi</th>
-                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Apple Lab LSI 2</a>
-                                            </td>
-                                            <td class="p-2 text-gray-600">2 Nov</td>
-                                            <td class="p-2 text-gray-500">Lab LSI 2</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 hover:underline">Proyektor Ruang 712</a>
-                                            </td>
-                                            <td class="p-2 text-gray-600">5 Nov</td>
-                                            <td class="p-2 text-gray-500">R. 712</td>
-                                        </tr>
-                                         <tr>
-                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
-                                             </td>
-                                            <td class="p-2 text-gray-600">5 Nov</td>
-                                            <td class="p-2 text-gray-500">R. 712</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                          <!-- Tabel Jadwal Perawatan Terdekat BARU -->
+                          <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perawatan Terdekat</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                      <thead class="bg-gray-50 text-xs uppercase text-gray-700">
+                                         <tr>
+                                             <th scope="col" class="p-2">Barang</th>
+                                             <th scope="col" class="p-2">Jadwal</th>
+                                             <th scope="col" class="p-2">Lokasi</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Apple Lab LSI 2</a>
+                                            </td>
+                                            <td class="p-2 text-gray-600">2 Nov</td>
+                                            <td class="p-2 text-gray-500">Lab LSI 2</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 hover:underline">Proyektor Ruang 712</a>
+                                            </td>
+                                            <td class="p-2 text-gray-600">5 Nov</td>
+                                            <td class="p-2 text-gray-500">R. 712</td>
+                                        </tr>
+                                         <tr>
+                                            <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
+                                             </td>
+                                            <td class="p-2 text-gray-600">5 Nov</td>
+                                            <td class="p-2 text-gray-500">R. 712</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <!-- ========= HALAMAN: MASTER BARANG ========= -->
-            <div id="master-barang" class="page-content">
-                 <div id="breadcrumb-master-barang" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Barang</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
-                                <i class="fas fa-plus"></i><span>Tambah Manual</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
-                                <i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
-                                <i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Satuan Kerja</th>
-                                    <th class="p-4 font-semibold text-gray-600">Kondisi</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">BRG-001</td>
-                                    <td class="p-4 text-gray-700">
-                                        <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
-                                    </td>
-                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
-                                    <td class="p-4 text-gray-700">
-                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span>
-                                    </td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700">BRG-002</td>
-                                    <td class="p-4 text-gray-700">
-                                        <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
-                                    </td>
-                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
-                                    <td class="p-4 text-gray-700">
-                                        <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Perlu Perawatan</span>
-                                    </td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-2">
-                        <p class="text-sm text-gray-600">Showing 1 to 2 of 50 entries</p>
-                        <div class="flex gap-1">
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">&laquo;</button>
-                            <button class="bg-blue-600 text-white font-medium py-1 px-3 rounded-lg">1</button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">2</button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">&raquo;</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- ========= HALAMAN: MASTER BARANG ========= -->
+            <div id="master-barang" class="page-content">
+                 <div id="breadcrumb-master-barang" class="breadcrumbs"></div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Barang</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                                <i class="fas fa-plus"></i><span>Tambah Manual</span></button>
+                            <button id="open-import-modal-btn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                                <i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+                                <i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Barang</th>
+                                    <th class="p-4 font-semibold text-gray-600">Satuan Kerja</th>
+                                    <th class="p-4 font-semibold text-gray-600">Kondisi</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">BRG-001</td>
+                                    <td class="p-4 text-gray-700">
+                                        <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+                                    </td>
+                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span>
+                                    </td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">BRG-002</td>
+                                    <td class="p-4 text-gray-700">
+                                        <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
+                                    </td>
+                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
+                                    <td class="p-4 text-gray-700">
+                                        <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Perlu Perawatan</span>
+                                    </td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-2">
+                        <p class="text-sm text-gray-600">Showing 1 to 2 of 50 entries</p>
+                        <div class="flex gap-1">
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">&laquo;</button>
+                            <button class="bg-blue-600 text-white font-medium py-1 px-3 rounded-lg">1</button>
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">2</button>
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-1 px-3 rounded-lg">&raquo;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <!-- ========= HALAMAN: MASTER GEDUNG ========= -->
-            <div id="master-gedung" class="page-content">
-                 <div id="breadcrumb-master-gedung" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Gedung</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">Kode Gedung</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Gedung</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">GD-SIPL</td>
-                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700">GD-AKN</td>
-                                    <td class="p-4 text-gray-700">Gedung Akuntansi</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <!-- ========= HALAMAN: MASTER GEDUNG ========= -->
+            <div id="master-gedung" class="page-content">
+                 <div id="breadcrumb-master-gedung" class="breadcrumbs"></div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Gedung</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Kode Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">GD-SIPL</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">GD-AKN</td>
+                                    <td class="p-4 text-gray-700">Gedung Akuntansi</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <!-- ========= HALAMAN: MASTER LANTAI GEDUNG ========= -->
-            <div id="master-lantai" class="page-content">
-                 <div id="breadcrumb-master-lantai" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Lantai Gedung</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Gedung</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Lantai</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
-                                    <td class="p-4 text-gray-700">Lantai 1</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
-                                    <td class="p-4 text-gray-700">Lantai 2</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <!-- ========= HALAMAN: MASTER LANTAI GEDUNG ========= -->
+            <div id="master-lantai" class="page-content">
+                 <div id="breadcrumb-master-lantai" class="breadcrumbs"></div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Lantai Gedung</h1>
+                <div class="card">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600">No</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Gedung</th>
+                                    <th class="p-4 font-semibold text-gray-600">Nama Lantai</th>
+                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="p-4 text-gray-700">1</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
+                                    <td class="p-4 text-gray-700">Lantai 1</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td class="p-4 text-gray-700">2</td>
+                                    <td class="p-4 text-gray-700">Gedung Teknik Sipil</td>
+                                    <td class="p-4 text-gray-700">Lantai 2</td>
+                                    <td class="p-4 flex gap-2">
+                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <!-- ========= HALAMAN: MASTER RUANGAN ========= -->
-            <div id="master-ruangan" class="page-content">
-                 <div id="breadcrumb-master-ruangan" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Ruangan</h1>
-                <div class="card">
-                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Ruangan</th>
-                                    <th class="p-4 font-semibold text-gray-600">Lantai</th>
-                                    <th class="p-4 font-semibold text-gray-600">Gedung</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">Lab LSI 2</td>
-                                    <td class="p-4 text-gray-700">Lantai 7</td>
-                                    <td class="p-4 text-gray-700">Gedung Teknik Elektro</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <!-- ========= HALAMAN: MASTER RUANGAN ========= -->
+            <div id="master-ruangan" class="page-content">
+                 <div id="breadcrumb-master-ruangan" class="breadcrumbs"></div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Ruangan</h1>
+                <div class="card">
+                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+                        </div>
+                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+            1445                     <th class="p-4 font-semibold text-gray-600">No</th>
+            1446                     <th class="p-4 font-semibold text-gray-600">Nama Ruangan</th>
+    1448                     <th class="p-4 font-semibold text-gray-600">Lantai</th>
+    1449                     <th class="p-4 font-semibold text-gray-600">Gedung</th>
+    1450                     <th class="p-4 font-semibold text-gray-600">Aksi</th>
+    1451                                 </tr>
+    1452                             </thead>
+    1453                             <tbody class="divide-y divide-gray-200">
+    1454                                 <tr>
+    1455                                     <td class="p-4 text-gray-700">1</td>
+    1456                                     <td class="p-4 text-gray-700">Lab LSI 2</td>
+    1457                                     <td class="p-4 text-gray-700">Lantai 7</td>
+    1458                                     <td class="p-4 text-gray-700">Gedung Teknik Elektro</td>
+    1459                                     <td class="p-4 flex gap-2">
+    1460                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1461                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1462                                     </td>
+    1463                                 </tr>
+    1464                                 </tr>
+    1465                             </tbody>
+    1466                         </table>
+    1467                     </div>
+    1468                      </div>
+    1469                     </div>
 
-            <!-- ========= HALAMAN: MASTER SATKER ========= -->
-            <div id="master-satker" class="page-content">
-                 <div id="breadcrumb-master-satker" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Satuan Kerja (Satker)</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">Kode Satker</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Satker</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">JTI</td>
-                                    <td class="p-4 text-gray-700">Jurusan Teknologi Informasi</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700">AN</td>
-                                    <td class="p-4 text-gray-700">Jurusan Administrasi Niaga</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    1471             <!-- ========= HALAMAN: MASTER SATKER ========= -->
+    1472             <div id="master-satker" class="page-content">
+    1473                  <div id="breadcrumb-master-satker" class="breadcrumbs"></div>
+    1474                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Satuan Kerja (Satker)</h1>
+    1475                 <div class="card">
+    1476                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+    1477                         <div class="flex flex-wrap gap-2">
+    1478                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+    1479                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+    1480                             <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+    1481                         </div>
+    1482                         <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+    1483                     </div>
+    1484                     <div class="overflow-x-auto">
+    1485                         <table class="w-full text-left">
+    1486                             <thead class="bg-gray-50 border-b border-gray-200">
+    1487                                 <tr>
+    1488                                     <th class="p-4 font-semibold text-gray-600">No</th>
+    1489                                     <th class="p-4 font-semibold text-gray-600">Kode Satker</th>
+    1490                                     <th class="p-4 font-semibold text-gray-600">Nama Satker</th>
+    1491                                     <th class="p-4 font-semibold text-gray-600">Aksi</th>
+    1492                                 </tr>
+    1493                             </thead>
+    1494                             <tbody class="divide-y divide-gray-200">
+    1495                                 <tr>
+    1496                                     <td class="p-4 text-gray-700">1</td>
+    1497                                     <td class="p-4 text-gray-700">JTI</td>
+    1498                                     <td class="p-4 text-gray-700">Jurusan Teknologi Informasi</td>
+    1499                                     <td class="p-4 flex gap-2">
+    1500                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1501                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1502                                     </td>
+    1503                                 </tr>
+    1504                                 <tr>
+    1505                                     <td class="p-4 text-gray-700">2</td>
+    1506                                     <td class="p-4 text-gray-700">AN</td>
+    1507                                     <td class="p-4 text-gray-700">Jurusan Administrasi Niaga</td>
+    1508                                     <td class="p-4 flex gap-2">
+    1509                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1510                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1511                                     </td>
+    1512                                 </tr>
+    1513                             </tbody>
+    1514                         </table>
+    1515                     </div>
+    1516                      </div>
+    1517                     </div>
 
-            <!-- ========= HALAMAN: MASTER JENIS BARANG ========= -->
-            <div id="master-jenis" class="page-content">
-                 <div id="breadcrumb-master-jenis" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Jenis Barang</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">Jenis Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">Elektronik</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700">Furnitur</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    1519             <!-- ========= HALAMAN: MASTER JENIS BARANG ========= -->
+    1520             <div id="master-jenis" class="page-content">
+    1521                  <div id="breadcrumb-master-jenis" class="breadcrumbs"></div>
+    1522                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Jenis Barang</h1>
+    1523                 <div class="card">
+    1524                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+    1525                         <div class="flex flex-wrap gap-2">
+    1526                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+    1527                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+    1528                             <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+    1529                         </div>
+    1530                         <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+    1531                     </div>
+    1532                     <div class="overflow-x-auto">
+    1533                         <table class="w-full text-left">
+    1534                             <thead class="bg-gray-50 border-b border-gray-200">
+    1535                                 <tr>
+    1536                                     <th class="p-4 font-semibold text-gray-600">No</th>
+    1537                                     <th class="p-4 font-semibold text-gray-600">Jenis Barang</th>
+    1538                                     <th class="p-4 font-semibold text-gray-600">Aksi</th>
+    1539                                 </tr>
+    1540                             </thead>
+    1541                             <tbody class="divide-y divide-gray-200">
+    1542                                 <tr>
+    1543                                     <td class="p-4 text-gray-700">1</td>
+    1544                                     <td class="p-4 text-gray-700">Elektronik</td>
+    1545                                     <td class="p-4 flex gap-2">
+    1546                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1547                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1548                                     </td>
+    1549                                 </tr>
+    1550                                 <tr>
+    1551                                     <td class="p-4 text-gray-700">2</td>
+    1552                                     <td class="p-4 text-gray-700">Furnitur</td>
+    1553                                     <td class="p-4 flex gap-2">
+    1554                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1555                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1556                                     </td>
+    1557                                 </tr>
+    1558                             </tbody>
+    1559                         </table>
+    1560                     </div>
+    1561                      </div>
+    1562                     </div>
 
-            <!-- ========= HALAMAN: MASTER KONDISI BARANG ========= -->
-            <div id="master-kondisi" class="page-content">
-                 <div id="breadcrumb-master-kondisi" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Kondisi Barang</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
-                            <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
-                        </div>
-                        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">Kondisi</th>
-                                    <th class="p-4 font-semibold text-gray-600">Deskripsi</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span></td>
-                                    <td class="p-4 text-gray-700">Barang dalam kondisi normal dan berfungsi.</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700"><span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Ringan</span></td>
-                                    <td class="p-4 text-gray-700">Barang perlu perawatan atau perbaikan kecil.</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">3</td>
-                                    <td class="p-4 text-gray-700"><span class="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Berat</span></td>
-                                    <td class="p-4 text-gray-700">Barang tidak dapat digunakan.</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    1564             <!-- ========= HALAMAN: MASTER KONDISI BARANG ========= -->
+    1565             <div id="master-kondisi" class="page-content">
+    1566                  <div id="breadcrumb-master-kondisi" class="breadcrumbs"></div>
+    1567                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Master Kondisi Barang</h1>
+    1568                 <div class="card">
+    1569                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+    1570                         <div class="flex flex-wrap gap-2">
+    1571                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah</span></button>
+    1572                             <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-import"></i><span>Import</span></button>
+    1573                             <button class="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-file-export"></i><span>Export</span></button>
+    1574                         </div>
+    1575                         <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64">
+    1576                     </div>
+    1577                     <div class="overflow-x-auto">
+    1578                         <table class="w-full text-left">
+    1579                             <thead class="bg-gray-50 border-b border-gray-200">
+    1580                                 <tr>
+    1581                                     <th class="p-4 font-semibold text-gray-600">No</th>
+    1582                                     <th class="p-4 font-semibold text-gray-600">Kondisi</th>
+    1583                                     <th class="p-4 font-semibold text-gray-600">Deskripsi</th>
+    1584                                     <th class="p-4 font-semibold text-gray-600">Aksi</th>
+    1585                                 </tr>
+    1586                             </thead>
+    1587                             <tbody class="divide-y divide-gray-200">
+    1588                                 <tr>
+    1589                                     <td class="p-4 text-gray-700">1</td>
+    1590                                     <td class="p-4 text-gray-700"><span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span></td>
+    1591                                     <td class="p-4 text-gray-700">Barang dalam kondisi normal dan berfungsi.</td>
+    1592                                     <td class="p-4 flex gap-2">
+    1593                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1594                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1595                                     </td>
+    1596                                 </tr>
+    1597                                 <tr>
+    1598                                     <td class="p-4 text-gray-700">2</td>
+    1599                                     <td class="p-4 text-gray-700"><span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Ringan</span></td>
+    1600                                     <td class="p-4 text-gray-700">Barang perlu perawatan atau perbaikan kecil.</td>
+    1601                                     <td class="p-4 flex gap-2">
+    1602                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1603                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1604                                     </td>
+    1605                                 </tr>
+    1606                                 <tr>
+    1607                                     <td class="p-4 text-gray-700">3</td>
+    1608                                     <td class="p-4 text-gray-700"><span class="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Berat</span></td>
+    1609                                     <td class="p-4 text-gray-700">Barang tidak dapat digunakan.</td>
+    1610                                     <td class="p-4 flex gap-2">
+    1611                                         <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+    1612                                         <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+    1613                                     </td>
+    1614                                 </tr>
+    1615                             </tbody>
+    1616                         </table>
+    1617                     </div>
+    1618                      </div>
+    1619                     </div>
 
 
-            <!-- ========= HALAMAN: JADWAL PERAWATAN (SEARCH BAR DIKEMBALIKAN) ========= -->
-            <div id="jadwal-perawatan" class="page-content">
-                 <div id="breadcrumb-jadwal-perawatan" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Jadwal Perawatan</h1>
+    1622             <!-- ========= HALAMAN: JADWAL PERAWATAN (SEARCH BAR DIKEMBALIKAN) ========= -->
+    1623             <div id="jadwal-perawatan" class="page-content">
+    1624                  <div id="breadcrumb-jadwal-perawatan" class="breadcrumbs"></div>
+    1625                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Jadwal Perawatan</h1>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Kalender -->
-                    <div class="lg:col-span-2 card">
-                        <div class="flex justify-between items-center mb-4">
-                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-left"></i></button>
-                            <h2 class="text-xl font-semibold text-gray-800">Oktober 2025</h2>
-                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                        <div class="calendar-grid">
-                              <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div><div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div><div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div><div class="calendar-day-header">Sab</div>
-                              <div class="calendar-day text-gray-400">28</div><div class="calendar-day text-gray-400">29</div><div class="calendar-day text-gray-400">30</div><div class="calendar-day">1</div><div class="calendar-day" data-date="2">2 <span class="dot"></span></div><div class="calendar-day">3</div><div class="calendar-day">4</div>
-                              <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day" data-date="9">9 <span class="dot"></span></div><div class="calendar-day">10</div><div class="calendar-day">11</div>
-                              <div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day" data-date="17">17 <span class="dot"></span></div><div class="calendar-day">18</div>
-                              <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
-                              <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
-                        </div>
-                    </div>
-                    <!-- Kolom Detail Hari -->
-                    <div class="lg:col-span-1 card">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
-                        <p class="font-medium text-gray-700 mb-2" id="detail-tanggal">Pilih tanggal di kalender...</p>
-                          <div class="overflow-x-auto">
-                              <table class="w-full text-left">
-                                  <thead class="bg-gray-50 border-b border-gray-200 text-xs uppercase">
-                                      <tr>
-                                          <th class="p-2 font-semibold text-gray-600">Barang</th>
-                                          <th class="p-2 font-semibold text-gray-600">Satker</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody id="detail-list-table" class="divide-y divide-gray-200">
-                                      <tr><td colspan="2" class="p-2 text-center text-gray-500">Pilih tanggal...</td></tr>
-                                  </tbody>
-                              </table>
-                        </div>
-                    </div>
-                </div>
+    1627                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    1628                     <!-- Kolom Kalender -->
+    1629                     <div class="lg:col-span-2 card">
+    1630                         <div class="flex justify-between items-center mb-4">
+    1631                             <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-left"></i></button>
+    1632                             <h2 class="text-xl font-semibold text-gray-800">Oktober 2025</h2>
+    1633                             <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-right"></i></button>
+    1634                         </div>
+    1635                         <div class="calendar-grid">
+    1636                               <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div><div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div><div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div><div class="calendar-day-header">Sab</div>
+    1637                               <div class="calendar-day text-gray-400">28</div><div class="calendar-day text-gray-400">29</div><div class="calendar-day text-gray-400">30</div><div class="calendar-day">1</div><div class="calendar-day" data-date="2">2 <span class="dot"></span></div><div class="calendar-day">3</div><div class="calendar-day">4</div>
+    1638                               <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day" data-date="9">9 <span class="dot"></span></div><div class="calendar-day">10</div><div class="calendar-day">11</div>
+    1639                               <div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day" data-date="17">17 <span class="dot"></span></div><div class="calendar-day">18</div>
+    1640                               <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
+    1641                               <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
+    1642                         </div>
+    1643                          </div>
+    1644                          <!-- Kolom Detail Hari -->
+    1645                     <div class="lg:col-span-1 card">
+    1646                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
+    1647                         <p class="font-medium text-gray-700 mb-2" id="detail-tanggal">Pilih tanggal di kalender...</p>
+    1648                           <div class="overflow-x-auto">
+    1649                               <table class="w-full text-left">
+    1650                                   <thead class="bg-gray-50 border-b border-gray-200 text-xs uppercase">
+    1651                                       <tr>
+    1652                                           <th class="p-2 font-semibold text-gray-600">Barang</th>
+    1653                                           <th class="p-2 font-semibold text-gray-600">Satker</th>
+    1654                                       </tr>
+    1655                                   </thead>
+    1656                                   <tbody id="detail-list-table" class="divide-y divide-gray-200">
+    1657                                       <tr><td colspan="2" class="p-2 text-center text-gray-500">Pilih tanggal...</td></tr>
+    1658                                   </tbody>
+    1659                               </table>
+    1660                           </div>
+    1661                          </div>
+    1662                         </div>
 
-                <!-- List Barang di Bawah (SEARCH BAR DIKEMBALIKAN) -->
-                <div class="card mt-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <label for="tgl_mulai_jadwal" class="text-sm font-medium text-gray-700">Dari:</label>
-                            <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2">
-                            <label for="tgl_selesai_jadwal" class="text-sm font-medium text-gray-700">Sampai:</label>
-                            <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2">
-                        </div>
-                         <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64"> <!-- Search bar -->
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Jadwal</th>
-                                    <th class="p-4 font-semibold text-gray-600">Satker</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">BRG-001</td>
-                                    <td class="p-4 text-gray-700">
-                                        <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
-                                    </td>
-                                    <td class="p-4 text-gray-700">9 Oktober 2025</td>
-                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">BRG-017</td>
-                                    <td class="p-4 text-gray-700">
-                                        <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Proyektor Ruang 712</a>
-                                    </td>
-                                    <td class="p-4 text-gray-700">17 Oktober 2025</td>
-                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    1664                     <!-- List Barang di Bawah (SEARCH BAR DIKEMBALIKAN) -->
+    1665                     <div class="card mt-6">
+    1666                         <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
+    1667                         <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+    1668                             <div class="flex flex-wrap items-center gap-2">
+    1669                                 <label for="tgl_mulai_jadwal" class="text-sm font-medium text-gray-700">Dari:</label>
+    1670                                 <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2">
+    1671                                 <label for="tgl_selesai_jadwal" class="text-sm font-medium text-gray-700">Sampai:</label>
+    1672                                 <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2">
+    1673                             </div>
+    1674                          <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64"> <!-- Search bar -->
+    1675                         </div>
+    1676                         <div class="overflow-x-auto">
+    1677                             <table class="w-full text-left">
+    1678                                 <thead class="bg-gray-50 border-b border-gray-200">
+    1679                                     <tr>
+    1680                                         <th class="p-4 font-semibold text-gray-600">ID Barang</th>
+    1681                                         <th class="p-4 font-semibold text-gray-600">Barang</th>
+    1682                                         <th class="p-4 font-semibold text-gray-600">Jadwal</th>
+    1683                                         <th class="p-4 font-semibold text-gray-600">Satker</th>
+    1684                                     </tr>
+    1685                                 </thead>
+    1686                                 <tbody class="divide-y divide-gray-200">
+    1687                                     <tr>
+    1688                                         <td class="p-4 text-gray-700">BRG-001</td>
+    1689                                         <td class="p-4 text-gray-700">
+    1690                                             <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+    1691                                         </td>
+    1692                                         <td class="p-4 text-gray-700">9 Oktober 2025</td>
+    1693                                         <td class="p-4 text-gray-700">Administrasi Niaga</td>
+    1694                                     </tr>
+    1695                                     <tr>
+    1696                                         <td class="p-4 text-gray-700">BRG-017</td>
+    1697                                         <td class="p-4 text-gray-700">
+    1698                                             <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 hover:underline">Proyektor Ruang 712</a>
+    1699                                         </td>
+    1700                                         <td class="p-4 text-gray-700">17 Oktober 2025</td>
+    1701                                         <td class="p-4 text-gray-700">Teknik Elektro</td>
+    1702                                     </tr>
+    1703                                     <tr>
+    1704                                         <td class="p-4 text-gray-700">BRG-012</td>
+    1705                                         <td class="p-4 text-gray-700">
+    1706                                             <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
+    1707                                         </td>
+    1708                                         <td class="p-4 text-gray-700">2 November 2025</td>
+    1709                                         <td class="p-4 text-gray-700">Teknik Elektro</td>
+    1710                                     </tr>
+    1711                                     
+    1712                                     
+    1713                                         
+    1714                                     
+    1715                                     
+    1716                                     
+    1717                                     
+    1718                                 </tbody>
+    1719                             </table>
+    1720                         </div>
+    1721                     </div>
+    1722                      </div>
 
-            <!-- ========= HALAMAN: PENGAJUAN PERAWATAN ========= -->
-            <div id="pengajuan-perawatan" class="page-content">
-                 <div id="breadcrumb-pengajuan-perawatan" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perawatan</h1>
+    1725             <!-- ========= HALAMAN: PENGAJUAN PERAWATAN ========= -->
+    1726             <div id="pengajuan-perawatan" class="page-content">
+    1727                  <div id="breadcrumb-pengajuan-perawatan" class="breadcrumbs"></div>
+    1728                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perawatan</h1>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Form -->
-                    <div class="lg:col-span-2 card">
-                        <form class="space-y-4">
-                            <div>
-                                <label for="nama_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
-                                <input type="text" id="nama_pengajuan_pw" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2">
-                            </div>
-                            <div>
-                                <label for="deskripsi_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
-                                <textarea id="deskripsi_pengajuan_pw" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum..."></textarea>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="tanggal_pelaksanaan_pw" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
-                                    <input type="date" id="tanggal_pelaksanaan_pw" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2">
-                                </div>
-                                <div>
-                                    <label for="nomor_proposal_pw" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
-                                    <input type="text" id="nomor_proposal_pw" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="satuan_kerja_pw" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
-                                <select id="satuan_kerja_pw" class="w-full border border-gray-300 rounded-lg p-2">
-                                    <option>Administrasi Niaga</option>
-                                    <option>Teknik Elektro</option>
-                                    <option>Teknik Sipil</option>
-                                </select>
-                            </div>
-                            <div class="border border-gray-200 rounded-lg p-4 space-y-3">
-                                <h3 class="font-semibold text-gray-800">Tambah Barang</h3>
-                                <div>
-                                    <label for="pilih_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang</label>
-                                    <select id="pilih_barang_pw" class="w-full border border-gray-300 rounded-lg p-2">
-                                        <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2</option>
-                                        <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2</option>
-                                        <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="deskripsi_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
-                                    <textarea id="deskripsi_barang_pw" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Perlu dibersihkan, debu tebal..."></textarea>
-                                </div>
-                                <button type="button" id="tambah-barang-btn-pw" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
-                                    <i class="fas fa-plus"></i><span>Tambahkan Barang ke List</span></button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Kolom Tabel Barang -->
-                    <div class="lg:col-span-1 card">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
-                        <ul id="list-barang-diajukan-pw" class="space-y-3">
-                            <li class="p-3 border rounded-lg">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Epson 13124</p>
-                                        <p class="text-sm text-gray-600 italic mt-1">"Perlu pembersihan head"</p>
-                                    </div>
-                                    <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+    1730                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    1731                     <!-- Kolom Form -->
+    1732                     <div class="lg:col-span-2 card">
+    1733                         <form class="space-y-4">
+    1734                             <div>
+    1735                                 <label for="nama_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
+    1736                                 <input type="text" id="nama_pengajuan_pw" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2">
+    1737                             </div>
+    1738                             <div>
+    1739                                 <label for="deskripsi_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
+    1740                                 <textarea id="deskripsi_pengajuan_pw" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum..."></textarea>
+    1741                             </div>
+    1742                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    1743                                 <div>
+    1744                                     <label for="tanggal_pelaksanaan_pw" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
+    1745                                     <input type="date" id="tanggal_pelaksanaan_pw" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2">
+    1746                                 </div>
+    1747                                 <div>
+    1748                                     <label for="nomor_proposal_pw" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
+    1749                                     <input type="text" id="nomor_proposal_pw" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2">
+    1750                                 </div>
+    1751                             </div>
+    1752                             <div>
+    1753                                 <label for="satuan_kerja_pw" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
+    1754                                 <select id="satuan_kerja_pw" class="w-full border border-gray-300 rounded-lg p-2">
+    1755                                     <option>Administrasi Niaga</option>
+    1756                                     <option>Teknik Elektro</option>
+    1757                                     <option>Teknik Sipil</option>
+    1758                                 </select>
+    1759                             </div>
+    1760                             <div class="border border-gray-200 rounded-lg p-4 space-y-3">
+    1761                                 <h3 class="font-semibold text-gray-800">Tambah Barang</h3>
+    1762                                 <div>
+    1763                                     <label for="pilih_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang</label>
+    1764                                     <select id="pilih_barang_pw" class="w-full border border-gray-300 rounded-lg p-2">
+    1765                                         <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2</option>
+    1766                                         <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2</option>
+    1767                                         <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067</option>
+    1768                                     </select>
+    1769                                 </div>
+    1770                                 <div>
+    1771                                     <label for="deskripsi_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
+    1772                                     <textarea id="deskripsi_barang_pw" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Perlu dibersihkan, debu tebal..."></textarea>
+    1773                                 </div>
+    1774                                 <button type="button" id="tambah-barang-btn-pw" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
+    1775                                     <i class="fas fa-plus"></i><span>Tambahkan Barang ke List</span></button>
+    1776                             </div>
+    1777                         </form>
+    1778                     </div>
+    1779                     <!-- Kolom Tabel Barang -->
+    1780                     <div class="lg:col-span-1 card">
+    1781                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
+    1782                         <ul id="list-barang-diajukan-pw" class="space-y-3">
+    1783                             <li class="p-3 border rounded-lg">
+    1784                                 <div class="flex justify-between items-start">
+    1785                                     <div>
+    1786                                         <p class="font-medium text-gray-800">Epson 13124</p>
+    1787                                         <p class="text-sm text-gray-600 italic mt-1">"Perlu pembersihan head"</p>
+    1788                                     </div>
+    1789                                     <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+    1790                                 </div>
+    1791                             </li>
+    1792                         </ul>
+    1793                     </div>
+    1794                 </div>
                 <!-- Tombol Aksi Form -->
                 <div class="flex flex-wrap justify-end gap-3 mt-6">
                     <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg">Cancel</button>
