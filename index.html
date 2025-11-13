@@ -430,7 +430,7 @@
             justify-content: space-around;
             align-items: flex-end;
             width: 100%;
-            height: 320px; /* h-80 */
+            height: 430px; /* h-80 */
             padding: 20px 20px 30px 40px; /* Ruang lebih di kiri untuk label Y */
             border-left: 2px solid #e5e7eb; /* border-gray-200 */
             border-bottom: 2px solid #e5e7eb;
@@ -439,7 +439,7 @@
         /* Label Sumbu Y (FIXED POSITION) */
         .y-axis-label {
             position: absolute;
-            left: -25px; /* Posisikan di kiri border */
+            left: 25px; /* Posisikan di kiri border */
             transform: translateY(50%); /* Pusatkan vertikal */
             font-size: 12px;
             color: #6b7280;
@@ -660,205 +660,236 @@
         <div class="page-container">
 
             <!-- ========= HALAMAN: DASHBOARD (UPDATED) ========= -->
-            <div id="dashboard" class="page-content active">
-                 <!-- Breadcrumb -->
-                 <div id="breadcrumb-dashboard" class="breadcrumbs">Dashboard</div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+          <div id="dashboard" class="page-content active">
+    <div id="breadcrumb-dashboard" class="breadcrumbs">Dashboard</div>
 
-                <!-- Filter Dashboard -->
-                <div class="flex flex-wrap items-center gap-4 mb-6 p-4 bg-white rounded-lg shadow-md">
-                    <h2 class="font-semibold text-gray-700">Filter Data:</h2>
-                    <select id="dashboard-semester-select" class="border border-gray-300 rounded-lg p-2 text-sm">
+    <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+    <p class="text-lg text-gray-600 mb-6">Laporan Bulan: <span class="font-semibold text-gray-800">Oktober 2025</span></p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+
+        <div class="card">
+            <div class="flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-sm font-medium text-gray-500">Perawatan (Oktober)</p>
+                    <div class="p-2 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-tasks fa-sm"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-800" id="stat-perawatan-bulan-ini">12</p>
+                <p class="text-xs text-gray-500 mt-1" id="stat-total-perawatan">45 Total Perawatan (Semua Status)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-sm font-medium text-gray-500">Perbaikan (Oktober)</p>
+                    <div class="p-2 rounded-full bg-yellow-100 text-yellow-600">
+                        <i class="fas fa-exclamation-triangle fa-sm"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-800" id="stat-perbaikan-mendesak">3</p>
+                <p class="text-xs text-gray-500 mt-1" id="stat-total-perbaikan">18 Total Perbaikan (Semua Status)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-sm font-medium text-gray-500">Selesai (Oktober)</p>
+                    <div class="p-2 rounded-full bg-green-100 text-green-600">
+                        <i class="fas fa-check-circle fa-sm"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-800" id="stat-selesai-bulan-ini">9</p>
+                <p class="text-xs text-gray-500 mt-1" id="stat-total-selesai">63 Total Selesai Dikerjakan</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
+                    <div class="p-2 rounded-full bg-gray-100 text-gray-600">
+                        <i class="fas fa-box fa-sm"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-gray-800" id="stat-total-barang">1,204</p>
+                <p class="text-xs text-gray-500 mt-1">Di semua Satuan Kerja</p>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <div class="lg:col-span-2 card">
+            <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
+                <h2 class="text-xl font-semibold text-gray-800">Grafik Perawatan per Bulan</h2>
+                <div class="flex items-center gap-2">
+                    <select id="chart-semester-select" class="border border-gray-300 rounded-lg p-1 text-sm">
                         <option value="all">Semua Semester</option>
-                        <option value="1">Semester Ganjil (1)</option>
-                        <option value="2">Semester Genap (2)</option>
+                        <option value="1">Semester Ganjil (Jul-Des)</option>
+                        <option value="2">Semester Genap (Jan-Jun)</option>
                     </select>
-                    <select id="dashboard-year-select" class="border border-gray-300 rounded-lg p-2 text-sm">
-                        <option value="2025">Tahun 2025</option>
-                        <option value="2024">Tahun 2024</option>
-                        <option value="2023">Tahun 2023</option>
+                    <select id="chart-year-select" class="border border-gray-300 rounded-lg p-1 text-sm">
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
                     </select>
                 </div>
+            </div>
 
-                <!-- Grid Statistik -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <!-- Card 1: Total Perawatan -->
-                    <div class="card">
-                        <div class="flex flex-col">
-                             <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-medium text-gray-500">Total Perawatan (Semua Status)</p>
-                                <div class="p-2 rounded-full bg-blue-100 text-blue-600">
-                                     <i class="fas fa-tasks fa-sm"></i>
-                                </div>
-                             </div>
-                            <p class="text-3xl font-bold text-gray-800" id="stat-total-perawatan">45</p>
-                            <p class="text-xs text-gray-500 mt-1">12 Perawatan Bulan Ini</p>
-                        </div>
-                    </div>
-                    <!-- Card 2: Total Perbaikan -->
-                    <div class="card">
-                        <div class="flex flex-col">
-                             <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-medium text-gray-500">Total Perbaikan (Semua Status)</p>
-                                <div class="p-2 rounded-full bg-yellow-100 text-yellow-600">
-                                     <i class="fas fa-exclamation-triangle fa-sm"></i>
-                                </div>
-                             </div>
-                            <p class="text-3xl font-bold text-gray-800" id="stat-total-perbaikan">18</p>
-                             <p class="text-xs text-gray-500 mt-1">3 Perbaikan Mendesak</p>
-                        </div>
-                    </div>
-                    <!-- Card 3: Total Selesai -->
-                    <div class="card">
-                        <div class="flex flex-col">
-                             <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-medium text-gray-500">Total Selesai Dikerjakan</p>
-                                <div class="p-2 rounded-full bg-green-100 text-green-600">
-                                     <i class="fas fa-check-circle fa-sm"></i>
-                                </div>
-                             </div>
-                            <p class="text-3xl font-bold text-gray-800" id="stat-total-selesai">63</p>
-                            <p class="text-xs text-gray-500 mt-1">Gabungan Perawatan & Perbaikan</p>
-                        </div>
-                    </div>
-                    <!-- Card 4: Total Barang -->
-                    <div class="card">
-                        <div class="flex flex-col">
-                             <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
-                                <div class="p-2 rounded-full bg-gray-100 text-gray-600">
-                                     <i class="fas fa-box fa-sm"></i>
-                                </div>
-                             </div>
-                            <p class="text-3xl font-bold text-gray-800">1,204</p>
-                             <p class="text-xs text-gray-500 mt-1">Di semua Satuan Kerja</p>
-                        </div>
-                    </div>
+            <div class="chart-container" id="chart-container">
+                <div class="chart-y-axis">
+                    <span>100</span>
+                    <span>50</span>
+                    <span>0</span>
                 </div>
+                <div class="chart-grid-line" style="bottom: 100%;"></div>
+                <div class="chart-grid-line" style="bottom: 50%;"></div>
+                <div class="chart-grid-line" style="bottom: 0;"></div>
 
-                <!-- Grid Grafik dan List -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Grafik -->
-                    <div class="lg:col-span-2 card">
-                        <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
-                             <h2 class="text-xl font-semibold text-gray-800">Grafik Perawatan per Bulan</h2>
-                             <select id="chart-year-select" class="border border-gray-300 rounded-lg p-1 text-sm">
-                                 <option value="2025">2025</option>
-                                 <option value="2024">2024</option>
-                                 <option value="2023">2023</option>
-                             </select>
-                        </div>
-                        <div class="chart-container" id="chart-container">
-                             <span class="y-axis-label y-axis-label-low">0</span>
-                             <span class="y-axis-label y-axis-label-mid">50</span>
-                             <span class="y-axis-label y-axis-label-high">100</span>
-                            <!-- Bars will be generated by JS -->
-                        </div>
+                <div class="chart-bars">
+                    <div class="chart-bar-item" data-month="1">
+                        <div class="bar" style="height: 30%;"></div> <span class="bar-label">Jan</span>
                     </div>
-
-                    <!-- Kolom Kanan (Tabel Pengajuan & Jadwal) -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <!-- Tabel Pengajuan Perbaikan Terbaru -->
-                        <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Pengajuan Perbaikan Terbaru</h2>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                     <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                                         <tr>
-                                             <th scope="col" class="p-2">Barang</th>
-                                             <th scope="col" class="p-2">Tgl. Ajuan</th>
-                                             <th scope="col" class="p-2">Status</th>
-                                         </tr>
-                                     </thead>
-                                     <tbody>
-                                         <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Lab LSI 2</a>
-                                             </td>
-                                             <td class="p-2 text-gray-600">26 Okt</td>
-                                             <td class="p-2">
-                                                 <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
-                                             </td>
-                                         </tr>
-                                         <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                  <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
-                                             </td>
-                                             <td class="p-2 text-gray-600">25 Okt</td>
-                                             <td class="p-2">
-                                                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">Dikerjakan</span>
-                                             </td>
-                                         </tr>
-                                         <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                   <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
-                                               </td>
-                                             <td class="p-2 text-gray-600">25 Okt</td>
-                                             <td class="p-2">
-                                                   <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
-                                               </td>
-                                         </tr>
-                                          <tr>
-                                               <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                   <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-034" class="menu-link detail-barang-link text-blue-600 hover:underline">AC Ruang 712</a>
-                                               </td>
-                                               <td class="p-2 text-gray-600">11 Okt</td>
-                                               <td class="p-2">
-                                                   <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">Selesai</span>
-                                               </td>
-                                          </tr>
-                                     </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                          <!-- Tabel Jadwal Perawatan Terdekat BARU -->
-                          <div class="card">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perawatan Terdekat</h2>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                     <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                                         <tr>
-                                             <th scope="col" class="p-2">Barang</th>
-                                             <th scope="col" class="p-2">Jadwal</th>
-                                             <th scope="col" class="p-2">Prioritas</th>
-                                         </tr>
-                                     </thead>
-                                     <tbody>
-                                         <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Apple Lab LSI 2</a>
-                                             </td>
-                                             <td class="p-2 text-gray-600">2 Nov</td>
-                                             <td class="p-2">
-                                                 <span class="priority-tag priority-medium">Medium</span>
-                                             </td>
-                                         </tr>
-                                         <tr>
-                                             <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                 <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 hover:underline">Proyektor Ruang 712</a>
-                                             </td>
-                                             <td class="p-2 text-gray-600">5 Nov</td>
-                                             <td class="p-2">
-                                                 <span class="priority-tag priority-high">Tinggi</span>
-                                             </td>
-                                         </tr>
-                                          <tr>
-                                               <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
-                                                   <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
-                                               </td>
-                                               <td class="p-2 text-gray-600">5 Nov</td>
-                                               <td class="p-2">
-                                                   <span class="priority-tag priority-low">Rendah</span>
-                                               </td>
-                                          </tr>
-                                     </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="chart-bar-item" data-month="2">
+                        <div class="bar" style="height: 45%;"></div> <span class="bar-label">Feb</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="3">
+                        <div class="bar" style="height: 20%;"></div> <span class="bar-label">Mar</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="4">
+                        <div class="bar" style="height: 55%;"></div> <span class="bar-label">Apr</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="5">
+                        <div class="bar" style="height: 70%;"></div> <span class="bar-label">Mei</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="6">
+                        <div class="bar" style="height: 60%;"></div> <span class="bar-label">Jun</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="7">
+                        <div class="bar" style="height: 40%;"></div> <span class="bar-label">Jul</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="8">
+                        <div class="bar" style="height: 80%;"></div> <span class="bar-label">Agt</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="9">
+                        <div class="bar" style="height: 50%;"></div> <span class="bar-label">Sep</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="10">
+                        <div class="bar" style="height: 90%;"></div> <span class="bar-label">Okt</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="11">
+                        <div class="bar" style="height: 30%;"></div> <span class="bar-label">Nov</span>
+                    </div>
+                    <div class="chart-bar-item" data-month="12">
+                        <div class="bar" style="height: 25%;"></div> <span class="bar-label">Des</span>
                     </div>
                 </div>
             </div>
+            </div>
+
+        <div class="lg:col-span-1 space-y-6">
+            <div class="card">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Pengajuan Perbaikan Terbaru</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-xs uppercase text-gray-700">
+                            <tr>
+                                <th scope="col" class="p-2">Barang</th>
+                                <th scope="col" class="p-2">Tgl. Ajuan</th>
+                                <th scope="col" class="p-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Lab LSI 2</a>
+                                </td>
+                                <td class="p-2 text-gray-600">26 Okt</td>
+                                <td class="p-2">
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
+                                </td>
+                                <td class="p-2 text-gray-600">25 Okt</td>
+                                <td class="p-2">
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">Dikerjakan</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 hover:underline">Kursi Lab LSI 2 (10)</a>
+                                </td>
+                                <td class="p-2 text-gray-600">25 Okt</td>
+                                <td class="p-2">
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">Menunggu</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-034" class="menu-link detail-barang-link text-blue-600 hover:underline">AC Ruang 712</a>
+                                </td>
+                                <td class="p-2 text-gray-600">11 Okt</td>
+                                <td class="p-2">
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">Selesai</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Jadwal Perawatan Terdekat</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-xs uppercase text-gray-700">
+                            <tr>
+                                <th scope="col" class="p-2">Barang</th>
+                                <th scope="col" class="p-2">Jadwal</th>
+                                <th scope="col" class="p-2">Prioritas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 hover:underline">Komputer Apple Lab LSI 2</a>
+                                </td>
+                                <td class="p-2 text-gray-600">2 Nov</td>
+                                <td class="p-2">
+                                    <span class="priority-tag priority-medium">Medium</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 hover:underline">Proyektor Ruang 712</a>
+                                </td>
+                                <td class="p-2 text-gray-600">5 Nov</td>
+                                <td class="p-2">
+                                    <span class="priority-tag priority-high">Tinggi</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 hover:underline">Papan Tulis 7584</a>
+                                </td>
+                                <td class="p-2 text-gray-600">5 Nov</td>
+                                <td class="p-2">
+                                    <span class="priority-tag priority-low">Rendah</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
 
             <!-- ========= HALAMAN: MASTER BARANG (UPDATED KOLOM) ========= -->
             <div id="master-barang" class="page-content">
@@ -879,81 +910,78 @@
                         </div>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">No</th>
-                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Nama Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Satuan Kerja</th>
-                                    <th class="p-4 font-semibold text-gray-600">Kondisi</th>
-                                    <!-- KOLOM TAMBAHAN BARU SESUAI GAMBAR -->
-                                    <th class="p-4 font-semibold text-gray-600">Merk</th>
-                                    <th class="p-4 font-semibold text-gray-600">Tipe</th>
-                                    <th class="p-4 font-semibold text-gray-600">Umur Aset</th>
-                                    <th class="p-4 font-semibold text-gray-600">Intra / Extra</th>
-                                    <th class="p-4 font-semibold text-gray-600">Henti Guna</th>
-                                    <th class="p-4 font-semibold text-gray-600">Kode Register</th>
-                                    <th class="p-4 font-semibold text-gray-600">Lokasi Ruang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Status Penggunaan</th>
-                                    <th class="p-4 font-semibold text-gray-600">Tgl. Perolehan</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 text-sm">
-                                <tr>
-                                    <td class="p-4 text-gray-700">1</td>
-                                    <td class="p-4 text-gray-700">BRG-001</td>
-                                    <td class="p-4 text-gray-700">
-                                         <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
-                                     </td>
-                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
-                                    <td class="p-4 text-gray-700">
-                                         <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span>
-                                     </td>
-                                     <!-- DATA TAMBAHAN -->
-                                     <td class="p-4 text-gray-700">Apple</td>
-                                     <td class="p-4 text-gray-700">Macbook Pro</td>
-                                     <td class="p-4 text-gray-700">5 Tahun</td>
-                                     <td class="p-4 text-gray-700">Intra</td>
-                                     <td class="p-4 text-gray-700">Tidak</td>
-                                     <td class="p-4 text-gray-700">E0E36F07...</td>
-                                     <td class="p-4 text-gray-700">Lab LSI 2</td>
-                                     <td class="p-4 text-gray-700">Digunakan sendiri</td>
-                                     <td class="p-4 text-gray-700">2020-01-15</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">2</td>
-                                    <td class="p-4 text-gray-700">BRG-002</td>
-                                    <td class="p-4 text-gray-700">
-                                         <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
-                                     </td>
-                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
-                                    <td class="p-4 text-gray-700">
-                                         <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Perlu Perawatan</span>
-                                     </td>
-                                      <!-- DATA TAMBAHAN -->
-                                     <td class="p-4 text-gray-700">Lokal</td>
-                                     <td class="p-4 text-gray-700">Whiteboard</td>
-                                     <td class="p-4 text-gray-700">3 Tahun</td>
-                                     <td class="p-4 text-gray-700">Intra</td>
-                                     <td class="p-4 text-gray-700">Tidak</td>
-                                     <td class="p-4 text-gray-700">E0E36F07...</td>
-                                     <td class="p-4 text-gray-700">Ruang 712</td>
-                                     <td class="p-4 text-gray-700">Digunakan operasional</td>
-                                     <td class="p-4 text-gray-700">2022-10-01</td>
-                                    <td class="p-4 flex gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <table class="text-left">
+        <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">No</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">ID Barang</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Nama Barang</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Satuan Kerja</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Kondisi</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Merk</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Tipe</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Umur Aset</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Intra / Extra</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Henti Guna</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Kode Register</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Status Penggunaan</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Tgl. Perolehan</th>
+                <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 text-sm">
+            <tr>
+                <td class="p-4 text-gray-700 whitespace-nowrap">1</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">BRG-001</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">
+                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+                </td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Administrasi Niaga</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">
+                    <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">Baik</span>
+                </td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Apple</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Macbook Pro</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">5 Tahun</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Intra</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Tidak</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">E0E36F07...</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Lab LSI 2</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Digunakan sendiri</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">2020-01-15</td>
+                <td class="p-4 flex gap-2 whitespace-nowrap">
+                    <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+
+                    <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="p-4 text-gray-700 whitespace-nowrap">2</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">BRG-002</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">
+                    <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
+                </td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Teknik Elektro</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">
+                    <span class="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">Rusak Ringan</span>
+                </td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Lokal</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Whiteboard</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">3 Tahun</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Intra</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Tidak</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">E0E36F07...</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Ruang 712</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">Digunakan operasional</td>
+                <td class="p-4 text-gray-700 whitespace-nowrap">2022-10-01</td>
+                <td class="p-4 flex gap-2 whitespace-nowrap">
+                    <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg">Edit</button>
+                    <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg">Hapus</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
                     <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-2">
                         <p class="text-sm text-gray-600">Showing 1 to 2 of 50 entries</p>
                         <div class="flex gap-1">
@@ -1289,8 +1317,15 @@
                 <!-- List Barang di Bawah (UPDATED: FILTER DURASI & PRIORITY) -->
                 <div class="card mt-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                    <div class="flex flex-wrap justify-between items-center mb-4 gap-10">
                         <div class="flex flex-wrap items-center gap-4">
+                            <!-- Filter Semua Durasi -->
+                               <select id="filter-durasi" class="border border-gray-300 rounded-lg p-2 text-sm">
+                                <option value="all">Semua Durasi</option>
+                                <option value="1">1 Bulan</option>
+                                <option value="3">3 Bulan</option>
+                                <option value="6">6 Bulan</option>
+                            </select>
                             <!-- Filter Tanggal -->
                             <div class="flex items-center gap-2">
                                 <label for="tgl_mulai_jadwal" class="text-sm font-medium text-gray-700">Dari:</label>
@@ -1298,13 +1333,6 @@
                                 <label for="tgl_selesai_jadwal" class="text-sm font-medium text-gray-700">Sampai:</label>
                                 <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
                             </div>
-                            <!-- Filter Durasi Baru -->
-                            <select id="filter-durasi" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                <option value="all">Semua Durasi</option>
-                                <option value="1">1 Bulan</option>
-                                <option value="3">3 Bulan</option>
-                                <option value="6">6 Bulan</option>
-                            </select>
                         </div>
                          <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64"> <!-- Search bar -->
                     </div>
@@ -2493,10 +2521,10 @@
                     title: "Detail Pengajuan Perawatan: SIPL-01326",
                     status: "ditolak",
                     reasonForRejection: "Anggaran untuk pengecatan ulang belum tersedia di triwulan ini. Mohon ajukan kembali di triwulan berikutnya.",
-                    info: `<div><p class="text-sm text-gray-500">ID Pengajuan</p><p class="font-medium text-gray-800">SIPL-01326</p></div><div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Pengecatan Ruang Kelas Sipil</p></div><div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Teknik Sipil</p></div><div><p class="text-sm text-gray-500">Nomor Proposal</p><p class="font-medium text-gray-800">-</p></div><div><p class="text-sm text-gray-500">Tgl. Pengajuan</p><p class="font-medium text-gray-800">15 Oktober 2025</p></div><div><p class="text-sm text-gray-500">Status</p><span class="bg-red-100 text-red-700 text-sm font-medium px-2 py-1 rounded-full">Ditolak</span></div><div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi</p><p class="font-medium text-gray-800">Pengecatan ulang dinding kelas A1 dan A2.</p></div>`,
+                    info: `<div><p class="text-sm text-gray-500">ID Pengajuan</p><p class="font-medium text-gray-800">SIPL-01326</p></div><div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Pengecatan Ruang Kelas Sipil</p></div><div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Teknik Sipil</p></div><div><p class="text-sm text-gray-500">Nomor Proposal</p><p class="font-medium text-gray-800">KD-09872</p></div><div><p class="text-sm text-gray-500">Tgl. Pengajuan</p><p class="font-medium text-gray-800">15 Oktober 2025</p></div><div><p class="text-sm text-gray-500">Status</p><span class="bg-red-100 text-red-700 text-sm font-medium px-2 py-1 rounded-full">Ditolak</span></div><div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi</p><p class="font-medium text-gray-800">Pengecatan ulang dinding kelas A1 dan A2.</p></div>`,
                     barang: `<tr><td class="p-3"><input type="checkbox" class="rounded border-gray-300" disabled></td><td class="p-3 text-sm text-gray-700">-</td><td class="p-3 text-sm font-medium text-gray-800">Pengecatan Dinding</td><td class="p-3 text-sm text-gray-600">"Warna sudah pudar"</td><td class="p-3 text-center space-x-2"><button class="text-gray-400 cursor-not-allowed" title="Foto"><i class="fas fa-camera"></i></button><button class="text-gray-400 cursor-not-allowed" title="QR Code"><i class="fas fa-qrcode"></i></button></td></tr>`,
                     timeline: `<div class="timeline-item"><span class="timeline-dot timeline-dot-blue"><i class="fas fa-paper-plane"></i></span><h3 class="font-semibold text-gray-800">Pengajuan Dibuat</h3><p class="text-sm text-gray-600">Oleh: User Sipil</p><time class="text-sm font-normal text-gray-500">15 Okt 2025, 14:00</time></div><div class="timeline-item"><span class="timeline-dot timeline-dot-red"><i class="fas fa-times"></i></span><h3 class="font-semibold text-gray-800">Pengajuan Ditolak</h3><p class="text-sm text-gray-600">Oleh: Admin UPA</p><time class="text-sm font-normal text-gray-500">16 Okt 2025, 09:00</time></div>`,
-                    catatan: `<div class="bg-red-100 p-2 rounded text-sm text-red-700"><p class="font-medium">Admin UPA (16 Okt 2025):</p><p>Ditolak. Anggaran belum tersedia untuk pengecatan saat ini.</p></div>`
+                    catatan: ''
                 },
                  "PBK-001": { // Contoh Perbaikan Selesai
                     title: "Detail Pengajuan Perbaikan: PBK-001",
@@ -2520,7 +2548,7 @@
                     title: "Detail Pengajuan Perawatan: AN-01325",
                     status: "disetujui",
                     reasonForRejection: null,
-                    info: `<div><p class="text-sm text-gray-500">ID Pengajuan</p><p class="font-medium text-gray-800">AN-01325</p></div><div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Perbaikan Kursi AN 2025</p></div><div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Administrasi Niaga</p></div><div><p class="text-sm text-gray-500">Nomor Proposal</p><p class="font-medium text-gray-800">-</p></div><div><p class="text-sm text-gray-500">Tgl. Pengajuan</p><p class="font-medium text-gray-800">9 Oktober 2025</p></div><div><p class="text-sm text-gray-500">Status</p><span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Disetujui</span></div><div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi</p><p class="font-medium text-gray-800">Perbaikan kaki kursi yang goyang (10 unit).</p></div>`,
+                    info: `<div><p class="text-sm text-gray-500">ID Pengajuan</p><p class="font-medium text-gray-800">AN-01325</p></div><div><p class="text-sm text-gray-500">Nama Pengajuan</p><p class="font-medium text-gray-800">Perbaikan Kursi AN 2025</p></div><div><p class="text-sm text-gray-500">Satuan Kerja</p><p class="font-medium text-gray-800">Administrasi Niaga</p></div><div><p class="text-sm text-gray-500">Nomor Proposal</p><p class="font-medium text-gray-800">KD-09872</p></div><div><p class="text-sm text-gray-500">Tgl. Pengajuan</p><p class="font-medium text-gray-800">9 Oktober 2025</p></div><div><p class="text-sm text-gray-500">Status</p><span class="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-full">Disetujui</span></div><div class="col-span-1 sm:col-span-2"><p class="text-sm text-gray-500">Deskripsi</p><p class="font-medium text-gray-800">Perbaikan kaki kursi yang goyang (10 unit).</p></div>`,
                     barang: `<tr><td class="p-3"><input type="checkbox" class="rounded border-gray-300" checked disabled></td><td class="p-3 text-sm text-gray-700">BRG-012</td><td class="p-3 text-sm font-medium text-gray-800"><a href="#detail-barang" data-target="#detail-barang" data-id="BRG-012" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Kursi Lab LSI 2</a></td><td class="p-3 text-sm text-gray-600">"Kaki goyang (10 unit)"</td><td class="p-3 text-center space-x-2"><button class="text-green-500" title="Foto Terverifikasi"><i class="fas fa-check-circle"></i></button><button class="text-gray-500 hover:text-gray-700" title="Download QR Code"><i class="fas fa-qrcode"></i></button></td></tr>`,
                     timeline: `<div class="timeline-item"><span class="timeline-dot timeline-dot-blue"><i class="fas fa-paper-plane"></i></span><h3 class="font-semibold text-gray-800">Pengajuan Dibuat</h3><p class="text-sm text-gray-600">Oleh: User AN</p><time class="text-sm font-normal text-gray-500">9 Okt 2025, 11:00</time></div><div class="timeline-item"><span class="timeline-dot timeline-dot-green"><i class="fas fa-check"></i></span><h3 class="font-semibold text-gray-800">Disetujui & Diverifikasi</h3><p class="text-sm text-gray-600">Oleh: Admin UPA</p><time class="text-sm font-normal text-gray-500">9 Okt 2025, 15:30</time></div>`,
                     catatan: ``
