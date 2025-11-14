@@ -668,58 +668,58 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
 
-        <div class="card">
-            <div class="flex flex-col">
-                <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm font-medium text-gray-500">Perawatan (Oktober)</p>
-                    <div class="p-2 rounded-full bg-blue-100 text-blue-600">
-                        <i class="fas fa-tasks fa-sm"></i>
-                    </div>
+    <div class="card">
+        <div class="flex flex-col">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-sm font-medium text-gray-500">Perawatan (Oktober)</p>
+                <div class="p-2 rounded-full bg-blue-100 text-blue-600">
+                    <i class="fas fa-tasks fa-sm"></i>
                 </div>
-                <p class="text-3xl font-bold text-gray-800" id="stat-perawatan-bulan-ini">12</p>
-                <p class="text-xs text-gray-500 mt-1" id="stat-total-perawatan">45 Total Perawatan (Semua Status)</p>
             </div>
-        </div>
-
-        <div class="card">
-            <div class="flex flex-col">
-                <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm font-medium text-gray-500">Perbaikan (Oktober)</p>
-                    <div class="p-2 rounded-full bg-yellow-100 text-yellow-600">
-                        <i class="fas fa-exclamation-triangle fa-sm"></i>
-                    </div>
-                </div>
-                <p class="text-3xl font-bold text-gray-800" id="stat-perbaikan-mendesak">3</p>
-                <p class="text-xs text-gray-500 mt-1" id="stat-total-perbaikan">18 Total Perbaikan (Semua Status)</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="flex flex-col">
-                <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm font-medium text-gray-500">Selesai (Oktober)</p>
-                    <div class="p-2 rounded-full bg-green-100 text-green-600">
-                        <i class="fas fa-check-circle fa-sm"></i>
-                    </div>
-                </div>
-                <p class="text-3xl font-bold text-gray-800" id="stat-selesai-bulan-ini">9</p>
-                <p class="text-xs text-gray-500 mt-1" id="stat-total-selesai">63 Total Selesai Dikerjakan</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="flex flex-col">
-                <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
-                    <div class="p-2 rounded-full bg-gray-100 text-gray-600">
-                        <i class="fas fa-box fa-sm"></i>
-                    </div>
-                </div>
-                <p class="text-3xl font-bold text-gray-800" id="stat-total-barang">1,204</p>
-                <p class="text-xs text-gray-500 mt-1">Di semua Satuan Kerja</p>
-            </div>
+            <p class="text-3xl font-bold text-blue-600" id="stat-perawatan-bulan-ini">12</p>
+            <p class="text-xs text-gray-500 mt-2" id="stat-total-perawatan">45 Total Perawatan (Semua Status)</p>
         </div>
     </div>
+
+    <div class="card">
+        <div class="flex flex-col">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-sm font-medium text-gray-500">Perbaikan (Oktober)</p>
+                <div class="p-2 rounded-full bg-yellow-100 text-yellow-600">
+                    <i class="fas fa-exclamation-triangle fa-sm"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-bold text-yellow-600" id="stat-perbaikan-mendesak">3</p>
+            <p class="text-xs text-gray-500 mt-2" id="stat-total-perbaikan">18 Total Perbaikan (Semua Status)</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="flex flex-col">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-sm font-medium text-gray-500">Selesai (Oktober)</p>
+                <div class="p-2 rounded-full bg-green-100 text-green-600">
+                    <i class="fas fa-check-circle fa-sm"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-bold text-green-600" id="stat-selesai-bulan-ini">9</p>
+            <p class="text-xs text-gray-500 mt-2" id="stat-total-selesai">63 Total Selesai Dikerjakan</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="flex flex-col">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-sm font-medium text-gray-500">Total Barang Terdata</p>
+                <div class="p-2 rounded-full bg-gray-100 text-gray-600">
+                    <i class="fas fa-box fa-sm"></i>
+                </div>
+            </div>
+            <p class="text-3xl font-bold text-gray-600" id="stat-total-barang">1,204</p>
+            <p class="text-xs text-gray-500 mt-2">Di semua Satuan Kerja</p>
+        </div>
+    </div>
+</div>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <div class="lg:col-span-2 card">
@@ -911,7 +911,7 @@
                     </div>
                     <div class="overflow-x-auto">
     <table class="text-left">
-        <thead class="bg-gray-50 border-b border-gray-200">
+        <thead class="bg-gray-50 border-b border-gray-200 text-center">
             <tr>
                 <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">No</th>
                 <th class="p-4 font-semibold text-gray-600 whitespace-nowrap">ID Barang</th>
@@ -946,7 +946,6 @@
                 <td class="p-4 text-gray-700 whitespace-nowrap">Intra</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">Tidak</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">E0E36F07...</td>
-                <td class="p-4 text-gray-700 whitespace-nowrap">Lab LSI 2</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">Digunakan sendiri</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">2020-01-15</td>
                 <td class="p-4 flex gap-2 whitespace-nowrap">
@@ -971,7 +970,6 @@
                 <td class="p-4 text-gray-700 whitespace-nowrap">Intra</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">Tidak</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">E0E36F07...</td>
-                <td class="p-4 text-gray-700 whitespace-nowrap">Ruang 712</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">Digunakan operasional</td>
                 <td class="p-4 text-gray-700 whitespace-nowrap">2022-10-01</td>
                 <td class="p-4 flex gap-2 whitespace-nowrap">
@@ -1315,23 +1313,41 @@
                 </div>
 
                 <!-- List Barang di Bawah (UPDATED: FILTER DURASI & PRIORITY) -->
-                <div class="card mt-6">
+                  <div class="card mt-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-10">
-                        <div class="flex flex-wrap items-center gap-4">
-                            <!-- Filter Semua Durasi -->
-                               <select id="filter-durasi" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                <option value="all">Semua Durasi</option>
-                                <option value="1">1 Bulan</option>
-                                <option value="3">3 Bulan</option>
-                                <option value="6">6 Bulan</option>
-                            </select>
-                            <!-- Filter Tanggal -->
-                            <div class="flex items-center gap-2">
-                                <label for="tgl_mulai_jadwal" class="text-sm font-medium text-gray-700">Dari:</label>
-                                <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                <label for="tgl_selesai_jadwal" class="text-sm font-medium text-gray-700">Sampai:</label>
-                                <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
+                    <!-- REVISI: Filter dipindahkan ke atas -->
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="flex flex-wrap items-center gap-4 w-full">
+                            <!-- Filter Durasi (Kiri) -->
+                            <div class="flex-shrink-0">
+                                <label for="filter-durasi" class="block text-sm font-medium text-gray-700 mb-1">Durasi</label>
+                                <select id="filter-durasi" data-action="toggle-date-range" class="border border-gray-300 rounded-lg p-2 text-sm">
+                                    <option value="all">Semua Durasi</option>
+                                    <option value="1">1 Bulan</option>
+                                    <option value="3">3 Bulan</option>
+                                    <option value="6">6 Bulan</option>
+                                </select>
+                            </div>
+                            <!-- Filter Satker -->
+                            <div class="flex-shrink-0">
+                                <label for="filter-satker-jadwal" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja</label>
+                                <select id="filter-satker-jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
+                                    <option value="all">Semua Satker</option>
+                                    <option value="AN">Administrasi Niaga</option>
+                                    <option value="Elektro">Teknik Elektro</option>
+                                    <option value="JTI">JTI</option>
+                                </select>
+                            </div>
+                            <!-- Filter Tanggal (Akan di-toggle) -->
+                            <div id="jadwal-tanggal-filter" class="flex flex-wrap items-center gap-2">
+                                <div class="flex-shrink-0">
+                                    <label for="tgl_mulai_jadwal" class="block text-sm font-medium text-gray-700 mb-1">Dari Tanggal</label>
+                                    <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <label for="tgl_selesai_jadwal" class="block text-sm font-medium text-gray-700 mb-1">Sampai Tanggal</label>
+                                    <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
+                                </div>
                             </div>
                         </div>
                          <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64"> <!-- Search bar -->
@@ -1963,68 +1979,68 @@
             
             <!-- ========= HALAMAN: MASTER ROLE (BARU) ========= -->
             <div id="master-role" class="page-content">
-                 <div id="breadcrumb-master-role" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Master Role (Permission Management)</h1>
-                <div class="card">
-                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah Role Baru</span></button>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600 w-1/5">Role Name</th>
-                                    <th class="p-4 font-semibold text-gray-600">Master Data</th>
-                                    <th class="p-4 font-semibold text-gray-600">Perawatan (Ajuan/Jadwal)</th>
-                                    <th class="p-4 font-semibold text-gray-600">Perbaikan (Ajuan/Riwayat)</th>
-                                    <th class="p-4 font-semibold text-gray-600">User Management</th>
-                                    <th class="p-4 font-semibold text-gray-600">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700 font-medium">Admin UPA</td>
-                                    <td class="p-4 text-gray-700 text-green-500"><i class="fas fa-check-square"></i> Full Access</td>
-                                    <td class="p-4 text-gray-700 text-green-500"><i class="fas fa-check-square"></i> All Access (Approve/Execute)</td>
-                                    <td class="p-4 text-gray-700 text-green-500"><i class="fas fa-check-square"></i> All Access (Approve/Execute)</td>
-                                    <td class="p-4 text-gray-700 text-green-500"><i class="fas fa-check-square"></i> Full Access</td>
-                                    <td class="p-4 flex flex-wrap gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg" data-target="#hak-akses-modal" onclick="openPermissionModal('Admin UPA')">Atur Hak Akses</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700 font-medium">Teknisi</td>
-                                    <td class="p-4 text-gray-700 text-blue-500"><i class="fas fa-eye"></i> Read Only</td>
-                                    <td class="p-4 text-gray-700 text-blue-500"><i class="fas fa-pencil-alt"></i> View/Execute Report</td>
-                                    <td class="p-4 text-gray-700 text-blue-500"><i class="fas fa-pencil-alt"></i> View/Execute Report</td>
-                                    <td class="p-4 text-gray-700 text-red-500"><i class="fas fa-times-circle"></i> No Access</td>
-                                    <td class="p-4 flex flex-wrap gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg" data-target="#hak-akses-modal" onclick="openPermissionModal('Teknisi')">Atur Hak Akses</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700 font-medium">User Satker</td>
-                                    <td class="p-4 text-gray-700 text-red-500"><i class="fas fa-times-circle"></i> No Access</td>
-                                    <td class="p-4 text-gray-700 text-yellow-500"><i class="fas fa-paper-plane"></i> Create Request Only</td>
-                                    <td class="p-4 text-gray-700 text-yellow-500"><i class="fas fa-paper-plane"></i> Create Request Only</td>
-                                    <td class="p-4 text-gray-700 text-red-500"><i class="fas fa-times-circle"></i> No Access</td>
-                                    <td class="p-4 flex flex-wrap gap-2">
-                                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded-lg" data-target="#hak-akses-modal" onclick="openPermissionModal('User Satker')">Atur Hak Akses</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div id="breadcrumb-master-role" class="breadcrumbs"></div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">Master Role (Permission Management)</h1>
+            <div class="card">
+                <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah Role Baru</span></button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 font-semibold text-gray-600">Role Name</th>
+                                
+                                <th class="p-4 font-semibold text-gray-600 w-1/3">Aksi</th>
+                            </tr>
+                        </thead>
+                       <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="p-4 text-gray-700 font-normal">Admin UPA</td>
+                            <td class="p-4 flex flex-wrap gap-2">
+                                <a href="#edit-hak-akses" 
+                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-3 rounded-lg flex items-center gap-1 menu-link" 
+                                data-role-name="Admin UPA" 
+                                data-breadcrumb="User & Hak Akses<span>/</span>Master Role<span>/</span>Edit Hak Akses">
+                                    <i class="fas fa-cog"></i><span>Atur Hak Akses</span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-gray-700 font-normal">Teknisi</td>
+                            <td class="p-4 flex flex-wrap gap-2">
+                                <a href="#edit-hak-akses" 
+                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-3 rounded-lg flex items-center gap-1 menu-link" 
+                                data-role-name="Teknisi"
+                                data-breadcrumb="User & Hak Akses<span>/</span>Master Role<span>/</span>Edit Hak Akses">
+                                    <i class="fas fa-cog"></i><span>Atur Hak Akses</span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-gray-700 font-normal">User Satker</td>
+                            <td class="p-4 flex flex-wrap gap-2">
+                                <a href="#edit-hak-akses" 
+                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-3 rounded-lg flex items-center gap-1 menu-link" 
+                                data-role-name="User Satker"
+                                data-breadcrumb="User & Hak Akses<span>/</span>Master Role<span>/</span>Edit Hak Akses">
+                                    <i class="fas fa-cog"></i><span>Atur Hak Akses</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
             <!-- ========= HALAMAN: MASTER HAK AKSES (LAMA) ========= -->
             <div id="master-hak-akses" class="page-content">
                  <div id="breadcrumb-master-hak-akses" class="breadcrumbs"></div>
                 <h1 class="text-3xl font-bold text-gray-800 mb-6">Master Hak Akses (Lama)</h1>
                 <div class="card">
-                    <p class="mb-4 text-gray-600">Halaman ini adalah versi lama. Silakan gunakan **Master Role** untuk manajemen permission yang lebih detail.</p>
+                    <p class="mb-4 text-gray-600">Halaman ini adalah versi lama. Silakan gunakan <strong>Master Role</strong> untuk manajemen permission yang lebih detail.</p>
                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                         <div class="flex flex-wrap gap-2">
                             <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus"></i><span>Tambah Hak Akses</span></button>
@@ -2132,36 +2148,34 @@
                 </div>
             </div>
 
+ <!-- MODAL HAK AKSES (BARU) -->
+    <div id="edit-hak-akses" class="page-content">
+    <div id="breadcrumb-edit-hak-akses" class="breadcrumbs"></div>
+    
+    <h1 id="edit-hak-akses-title" class="text-3xl font-bold text-gray-800 mb-6">Atur Hak Akses</h1>
+
+    <div class="card">
+        <p class="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg mb-6">Centang hak akses yang diizinkan untuk Role ini.</p>
+        
+        <div id="permission-list-page" class="space-y-6">
+            <p class="text-gray-500">Memuat...</p>
+        </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+        <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg menu-link" href="#master-role" data-breadcrumb="User & Hak Akses<span>/</span>Master Role">
+            Batal
+        </button>
+        <button id="save-hak-akses-page" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg">
+            Simpan Perubahan
+        </button>
+    </div>
+</div>
 
         </div> <!-- End .page-container -->
     </div> <!-- End .main-content -->
     
-    <!-- MODAL HAK AKSES (BARU) -->
-    <div id="hak-akses-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 scale-100">
-            <div class="p-6 border-b flex justify-between items-center">
-                <h3 class="text-xl font-bold text-gray-800"><i class="fas fa-user-shield mr-2 text-blue-600"></i> Atur Hak Akses Role: <span id="modal-role-name" class="text-blue-600"></span></h3>
-                <button id="close-hak-akses-modal" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times fa-lg"></i>
-                </button>
-            </div>
-            
-            <div class="p-6 space-y-6">
-                <p class="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">Centang hak akses yang diizinkan untuk Role ini.</p>
-                
-                <div id="permission-list" class="space-y-4">
-                    <!-- Permissions populated by JS -->
-                </div>
-            </div>
-            
-            <div class="p-4 border-t flex justify-end gap-3">
-                <button id="cancel-hak-akses-modal" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg">Batal</button>
-                <button id="save-hak-akses-modal" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg">
-                    Simpan Perubahan
-                </button>
-            </div>
-        </div>
-    </div>
+   
     
     <!-- MODAL IMPRT BARANG (LAMA) -->
     <div id="import-barang-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
@@ -2345,14 +2359,22 @@
                             showPage(targetId, breadcrumbData);
 
                              // --- LOGIKA KHUSUS UNTUK DETAIL PAGES ---
-                            if (targetId === '#detail-riwayat-perawatan' || targetId === '#detail-riwayat-perbaikan') {
-                                loadDetailPengajuan(this.dataset.id, this.dataset.status, targetId.includes('perawatan'));
-                            } else if (targetId === '#detail-barang') {
-                                loadDetailBarang(this.dataset.id);
+                           if (targetId === '#detail-riwayat-perawatan' || targetId === '#detail-riwayat-perbaikan') {
+                                loadDetailPengajuan(this.dataset.id, this.dataset.status, targetId.includes('perawatan'));
+                            } else if (targetId === '#detail-barang') {
+                                loadDetailBarang(this.dataset.id);
+                            } else if (targetId === '#edit-hak-akses') {
+                                // Panggil fungsi pemuat halaman hak akses baru
+                                const roleName = this.dataset.roleName;
+                                if (roleName) {
+                                    loadHakAksesPage(roleName);
+                                } else {
+                                    console.error("Role name tidak ditemukan (data-role-name)");
+                                }
                             }
-                        }
+                        }
 
-                        if (window.innerWidth < 768) {
+                        if (window.innerWidth < 768) {
                              if (sidebar && sidebarOverlay) {
                                  sidebar.classList.remove('active');
                                  sidebarOverlay.classList.add('hidden');
@@ -2846,13 +2868,7 @@
                 });
             }
 
-            // --- MODAL LOGIC: HAK AKSES ---
-            const hakAksesModal = document.getElementById('hak-akses-modal');
-            const modalRoleName = document.getElementById('modal-role-name');
-            const permissionList = document.getElementById('permission-list');
-            const closeHakAksesModalBtns = document.querySelectorAll('#close-hak-akses-modal, #cancel-hak-akses-modal');
-            const saveHakAksesModalBtn = document.getElementById('save-hak-akses-modal');
-            
+          
             // Dummy Permission Structure (Module: [R (Read/View), C (Create/Request), U (Update/Approve), D (Delete/Execute)])
             const allPermissions = {
                 "Dashboard": { R: "Akses Dashboard", C: false, U: false, D: false },
@@ -2903,79 +2919,102 @@
                 }
             };
 
-            window.openPermissionModal = function(roleName) {
-                modalRoleName.textContent = roleName;
-                permissionList.innerHTML = '';
-                const currentPermissions = rolePermissions[roleName] || {};
-                
-                for (const module in allPermissions) {
-                    const perms = allPermissions[module];
-                    const currentModulePerms = currentPermissions[module] || {};
-                    
-                    let moduleHtml = `<div class="border border-gray-200 rounded-lg p-3">
-                        <h4 class="text-lg font-bold text-gray-800 mb-3 border-b pb-2">${module}</h4>
-                        <div class="grid grid-cols-2 gap-4">`;
-                    
-                    for (const action in perms) {
-                        if (perms[action]) {
-                            const isChecked = currentModulePerms[action] === true;
-                            const actionLabel = perms[action];
-                            moduleHtml += `
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="${roleName}-${module}-${action}" 
-                                        class="form-checkbox h-5 w-5 text-blue-600 rounded" 
-                                        data-module="${module}" data-action="${action}" 
-                                        ${isChecked ? 'checked' : ''}>
-                                    <label for="${roleName}-${module}-${action}" class="ml-2 text-sm text-gray-700">${actionLabel}</label>
-                                </div>`;
-                        }
-                    }
-                    moduleHtml += `</div></div>`;
-                    permissionList.innerHTML += moduleHtml;
-                }
+// --- FUNGSI BARU UNTUK MEMUAT HALAMAN HAK AKSES ---
+// (Data allPermissions dan rolePermissions yang sudah ada di JS Anda tetap digunakan)
 
-                hakAksesModal.classList.remove('hidden');
-            };
+function loadHakAksesPage(roleName) {
+    const titleEl = document.getElementById('edit-hak-akses-title');
+    const breadcrumbEl = document.getElementById('breadcrumb-edit-hak-akses');
+    const permissionListEl = document.getElementById('permission-list-page');
+    const saveBtn = document.getElementById('save-hak-akses-page');
+
+    if (!titleEl || !breadcrumbEl || !permissionListEl || !saveBtn) {
+        console.error("Elemen halaman hak akses tidak ditemukan!");
+        return;
+    }
+
+    // 1. Set Judul dan Breadcrumb
+    titleEl.textContent = `Atur Hak Akses: ${roleName}`;
+    // Ambil breadcrumb dari link yang diklik, atau set manual
+    const activeLink = document.querySelector(`a[data-role-name="${roleName}"]`);
+    if (activeLink && activeLink.dataset.breadcrumb) {
+         breadcrumbEl.innerHTML = activeLink.dataset.breadcrumb;
+    } else {
+         breadcrumbEl.innerHTML = `User & Hak Akses<span>/</span>Master Role<span>/</span><strong>${roleName}</strong>`;
+    }
+    
+    // 2. Populate list (Logika disalin dari openPermissionModal lama)
+    permissionListEl.innerHTML = ''; // Kosongkan
+    const currentPermissions = rolePermissions[roleName] || {};
+    
+    for (const module in allPermissions) {
+        const perms = allPermissions[module];
+        const currentModulePerms = currentPermissions[module] || {};
+        
+        // --- PERHATIKAN BAGIAN INI ---
+        // 'div' di bawah ini adalah yang membuat tata letak 2 kolom
+        let moduleHtml = `<div class="border border-gray-200 rounded-lg p-3">
+            <h4 class="text-lg font-bold text-gray-800 mb-3 border-b pb-2">${module}</h4>
+            <div class="grid grid-cols-2 gap-4">`; // <-- INI KUNCINYA
+        
+        for (const action in perms) {
+            if (perms[action]) {
+                const isChecked = currentModulePerms[action] === true;
+                const actionLabel = perms[action];
+                moduleHtml += `
+                    <div class="flex items-center">
+                        <input type="checkbox" id="${roleName}-${module}-${action}" 
+                            class="form-checkbox h-5 w-5 text-blue-600 rounded" 
+                            data-module="${module}" data-action="${action}" 
+                            ${isChecked ? 'checked' : ''}>
+                        <label for="${roleName}-${module}-${action}" class="ml-2 text-sm text-gray-700">${actionLabel}</label>
+                    </div>`;
+            }
+        }
+        moduleHtml += `</div></div>`; // <-- Penutup 'div' grid
+        permissionListEl.innerHTML += moduleHtml;
+    }
+
+    // 3. Setup Tombol Save
+    // *Penting*: Hapus event listener lama agar tidak menumpuk
+    const newSaveBtn = saveBtn.cloneNode(true);
+    saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+    
+    newSaveBtn.addEventListener('click', () => {
+        // (Logika save disalin dari saveHakAksesModalBtn lama)
+        const newPermissions = {};
+        let hasChanges = false;
+        
+        permissionListEl.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const module = checkbox.dataset.module;
+            const action = checkbox.dataset.action;
+            
+            if (!newPermissions[module]) {
+                newPermissions[module] = {};
+            }
+            
+            const isChecked = checkbox.checked;
+            newPermissions[module][action] = isChecked;
+
+            // Cek jika ada perubahan
+            if ((rolePermissions[roleName]?.[module]?.[action] || false) !== isChecked) {
+                hasChanges = true;
+            }
+        });
+
+        if (hasChanges) {
+            rolePermissions[roleName] = newPermissions;
+            alert(`[MOCKUP] Hak Akses untuk Role "${roleName}" berhasil diperbarui!`);
+            // Navigasi kembali ke master role
+            document.querySelector('a[href="#master-role"]').click();
+        } else {
+            alert("Tidak ada perubahan yang disimpan.");
+        }
+    });
+}
             
-            closeHakAksesModalBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    hakAksesModal.classList.add('hidden');
-                });
             });
-
-            saveHakAksesModalBtn.addEventListener('click', () => {
-                const roleName = modalRoleName.textContent;
-                const newPermissions = {};
-                let hasChanges = false;
-                
-                permissionList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                    const module = checkbox.dataset.module;
-                    const action = checkbox.dataset.action;
-                    
-                    if (!newPermissions[module]) {
-                        newPermissions[module] = {};
-                    }
-                    
-                    newPermissions[module][action] = checkbox.checked;
-                    
-                    // Check if there's any change (for mockup purpose)
-                    if (rolePermissions[roleName]?.[module]?.[action] !== checkbox.checked) {
-                        hasChanges = true;
-                    }
-                });
-                
-                if (hasChanges) {
-                    // Update the mockup data (in real app, this would be an API call)
-                    rolePermissions[roleName] = newPermissions;
-                    alert(`[MOCKUP] Hak Akses untuk Role "${roleName}" berhasil diperbarui!`);
-                    // Hide modal and possibly refresh master role page if it was active
-                    hakAksesModal.classList.add('hidden');
-                } else {
-                    alert("Tidak ada perubahan yang disimpan.");
-                    hakAksesModal.classList.add('hidden');
-                }
-            });
-        });
+      
     </script>
 </body>
 </html>
