@@ -1281,198 +1281,194 @@
 
 
             <!-- ========= HALAMAN: JADWAL PERAWATAN (UPDATED: FILTER & LIST) ========= -->
-            <div id="jadwal-perawatan" class="page-content">
-                 <div id="breadcrumb-jadwal-perawatan" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Jadwal Perawatan</h1>
+          <div id="jadwal-perawatan" class="page-content">
+    <div id="breadcrumb-jadwal-perawatan" class="breadcrumbs"></div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Jadwal Perawatan</h1>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Kalender -->
-                    <div class="lg:col-span-2 card">
-                        <div class="flex justify-between items-center mb-4">
-                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-left"></i></button>
-                            <h2 class="text-xl font-semibold text-gray-800">Oktober 2025</h2>
-                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                        <div class="calendar-grid">
-                              <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div><div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div><div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div><div class="calendar-day-header">Sab</div>
-                              <div class="calendar-day text-gray-400">28</div><div class="calendar-day text-gray-400">29</div><div class="calendar-day text-gray-400">30</div><div class="calendar-day">1</div><div class="calendar-day has-schedule" data-date="2">2 <span class="event-count">1</span></div><div class="calendar-day">3</div><div class="calendar-day">4</div>
-                              <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day has-schedule" data-date="9">9 <span class="event-count">1</span></div><div class="calendar-day">10</div><div class="calendar-day">11</div>
-                              <div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day has-schedule" data-date="17">17 <span class="event-count">2</span></div><div class="calendar-day">18</div>
-                              <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
-                              <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
-                        </div>
-                    </div>
-                    <!-- Kolom Detail Hari (UPDATED: STYLING) -->
-                    <div class="lg:col-span-1 card">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
-                        <p class="font-medium text-gray-700 mb-4" id="detail-tanggal">Pilih tanggal di kalender...</p>
-                         <ul id="detail-list-ul" class="detail-item-list">
-                            <li class="p-2 text-center text-gray-500">Pilih tanggal...</li>
-                         </ul>
-                    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        
+        <div class="lg:col-span-3 card">
+            <div class="flex justify-between items-center mb-4">
+                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-left"></i></button>
+                <h2 class="text-xl font-semibold text-gray-800">Oktober 2025</h2>
+                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="calendar-grid">
+                <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div><div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div><div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div><div class="calendar-day-header">Sab</div>
+                <div class="calendar-day text-gray-400">28</div><div class="calendar-day text-gray-400">29</div><div class="calendar-day text-gray-400">30</div><div class="calendar-day">1</div><div class="calendar-day has-schedule" data-date="2">2 <span class="event-count">1</span></div><div class="calendar-day">3</div><div class="calendar-day">4</div>
+                <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day has-schedule" data-date="9">9 <span class="event-count">1</span></div><div class="calendar-day">10</div><div class="calendar-day">11</div>
+                <div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day has-schedule" data-date="17">17 <span class="event-count">2</span></div><div class="calendar-day">18</div>
+                <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
+                <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 card">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Detail Perawatan</h2>
+    <p class="font-medium text-gray-700 mb-4" id="detail-tanggal">Pilih tanggal di kalender...</p>
+    
+    <ul id="detail-list-ul" class="detail-item-list space-y-2">
+       <li class="p-2 text-center text-gray-500">Pilih tanggal...</li>
+    </ul>
+</div>
+    </div>
+
+    <div class="card mt-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
+        <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 p-4 bg-gray-50 rounded-lg border">
+            <div class="flex flex-wrap items-center gap-4 w-full">
+                <div class="flex-shrink-0">
+                    <label for="filter-durasi" class="block text-sm font-medium text-gray-700 mb-1">Durasi</label>
+                    <select id="filter-durasi" data-action="toggle-date-range" class="border border-gray-300 rounded-lg p-2 text-sm">
+                        <option value="all">Semua Durasi</option>
+                        <option value="1">1 Bulan</option>
+                        <option value="3">3 Bulan</option>
+                        <option value="6">6 Bulan</option>
+                    </select>
                 </div>
-
-                <!-- List Barang di Bawah (UPDATED: FILTER DURASI & PRIORITY) -->
-                  <div class="card mt-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">List Semua Barang Perlu Perawatan</h2>
-                    <!-- REVISI: Filter dipindahkan ke atas -->
-                    <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 p-4 bg-gray-50 rounded-lg border">
-                        <div class="flex flex-wrap items-center gap-4 w-full">
-                            <!-- Filter Durasi (Kiri) -->
-                            <div class="flex-shrink-0">
-                                <label for="filter-durasi" class="block text-sm font-medium text-gray-700 mb-1">Durasi</label>
-                                <select id="filter-durasi" data-action="toggle-date-range" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                    <option value="all">Semua Durasi</option>
-                                    <option value="1">1 Bulan</option>
-                                    <option value="3">3 Bulan</option>
-                                    <option value="6">6 Bulan</option>
-                                </select>
-                            </div>
-                            <!-- Filter Satker -->
-                            <div class="flex-shrink-0">
-                                <label for="filter-satker-jadwal" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja</label>
-                                <select id="filter-satker-jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                    <option value="all">Semua Satker</option>
-                                    <option value="AN">Administrasi Niaga</option>
-                                    <option value="Elektro">Teknik Elektro</option>
-                                    <option value="JTI">JTI</option>
-                                </select>
-                            </div>
-                            <!-- Filter Tanggal (Akan di-toggle) -->
-                            <div id="jadwal-tanggal-filter" class="flex flex-wrap items-center gap-2">
-                                <div class="flex-shrink-0">
-                                    <label for="tgl_mulai_jadwal" class="block text-sm font-medium text-gray-700 mb-1">Dari Tanggal</label>
-                                    <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <label for="tgl_selesai_jadwal" class="block text-sm font-medium text-gray-700 mb-1">Sampai Tanggal</label>
-                                    <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
-                                </div>
-                            </div>
-                        </div>
-                         <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64"> <!-- Search bar -->
+                <div class="flex-shrink-0">
+                    <label for="filter-satker-jadwal" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja</label>
+                    <select id="filter-satker-jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
+                        <option value="all">Semua Satker</option>
+                        <option value="AN">Administrasi Niaga</option>
+                        <option value="Elektro">Teknik Elektro</option>
+                        <option value="JTI">JTI</option>
+                    </select>
+                </div>
+                <div id="jadwal-tanggal-filter" class="flex flex-wrap items-center gap-2">
+                    <div class="flex-shrink-0">
+                        <label for="tgl_mulai_jadwal" class="block text-sm font-medium text-gray-700 mb-1">Dari Tanggal</label>
+                        <input type="date" id="tgl_mulai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="p-4 font-semibold text-gray-600">ID Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Barang</th>
-                                    <th class="p-4 font-semibold text-gray-600">Jadwal</th>
-                                    <th class="p-4 font-semibold text-gray-600">Satker</th>
-                                    <th class="p-4 font-semibold text-gray-600">Prioritas</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="p-4 text-gray-700">BRG-001</td>
-                                    <td class="p-4 text-gray-700">
-                                         <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
-                                     </td>
-                                    <td class="p-4 text-gray-700">9 Oktober 2025</td>
-                                    <td class="p-4 text-gray-700">Administrasi Niaga</td>
-                                    <td class="p-4"><span class="priority-tag priority-medium">Medium</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">BRG-017</td>
-                                    <td class="p-4 text-gray-700">
-                                         <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Proyektor Ruang 712</a>
-                                     </td>
-                                    <td class="p-4 text-gray-700">17 Oktober 2025</td>
-                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
-                                    <td class="p-4"><span class="priority-tag priority-high">Tinggi</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-gray-700">BRG-002</td>
-                                    <td class="p-4 text-gray-700">
-                                         <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
-                                     </td>
-                                    <td class="p-4 text-gray-700">2 November 2025</td>
-                                    <td class="p-4 text-gray-700">Teknik Elektro</td>
-                                    <td class="p-4"><span class="priority-tag priority-low">Rendah</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="flex-shrink-0">
+                        <label for="tgl_selesai_jadwal" class="block text-sm font-medium text-gray-700 mb-1">Sampai Tanggal</label>
+                        <input type="date" id="tgl_selesai_jadwal" class="border border-gray-300 rounded-lg p-2 text-sm">
                     </div>
                 </div>
             </div>
+             <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg p-2 w-full sm:w-64"> </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="p-4 font-semibold text-gray-600">ID Barang</th>
+                        <th class="p-4 font-semibold text-gray-600">Barang</th>
+                        <th class="p-4 font-semibold text-gray-600">Jadwal</th>
+                        <th class="p-4 font-semibold text-gray-600">Satker</th>
+                        <th class="p-4 font-semibold text-gray-600">Prioritas</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr>
+                        <td class="p-4 text-gray-700">BRG-001</td>
+                        <td class="p-4 text-gray-700">
+                             <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-001" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Komputer Apple Lab LSI 2</a>
+                        </td>
+                        <td class="p-4 text-gray-700">9 Oktober 2025</td>
+                        <td class="p-4 text-gray-700">Administrasi Niaga</td>
+                        <td class="p-4"><span class="priority-tag priority-medium">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 text-gray-700">BRG-017</td>
+                        <td class="p-4 text-gray-700">
+                             <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-017" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Proyektor Ruang 712</a>
+                        </td>
+                        <td class="p-4 text-gray-700">17 Oktober 2025</td>
+                        <td class="p-4 text-gray-700">Teknik Elektro</td>
+                        <td class="p-4"><span class="priority-tag priority-high">Tinggi</span></td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 text-gray-700">BRG-002</td>
+                        <td class="p-4 text-gray-700">
+                             <a href="#detail-barang" data-target="#detail-barang" data-id="BRG-002" class="menu-link detail-barang-link text-blue-600 font-medium hover:underline">Papan Tulis 7584</a>
+                        </td>
+                        <td class="p-4 text-gray-700">2 November 2025</td>
+                        <td class="p-4 text-gray-700">Teknik Elektro</td>
+                        <td class="p-4"><span class="priority-tag priority-low">Rendah</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
             <!-- ========= HALAMAN: PENGAJUAN PERAWATAN ========= -->
-            <div id="pengajuan-perawatan" class="page-content">
-                 <div id="breadcrumb-pengajuan-perawatan" class="breadcrumbs"></div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perawatan</h1>
+                <div id="pengajuan-perawatan" class="page-content active">
+            <div id="breadcrumb-pengajuan-perawatan" class="breadcrumbs"></div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">Form Pengajuan Perawatan</h1>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Form -->
-                    <div class="lg:col-span-2 card">
-                        <form class="space-y-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 card">
+                    <form class="space-y-4">
+                        <div>
+                            <label for="nama_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
+                            <input type="text" id="nama_pengajuan_pw" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="deskripsi_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
+                            <textarea id="deskripsi_pengajuan_pw" rows="3" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50 shadow-sm" placeholder="Deskripsi umum..."></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="nama_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengajuan</label>
-                                <input type="text" id="nama_pengajuan_pw" value="Pengajuan Triwulan JTI 2025" class="w-full border border-gray-300 rounded-lg p-2">
+                                <label for="tanggal_pelaksanaan_pw" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
+                                <input type="date" id="tanggal_pelaksanaan_pw" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50 shadow-sm">
                             </div>
                             <div>
-                                <label for="deskripsi_pengajuan_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Pengajuan (Opsional)</label>
-                                <textarea id="deskripsi_pengajuan_pw" rows="3" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Deskripsi umum..."></textarea>
+                                <label for="nomor_proposal_pw" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
+                                <input type="text" id="nomor_proposal_pw" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50 shadow-sm">
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="tanggal_pelaksanaan_pw" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
-                                    <input type="date" id="tanggal_pelaksanaan_pw" value="2025-10-13" class="w-full border border-gray-300 rounded-lg p-2">
-                                </div>
-                                <div>
-                                    <label for="nomor_proposal_pw" class="block text-sm font-medium text-gray-700 mb-1">Nomor Proposal/Surat</label>
-                                    <input type="text" id="nomor_proposal_pw" value="KL/ADM-0923" class="w-full border border-gray-300 rounded-lg p-2">
-                                </div>
-                            </div>
+                        </div>
+                        <div>
+                            <label for="satuan_kerja_pw" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
+                            <select id="satuan_kerja_pw" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50 shadow-sm">
+                                <option>Administrasi Niaga</option>
+                                <option>Teknik Elektro</option>
+                                <option>Teknik Sipil</option>
+                            </select>
+                        </div>
+                        
+                        <div class="border border-gray-300 bg-gray-50 rounded-lg p-4 space-y-3">
+                            <h3 class="font-semibold text-gray-800">Tambah Barang</h3>
                             <div>
-                                <label for="satuan_kerja_pw" class="block text-sm font-medium text-gray-700 mb-1">Satuan Kerja (Satker)</label>
-                                <select id="satuan_kerja_pw" class="w-full border border-gray-300 rounded-lg p-2">
-                                    <option>Administrasi Niaga</option>
-                                    <option>Teknik Elektro</option>
-                                    <option>Teknik Sipil</option>
+                                <label for="pilih_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang</label>
+                                <select id="pilih_barang_pw" class="w-full border border-gray-300 rounded-lg p-2 bg-white shadow-sm">
+                                    <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2</option>
+                                    <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2</option>
+                                    <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067</option>
                                 </select>
                             </div>
-                            <div class="border border-gray-200 rounded-lg p-4 space-y-3">
-                                <h3 class="font-semibold text-gray-800">Tambah Barang</h3>
-                                <div>
-                                    <label for="pilih_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Pilih Barang</label>
-                                    <select id="pilih_barang_pw" class="w-full border border-gray-300 rounded-lg p-2">
-                                        <option value="BRG-001" data-nama="Komputer Apple Lab LSI 2">BRG-001 - Komputer Apple Lab LSI 2</option>
-                                        <option value="BRG-012" data-nama="Kursi Lab LSI 2">BRG-012 - Kursi Lab LSI 2</option>
-                                        <option value="BRG-013" data-nama="Epson 12067">BRG-013 - Epson 12067</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="deskripsi_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
-                                    <textarea id="deskripsi_barang_pw" rows="2" class="w-full border border-gray-300 rounded-lg p-2" placeholder="cth: Perlu dibersihkan, debu tebal..."></textarea>
-                                </div>
-                                <button type="button" id="tambah-barang-btn-pw" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center">
-                                    <i class="fas fa-plus"></i><span>Tambahkan Barang ke List</span></button>
+                            <div>
+                                <label for="deskripsi_barang_pw" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kondisi Barang</label>
+                                <textarea id="deskripsi_barang_pw" rows="2" class="w-full border border-gray-300 rounded-lg p-2 bg-white shadow-sm" placeholder="cth: Perlu dibersihkan, debu tebal..."></textarea>
                             </div>
-                        </form>
-                    </div>
-                    <!-- Kolom Tabel Barang -->
-                    <div class="lg:col-span-1 card">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
-                        <ul id="list-barang-diajukan-pw" class="space-y-3">
-                            <li class="p-3 border rounded-lg">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Epson 13124</p>
-                                        <p class="text-sm text-gray-600 italic mt-1">"Perlu pembersihan head"</p>
-                                    </div>
-                                    <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                            <button type="button" id="tambah-barang-btn-pw" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 w-full justify-center shadow-sm">
+                                <i class="fas fa-plus"></i><span>Tambahkan Barang ke List</span></button>
+                        </div>
+                    </form>
                 </div>
-                <!-- Tombol Aksi Form -->
-                <div class="flex flex-wrap justify-end gap-3 mt-6">
-                    <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg">Cancel</button>
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg">Ajukan Perawatan</button>
+                
+                <div class="lg:col-span-1 card">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Barang yang Diajukan</h2>
+                    <ul id="list-barang-diajukan-pw" class="space-y-3">
+                        
+                        <li class="p-3 border border-blue-300 bg-blue-100 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-medium text-gray-900">Epson 13124</p>
+                                    <p class="text-sm text-gray-800 italic mt-1">"Perlu pembersihan head"</p>
+                                </div>
+                                <button class="text-red-500 hover:text-red-700 ml-2 remove-barang-btn"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
+            <div class="flex flex-wrap justify-end gap-3 mt-6">
+                <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg">Cancel</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg shadow-md">Ajukan Perawatan</button>
+            </div>
+        </div>
 
             <!-- ========= HALAMAN: RIWAYAT PENGAJUAN PERAWATAN ========= -->
             <div id="riwayat-pengajuan-perawatan" class="page-content">
@@ -2451,7 +2447,8 @@
                          const selectedBarangDeskripsi = deskripsiBarangTextarea.value || "Tidak ada deskripsi.";
 
                          const li = document.createElement('li');
-                         li.className = 'p-3 border rounded-lg';
+                         // WARNA LIST FORM PENGAJUAN
+                        li.className = 'p-3 border border-blue-300 bg-blue-100 rounded-lg shadow-sm';
                          li.innerHTML = `
                              <div class="flex justify-between items-start">
                                  <div>
@@ -2497,26 +2494,45 @@
                              const data = scheduleData[dayNumber];
                              if (data) {
                                  data.forEach(item => {
-                                     let priorityClass = '';
-                                     if (item.priority === 'high') {
-                                         priorityClass = 'detail-item-high';
-                                     } else if (item.priority === 'medium') {
-                                         priorityClass = 'detail-item-medium';
-                                     } else {
-                                         priorityClass = 'detail-item-low';
-                                     }
+                            let priorityClass = '';
+                            let priorityText = '';
+                            
+                            if (item.priority === 'high') {
+                                priorityClass = 'detail-item-high'; // <-- Class CSS Anda untuk warna merah
+                                priorityText = 'Tinggi';
+                            } else if (item.priority === 'medium') {
+                                priorityClass = 'detail-item-medium'; // <-- Class CSS Anda untuk warna kuning
+                                priorityText = 'Medium';
+                            } else {
+                                priorityClass = 'detail-item-low'; // <-- Class CSS Anda untuk warna biru
+                                priorityText = 'Rendah';
+                            }
 
-                                     const li = document.createElement('li');
-                                     li.className = `detail-item ${priorityClass}`;
-                                     li.innerHTML = `
-                                         <div>
-                                             <p class="font-medium">${item.barang}</p>
-                                             <p class="text-xs opacity-80">${item.satker}</p>
-                                         </div>
-                                         <span class="priority-tag ${item.priority === 'high' ? 'priority-high' : (item.priority === 'medium' ? 'priority-medium' : 'priority-low')}">${item.priority.charAt(0).toUpperCase() + item.priority.slice(1)}</span>
-                                     `;
-                                     detailListUl.appendChild(li);
-                                 });
+                            const li = document.createElement('li');
+                            // Gunakan class .detail-item dan class prioritas Anda
+                            li.className = `detail-item ${priorityClass}`; 
+                            
+                            // Ini adalah HTML baru yang lebih informatif
+                            li.innerHTML = `
+                                <div class="flex-grow">
+                                    <a href="#detail-barang" 
+                                       data-target="#detail-barang" 
+                                       data-id="${item.id}" 
+                                       class="menu-link detail-barang-link block font-semibold text-blue-600 hover:underline">
+                                        ${item.barang}
+                                    </a>
+                                    <span class="text-sm" style="opacity: 0.8;">ID: ${item.id} | ${item.satker}</span>
+                                </div>
+                                <span class="priority-tag ${item.priority === 'high' ? 'priority-high' : (item.priority === 'medium' ? 'priority-medium' : 'priority-low')} flex-shrink-0">
+                                    ${priorityText}
+                                </span>
+                            `;
+                            detailListUl.appendChild(li);
+                        });
+
+                        // PENTING: Panggil fungsi ini SETELAH loop selesai
+                        // Ini untuk membuat link barang yang baru dibuat agar bisa diklik
+                        attachDetailBarangListeners('#detail-list-ul');
                              } else {
                                  detailListUl.innerHTML = '<li class="p-2 text-center text-gray-500">Tidak ada jadwal.</li>';
                              }
@@ -2953,9 +2969,9 @@ function loadHakAksesPage(roleName) {
         
         // --- PERHATIKAN BAGIAN INI ---
         // 'div' di bawah ini adalah yang membuat tata letak 2 kolom
-        let moduleHtml = `<div class="border border-gray-200 rounded-lg p-3">
+        let moduleHtml = `<div class="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-md">
             <h4 class="text-lg font-bold text-gray-800 mb-3 border-b pb-2">${module}</h4>
-            <div class="grid grid-cols-2 gap-4">`; // <-- INI KUNCINYA
+            <div class="grid grid-cols-2 gap-4">`; //  INI KUNCINYA
         
         for (const action in perms) {
             if (perms[action]) {
